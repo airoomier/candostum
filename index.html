@@ -118,6 +118,11 @@ input[type=range]{width:100%;accent-color:var(--ac)}
 .ask{background:var(--sf);border:1px solid var(--ac);border-radius:16px;padding:12px;margin:0 0 8px;font-size:14px}.ask .row2{margin-top:10px}
 .ph.add input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0}
 .locst{font-size:14px;color:var(--mu);padding:10px 0}.locst.on{color:var(--good)}
+.table h3{margin:0 0 4px}.tms{display:flex;gap:8px;margin:12px 0 8px;overflow-x:auto}
+.tm{display:flex;flex-direction:column;align-items:center;min-width:58px;position:relative}
+.tm img{width:52px;height:52px;border-radius:50%;background:var(--sf)}.tm span{font-size:11px;color:var(--mu);margin-top:4px;max-width:62px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tm i{position:absolute;top:34px;right:2px;font-style:normal;font-size:13px}
+.tbw{margin:4px 0 12px;font-weight:600}.closedbar{text-align:center;color:var(--mu);padding:14px;font-size:14px;border-top:1px solid var(--bd)}
 </style>
 </head>
 <body>
@@ -1035,6 +1040,14 @@ const STR = {
     w_3: "Her gün <b>3 öneri</b>, neden önerildiğiyle birlikte", w_4: "Sohbetten önce kısa bir <b>buz kırıcı oyun</b>", w_5: "Konumun hiçbir zaman tam gösterilmez",
     adult: "18 yaşından büyüğüm", start: "Başla", proto_note: "Bu bir prototiptir: kişiler hayalidir, hiçbir veri sunucuya gönderilmez.",
     need_adult: "Devam etmek için 18 yaşından büyük olduğunu onayla.",
+    w_6: "<b>Jeton yok, ücretli mesaj yok.</b> Para karşılığı sohbet eden “sunucu” hesaplar da yok.",
+    s_free: "💬 Mesajlaşma", s_free2: "Her zaman ücretsiz",
+    tbl_t: "👥 Cumartesi masası", tbl_d: "Karakterine uyan {0} kişiyle aynı masada buluş. Herkes birbirini ilk kez görecek, buluşma halka açık bir yerde.",
+    tbl_when: "Cumartesi 11:00 · {0}", tbl_join: "Masaya katıl", tbl_joined: "✓ Yerin ayrıldı. Cumartesi görüşürüz!", tbl_leave: "Gelemeyeceğim",
+    tbl_rule: "Gelemeyeceksen en geç bir gün önce yerini bırak. Haber vermeden gelmeyenler bir hafta masaya katılamaz. Her hafta yeni bir masa kurulur.",
+    tbl_left: "Yerin başkasına açıldı. Haber verdiğin için teşekkürler.",
+    bye: "Nazikçe vedalaş", bye2: "Hazır bir mesajla sohbeti kapat; karşı taraf boşuna beklemez.",
+    bye_msg: "Seninle konuşmak güzeldi ama sanırım farklı türde arkadaşlıklar arıyoruz. Sana iyi günler dilerim 🙂", bye_sys: "Sohbet nazikçe kapatıldı.", closed: "Sohbet kapatıldı",
     know_you: "Seni tanıyalım", name: "Takma adın", name_ph: "örn. martı_07", name_note: "Gerçek adını yazman gerekmez. Başkaları yalnızca takma adını görür.", bad_nick: "Takma adda yalnızca harf, rakam, boşluk, nokta, alt çizgi ve tire olabilir.", edit_profile: "✏️ Düzenle", save: "Kaydet", cancel: "Vazgeç", saved: "Profilin güncellendi.", age: "Yaşın", gender: "Cinsiyetin", woman: "Kadın", man: "Erkek",
     location: "Konumun", locate: "📍 Telefonumun konumunu kullan", loc_on: "📍 Konum açık · {0}", loc_off: "Konum kapalı: mesafe gösterilmez.", loc_wait: "Konum alınıyor…",
     loc_denied: "Konum alınamadı (izin verilmedi ya da kapalı). Konumsuz devam ediliyor.", loc_hidden: "konum kapalı", loc_retry: "Tekrar dene", loc_note: "Konumun yalnızca yaklaşık mesafe için kullanılır (“~3 km · Konyaaltı”). Tam yerin kimseye gösterilmez.",
@@ -1092,6 +1105,14 @@ const STR = {
     w_3: "Каждый день <b>3 предложения</b> с объяснением, почему именно они", w_4: "Перед чатом — короткая <b>игра-ледокол</b>", w_5: "Твоё точное местоположение никогда не показывается",
     adult: "Мне больше 18 лет", start: "Начать", proto_note: "Это прототип: люди вымышлены, никакие данные не отправляются на сервер.",
     need_adult: "Чтобы продолжить, подтверди, что тебе больше 18 лет.",
+    w_6: "<b>Никаких монет и платных сообщений.</b> И никаких «хостов», которым платят за общение.",
+    s_free: "💬 Сообщения", s_free2: "Всегда бесплатно",
+    tbl_t: "👥 Субботний стол", tbl_d: "Встреться за одним столом с {0} людьми, близкими тебе по характеру. Все видятся впервые, встреча в общественном месте.",
+    tbl_when: "Суббота 11:00 · {0}", tbl_join: "Присоединиться", tbl_joined: "✓ Место за тобой. До встречи в субботу!", tbl_leave: "Не смогу прийти",
+    tbl_rule: "Если не сможешь прийти, освободи место хотя бы за день. Кто не пришёл без предупреждения, неделю не сможет присоединиться. Каждую неделю — новый стол.",
+    tbl_left: "Место освободилось. Спасибо за предупреждение.",
+    bye: "Вежливо попрощаться", bye2: "Закрыть чат готовым сообщением — собеседник не будет ждать зря.",
+    bye_msg: "Было приятно пообщаться, но, кажется, мы ищем разную дружбу. Всего тебе хорошего 🙂", bye_sys: "Чат вежливо закрыт.", closed: "Чат закрыт",
     know_you: "Давай познакомимся", name: "Никнейм", name_ph: "напр. chayka_07", name_note: "Настоящее имя писать не нужно. Другие видят только никнейм.", bad_nick: "В никнейме можно использовать только буквы, цифры, пробел, точку, подчёркивание и дефис.", edit_profile: "✏️ Изменить", save: "Сохранить", cancel: "Отмена", saved: "Профиль обновлён.", age: "Возраст", gender: "Пол", woman: "Женщина", man: "Мужчина",
     location: "Где ты", locate: "📍 Использовать геолокацию телефона", loc_on: "📍 Геолокация включена · {0}", loc_off: "Геолокация выключена: расстояние не показывается.", loc_wait: "Определяем местоположение…",
     loc_denied: "Не удалось получить местоположение (нет разрешения или геолокация выключена). Продолжаем без него.", loc_hidden: "геолокация выключена", loc_retry: "Ещё раз", loc_note: "Местоположение используется только для примерного расстояния («~3 км · Коньяалты»). Точный адрес никто не увидит.",
@@ -1414,7 +1435,7 @@ function fakeReplyRu(u, text, n) {
       <p class="lead">${t("tagline")}</p>
       <div class="card">
         <p>${t("w_intro")}</p>
-        <ul class="ticks">${[1, 2, 3, 4, 5].map(i => `<li>${t("w_" + i)}</li>`).join("")}</ul>
+        <ul class="ticks">${[1, 2, 3, 4, 5, 6].map(i => `<li>${t("w_" + i)}</li>`).join("")}</ul>
       </div>
       <label class="check"><input type="checkbox" id="adult"> ${t("adult")}</label>
       <button class="btn primary" data-act="start">${t("start")}</button>
@@ -1531,9 +1552,41 @@ function fakeReplyRu(u, text, n) {
     const cards = ids.map(id => SuggestionCard(byId(id))).join("");
     const left = ids.filter(id => !S.seen[id]).length;
     return `<header class="top"><div><div class="muted small">${t("day", S.day)}${S.me.loc ? " · " + tDist(S.me.district) : ""}</div><h2>${t("today_sugs")}</h2></div><img class="meav" src="${avatar(S.me.look, 1, 96)}"></header>
+      ${TableCard()}
       <p class="muted">${left ? t("left", left) : t("done_today", untilMidnight())}</p>
       ${ids.length ? cards : `<div class="card"><p>${t("none_left")}</p></div>`}
       <button class="btn ghost small" data-act="next-day">${t("next_day")}</button>`;
+  }
+
+  // Haftalık küçük grup masası: karakterce uyumlu 4 kişi + sen, halka açık bir yerde.
+  function weekTable() {
+    const week = Math.floor((S.day - 1) / 7);
+    if (S.table && S.table.week === week && S.table.ids) return S.table;
+    const p = S.me.prefs;
+    const pool = USERS.filter(u => !["blocked"].includes(S.seen[u.id]) && (p.gender === "all" || u.gender === p.gender) && u.age >= p.ageMin && u.age <= p.ageMax)
+      .map(u => ({ u, c: compat(S.me, u).score })).sort((a, b) => b.c - a.c).slice(0, 9);
+    const r = rng(9000 + week);
+    const ids = [];
+    while (ids.length < Math.min(4, pool.length)) { const x = pool[Math.floor(r() * pool.length)].u.id; if (!ids.includes(x)) ids.push(x); }
+    S.table = { week, ids, venue: week % 3, joined: false };
+    save();
+    return S.table;
+  }
+
+  function TableCard() {
+    const tb = weekTable();
+    if (tb.ids.length < 2) return "";
+    const v = venue(tb.venue);
+    const faces = tb.ids.map(id => { const u = byId(id), a = arch(u.archetype); return `<div class="tm"><img src="${avatar(u.look, tb.joined ? 1 : 0, 96)}"><span>${u.name}</span><i>${a.icon}</i></div>`; }).join("")
+      + `<div class="tm"><img src="${avatar(S.me.look, 1, 96)}"><span>${t("you_c")}</span><i>${arch(S.me.archetype).icon}</i></div>`;
+    return `<div class="card table">
+      <h3>${t("tbl_t")}</h3>
+      <p class="muted small">${t("tbl_d", tb.ids.length)}</p>
+      <div class="tms">${faces}</div>
+      <div class="tbw">${v[0]} ${t("tbl_when", v[1])}</div>
+      ${tb.joined ? `<div class="state">${t("tbl_joined")}</div><button class="btn ghost small" data-act="tbl-leave">${t("tbl_leave")}</button>`
+        : `<button class="btn primary" data-act="tbl-join">${t("tbl_join")}</button>`}
+      <p class="fine">${t("tbl_rule")}</p></div>`;
   }
 
   function SuggestionCard(u) {
@@ -1566,7 +1619,7 @@ function fakeReplyRu(u, text, n) {
     ms.forEach(id => {
       const u = byId(id), m = S.matches[id];
       const last = m.msgs.length ? m.msgs[m.msgs.length - 1].t : (m.stage === "ice" ? t("ice_waiting") : t("start_chat"));
-      h += `<button class="row" data-act="open-chat" data-v="${id}"><img src="${avatar(u.look, 1, 96)}"><div><b>${u.name}</b><span class="muted small">${esc(last).slice(0, 60)}</span></div>${m.unread ? "<em>●</em>" : ""}</button>`;
+      h += `<button class="row" data-act="open-chat" data-v="${id}"><img src="${avatar(u.look, 1, 96)}"><div><b>${u.name}</b><span class="muted small">${m.closed ? t("closed") : esc(last).slice(0, 60)}</span></div>${m.unread ? "<em>●</em>" : ""}</button>`;
     });
     if (pend.length) {
       h += `<h3 class="sec">${t("waiting")}</h3>`;
@@ -1599,7 +1652,8 @@ function fakeReplyRu(u, text, n) {
         <div class="srow">${t("s_photo")} <span class="muted">${t("s_photo2")}</span></div>
         <div class="srow">${t("s_selfie")} <span class="badge">${t("soon")}</span></div>
         <div class="srow">${t("s_loc")} <span class="muted">${t("s_loc2")}</span></div>
-        <div class="srow">${t("s_block")} <span class="muted">${t("s_block2")}</span></div></div>
+        <div class="srow">${t("s_block")} <span class="muted">${t("s_block2")}</span></div>
+        <div class="srow">${t("s_free")} <span class="muted">${t("s_free2")}</span></div></div>
       <button class="btn ghost" data-act="edit-avatar">${t("edit_avatar")}</button>
       <button class="btn ghost" data-act="redo-quiz">${t("redo_quiz")}</button>
       <button class="btn ghost danger" data-act="reset">${t("reset")}</button>
@@ -1652,11 +1706,11 @@ function fakeReplyRu(u, text, n) {
         ${m.msgs.map(x => x.ask ? (m.myPhoto || m.askDone ? "" : `<div class="ask"><div>${esc(t("ph_ask", u.name))}</div><div class="row2"><button class="btn ghost small" data-act="photo-no">${t("ph_no")}</button><button class="btn primary small" data-act="photo-yes">${t("ph_yes")}</button></div></div>`) : x.img ? `<div class="msg me pic"><img src="${x.img}"></div>` : x.sys ? `<div class="sys">${esc(x.t)}</div>` : `<div class="msg ${x.me ? "me" : ""}">${esc(x.t)}</div>`).join("")}
         ${m.typing ? `<div class="msg typing"><i></i><i></i><i></i></div>` : ""}
       </div>
-      ${m.msgs.filter(x => x.me).length < 2 ? `<div class="starters">${starters.map(s => `<button data-act="starter" data-v="${esc(s)}">${esc(s)}</button>`).join("")}</div>` : ""}
+      ${m.closed ? `<div class="closedbar">${t("bye_sys")}</div>` : `${m.msgs.filter(x => x.me).length < 2 ? `<div class="starters">${starters.map(s => `<button data-act="starter" data-v="${esc(s)}">${esc(s)}</button>`).join("")}</div>` : ""}
       <div class="tools"><button data-act="photo">${m.myPhoto ? t("photo_on") : t("photo_btn")}</button><button data-act="meet">${t("meet_btn")}</button></div>
-      <form class="send" data-act="send"><input id="msg" placeholder="${t("msg_ph")}" autocomplete="off"><button class="btn primary small">${t("send")}</button></form>
+      <form class="send" data-act="send"><input id="msg" placeholder="${t("msg_ph")}" autocomplete="off"><button class="btn primary small">${t("send")}</button></form>`}
       ${S.sheet === "meet" ? `<div class="sheetbg" data-act="close-sheet"></div><div class="sheet"><h3>${t("where_meet")}</h3><p class="muted small">${t("public_only")}</p>${[0, 1, 2].map(i => { const v = venue(i); return `<button class="row" data-act="venue" data-v="${i}"><span class="vi">${v[0]}</span><div><b>${v[1]}</b><span class="muted small">${v[2]}</span></div></button>`; }).join("")}</div>` : ""}
-      ${S.sheet === "report" ? `<div class="sheetbg" data-act="close-sheet"></div><div class="sheet"><h3>${u.name}</h3><button class="row" data-act="block"><span class="vi">🚫</span><div><b>${t("block")}</b><span class="muted small">${t("block2")}</span></div></button><button class="row" data-act="block" data-v="report"><span class="vi">⚠️</span><div><b>${t("report")}</b><span class="muted small">${t("report2")}</span></div></button></div>` : ""}
+      ${S.sheet === "report" ? `<div class="sheetbg" data-act="close-sheet"></div><div class="sheet"><h3>${u.name}</h3><button class="row" data-act="block"><span class="vi">🚫</span><div><b>${t("block")}</b><span class="muted small">${t("block2")}</span></div></button><button class="row" data-act="bye"><span class="vi">👋</span><div><b>${t("bye")}</b><span class="muted small">${t("bye2")}</span></div></button><button class="row" data-act="block" data-v="report"><span class="vi">⚠️</span><div><b>${t("report")}</b><span class="muted small">${t("report2")}</span></div></button></div>` : ""}
     </div>`;
   }
 
@@ -1670,6 +1724,7 @@ function fakeReplyRu(u, text, n) {
     save(); render();
     setTimeout(() => {
       m.typing = false;
+      if (m.closed || !S.matches[id]) { save(); return render(); }
       m.msgs.push({ t: LANG === "ru" ? fakeReplyRu(u, text, n) : fakeReply(u, text, n), me: false });
       const mine = m.msgs.filter(x => x.me).length;
       if (m.myPhoto && !m.theirPhoto && mine >= 3) { m.theirPhoto = true; m.msgs.push({ sys: true, t: t("photo_them", u.name) }); }
@@ -1779,6 +1834,13 @@ function fakeReplyRu(u, text, n) {
         addMsg(S.chat, t("meet_msg", vn[1]), true);
         return;
       }
+      case "bye": {
+        const mm = S.matches[S.chat];
+        mm.msgs.push({ t: t("bye_msg"), me: true });
+        mm.closed = true; S.sheet = null; save(); return render();
+      }
+      case "tbl-join": S.table.joined = true; save(); render(); return toast(t("tbl_joined"));
+      case "tbl-leave": S.table.joined = false; save(); render(); return toast(t("tbl_left"));
       case "block": {
         const id = S.chat, u = byId(id);
         delete S.matches[id]; S.seen[id] = "blocked"; S.chat = null; S.sheet = null; save();
