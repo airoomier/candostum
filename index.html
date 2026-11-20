@@ -123,6 +123,15 @@ input[type=range]{width:100%;accent-color:var(--ac)}
 .tm img{width:52px;height:52px;border-radius:50%;background:var(--sf)}.tm span{font-size:11px;color:var(--mu);margin-top:4px;max-width:62px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tm i{position:absolute;top:34px;right:2px;font-style:normal;font-size:13px}
 .tbw{margin:4px 0 12px;font-weight:600}.closedbar{text-align:center;color:var(--mu);padding:14px;font-size:14px;border-top:1px solid var(--bd)}
+.psteps{display:flex;gap:6px;margin:0 0 14px}.pst{flex:1;display:flex;align-items:center;gap:6px;padding:8px;border-radius:12px;background:var(--sf);border:1px solid var(--bd);font-size:12px;color:var(--mu)}
+.pst b{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--bd);font-size:11px;flex:none}
+.pst.on{color:var(--tx)}.pst.on b{background:var(--ac);color:var(--onac)}
+.dq{font-size:17px;font-weight:600;margin:6px 0 12px}.opt{display:block;width:100%;text-align:left;margin:6px 0;padding:12px;border-radius:12px;background:var(--sf);border:1px solid var(--bd);color:var(--tx);font:15px system-ui}
+.clar{margin-top:12px;font-size:12px;color:var(--mu)}.bar{height:6px;border-radius:4px;background:var(--bd);margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac,#7c6cff)}
+.trh{display:flex;gap:10px;align-items:center}.trh h3{margin:0}.tri{font-size:30px}.tdots{display:flex;gap:6px;margin:10px 0}.tdots i{flex:1;height:6px;border-radius:4px;background:var(--bd)}.tdots i.on{background:var(--ac,#7c6cff)}
+.task{font-size:16px;font-weight:600;margin:6px 0 10px}.note{font-style:italic;color:var(--mu)}.card.ok{border-color:var(--ac,#7c6cff)}
+.lock .big{font-size:40px}.lock .bar{margin:12px 0 4px}.mate{font-size:13px;margin:8px 0 0;color:var(--ac,#7c6cff)}
+.hist{padding:8px 0;border-top:1px solid var(--bd);font-size:13px}.hist em{display:block;color:var(--mu);margin-top:3px}
 </style>
 </head>
 <body>
@@ -1034,10 +1043,10 @@ const STR = {
   tr: {
     photos: "Fotoğrafların", photos_note: "İsteğe bağlı. Fotoğrafların kimseye gösterilmez; yalnızca bir sohbette ikiniz de açarsanız görünür.", add_photo: "＋ Fotoğraf ekle", remove: "Kaldır",
     photo_none: "Önce Profil sekmesinden bir fotoğraf yükle.", photo_shared: "Fotoğrafın bu sohbette açıldı:", photo_max: "En fazla 3 fotoğraf yükleyebilirsin.", photo_err: "Fotoğraf okunamadı, başka bir tane dene.",
-    tagline: "Önce karakterin, sonra yüzün.",
+    tagline: "Önce kendini tanı, sonra dostunu.",
     w_intro: "Yakınındaki insanlarla <b>arkadaşlık</b> için tanış. Kaydırma yok, sonsuz liste yok:",
-    w_1: "Kısa, oyun gibi bir <b>karakter analizi</b>", w_2: "Önce <b>avatar</b>; fotoğraf ancak ikiniz de isterseniz",
-    w_3: "Her gün <b>3 öneri</b>, neden önerildiğiyle birlikte", w_4: "Sohbetten önce kısa bir <b>buz kırıcı oyun</b>", w_5: "Konumun hiçbir zaman tam gösterilmez",
+    w_1: "Kısa, oyun gibi bir <b>karakter analizi</b>; her gün tek soruyla netleşen karakter haritası", w_2: "Önce <b>avatar</b>; fotoğraf ancak ikiniz de isterseniz",
+    w_3: "Sana özel <b>7 günlük gelişim yolu</b>: her gün 1 dakikalık küçük bir adım. Tanışma 3 adımdan sonra açılır ve her gün <b>3 öneri</b> gelir", w_4: "Sohbetten önce kısa bir <b>buz kırıcı oyun</b>", w_5: "Konumun hiçbir zaman tam gösterilmez",
     adult: "18 yaşından büyüğüm", start: "Başla", proto_note: "Bu bir prototiptir: kişiler hayalidir, hiçbir veri sunucuya gönderilmez.",
     need_adult: "Devam etmek için 18 yaşından büyük olduğunu onayla.",
     w_6: "<b>Jeton yok, ücretli mesaj yok.</b> Para karşılığı sohbet eden “sunucu” hesaplar da yok.",
@@ -1048,6 +1057,15 @@ const STR = {
     tbl_left: "Yerin başkasına açıldı. Haber verdiğin için teşekkürler.",
     bye: "Nazikçe vedalaş", bye2: "Hazır bir mesajla sohbeti kapat; karşı taraf boşuna beklemez.",
     bye_msg: "Seninle konuşmak güzeldi ama sanırım farklı türde arkadaşlıklar arıyoruz. Sana iyi günler dilerim 🙂", bye_sys: "Sohbet nazikçe kapatıldı.", closed: "Sohbet kapatıldı",
+    tab_path: "Yolum", path_title: "Yolum", st_know: "Kendini tanı", st_grow: "Geliş", st_meet: "Tanış",
+    dq_t: "Günün sorusu", dq_done: "Cevabın kaydedildi. Karakter haritan biraz daha netleşti.", clarity: "Karakter haritası netliği: %{0}",
+    your_track: "Gelişim yolun", task_t: "Bugünün adımı · {0}/7", task_done_btn: "Yaptım ✓", task_note_ph: "Nasıl geçti? (isteğe bağlı, tek cümle)",
+    task_done: "Bugünkü adımı tamamladın. Yarın yeni bir adım seni bekliyor.", track_done: "🎉 Bu yolu tamamladın! Yarın yeni yolun başlıyor: {0}",
+    meet_lock_t: "Tanışma 3 adımdan sonra açılır", meet_lock_d: "Önce kendini tanı, sonra tanış. Böylece burada karşılaştığın herkes kendine biraz emek vermiş biri olur.",
+    meet_lock_p: "İlerleme: {0}/3 adım", go_path: "Yoluma git", unlock_proto: "Prototip: kilidi şimdi aç",
+    unlocked_t: "🎉 Tanışma açıldı!", unlocked_d: "Her gün 3 öneri ve Cumartesi masası seni bekliyor. Gelişim yolun da devam ediyor.", go_meet: "Önerilere bak",
+    path_mate: "🤝 Yol arkadaşın olabilir: o da “{0}” yolunda.", notes_t: "Son adımların", steps_total: "Toplam {0} adım",
+    fine_growth: "Can Dostum kişisel gelişim içindir; terapi ya da tedavinin yerini tutmaz.",
     know_you: "Seni tanıyalım", name: "Takma adın", name_ph: "örn. martı_07", name_note: "Gerçek adını yazman gerekmez. Başkaları yalnızca takma adını görür.", bad_nick: "Takma adda yalnızca harf, rakam, boşluk, nokta, alt çizgi ve tire olabilir.", edit_profile: "✏️ Düzenle", save: "Kaydet", cancel: "Vazgeç", saved: "Profilin güncellendi.", age: "Yaşın", gender: "Cinsiyetin", woman: "Kadın", man: "Erkek",
     location: "Konumun", locate: "📍 Telefonumun konumunu kullan", loc_on: "📍 Konum açık · {0}", loc_off: "Konum kapalı: mesafe gösterilmez.", loc_wait: "Konum alınıyor…",
     loc_denied: "Konum alınamadı (izin verilmedi ya da kapalı). Konumsuz devam ediliyor.", loc_hidden: "konum kapalı", loc_retry: "Tekrar dene", loc_note: "Konumun yalnızca yaklaşık mesafe için kullanılır (“~3 km · Konyaaltı”). Tam yerin kimseye gösterilmez.",
@@ -1099,10 +1117,10 @@ const STR = {
   ru: {
     photos: "Твои фото", photos_note: "Необязательно. Фото никому не показываются — только в чате, если вы оба решите их открыть.", add_photo: "＋ Добавить фото", remove: "Убрать",
     photo_none: "Сначала загрузи фото во вкладке «Профиль».", photo_shared: "Твоё фото открыто в этом чате:", photo_max: "Можно загрузить не больше 3 фото.", photo_err: "Не удалось прочитать фото, попробуй другое.",
-    tagline: "Сначала характер, потом лицо.",
+    tagline: "Сначала узнай себя, потом — друга.",
     w_intro: "Знакомься с людьми рядом для <b>дружбы</b>. Никаких свайпов и бесконечных лент:",
-    w_1: "Короткий <b>анализ характера</b> в форме игры", w_2: "Сначала <b>аватар</b>; фото — только если вы оба захотите",
-    w_3: "Каждый день <b>3 предложения</b> с объяснением, почему именно они", w_4: "Перед чатом — короткая <b>игра-ледокол</b>", w_5: "Твоё точное местоположение никогда не показывается",
+    w_1: "Короткий <b>анализ характера</b> в форме игры; карта характера уточняется каждый день одним вопросом", w_2: "Сначала <b>аватар</b>; фото — только если вы оба захотите",
+    w_3: "Твой <b>7-дневный путь развития</b>: каждый день маленький шаг на 1 минуту. Знакомства открываются после 3 шагов — и каждый день <b>3 предложения</b>", w_4: "Перед чатом — короткая <b>игра-ледокол</b>", w_5: "Твоё точное местоположение никогда не показывается",
     adult: "Мне больше 18 лет", start: "Начать", proto_note: "Это прототип: люди вымышлены, никакие данные не отправляются на сервер.",
     need_adult: "Чтобы продолжить, подтверди, что тебе больше 18 лет.",
     w_6: "<b>Никаких монет и платных сообщений.</b> И никаких «хостов», которым платят за общение.",
@@ -1113,6 +1131,15 @@ const STR = {
     tbl_left: "Место освободилось. Спасибо за предупреждение.",
     bye: "Вежливо попрощаться", bye2: "Закрыть чат готовым сообщением — собеседник не будет ждать зря.",
     bye_msg: "Было приятно пообщаться, но, кажется, мы ищем разную дружбу. Всего тебе хорошего 🙂", bye_sys: "Чат вежливо закрыт.", closed: "Чат закрыт",
+    tab_path: "Мой путь", path_title: "Мой путь", st_know: "Узнай себя", st_grow: "Развивайся", st_meet: "Знакомься",
+    dq_t: "Вопрос дня", dq_done: "Ответ сохранён. Твоя карта характера стала чуть точнее.", clarity: "Точность карты характера: {0}%",
+    your_track: "Твой путь развития", task_t: "Шаг на сегодня · {0}/7", task_done_btn: "Сделано ✓", task_note_ph: "Как прошло? (необязательно, одна фраза)",
+    task_done: "Сегодняшний шаг выполнен. Завтра тебя ждёт новый.", track_done: "🎉 Ты прошёл(шла) этот путь! Завтра начнётся новый: {0}",
+    meet_lock_t: "Знакомства откроются после 3 шагов", meet_lock_d: "Сначала узнай себя, потом знакомься. Так каждый, кого ты здесь встретишь, тоже немного поработал над собой.",
+    meet_lock_p: "Прогресс: {0} из 3 шагов", go_path: "К моему пути", unlock_proto: "Прототип: открыть сейчас",
+    unlocked_t: "🎉 Знакомства открыты!", unlocked_d: "Каждый день тебя ждут 3 предложения и субботний стол. А путь развития продолжается.", go_meet: "Смотреть предложения",
+    path_mate: "🤝 Возможный попутчик: тоже идёт по пути «{0}».", notes_t: "Последние шаги", steps_total: "Всего шагов: {0}",
+    fine_growth: "Can Dostum — для личного развития; он не заменяет терапию или лечение.",
     know_you: "Давай познакомимся", name: "Никнейм", name_ph: "напр. chayka_07", name_note: "Настоящее имя писать не нужно. Другие видят только никнейм.", bad_nick: "В никнейме можно использовать только буквы, цифры, пробел, точку, подчёркивание и дефис.", edit_profile: "✏️ Изменить", save: "Сохранить", cancel: "Отмена", saved: "Профиль обновлён.", age: "Возраст", gender: "Пол", woman: "Женщина", man: "Мужчина",
     location: "Где ты", locate: "📍 Использовать геолокацию телефона", loc_on: "📍 Геолокация включена · {0}", loc_off: "Геолокация выключена: расстояние не показывается.", loc_wait: "Определяем местоположение…",
     loc_denied: "Не удалось получить местоположение (нет разрешения или геолокация выключена). Продолжаем без него.", loc_hidden: "геолокация выключена", loc_retry: "Ещё раз", loc_note: "Местоположение используется только для примерного расстояния («~3 км · Коньяалты»). Точный адрес никто не увидит.",
@@ -1283,6 +1310,126 @@ function fakeReplyRu(u, text, n) {
   if (/\?/.test(tl)) return pick([`Хороший вопрос! Обычно у меня это ${lower(i0)} и ${i1}. А у тебя?`, `Хм, ${u.axes.rhythm > 0 ? "утром я бодрее" : "вечером я оживаю"}. А ты?`]);
   return pick(["Ха-ха, точно 😄", `Здорово! На прошлой неделе я пробовал(а) кое-что связанное с темой «${i1}», рассказать?`, "Приятно слышать. А что тебя сейчас больше всего радует?", "Согласен(на). Может, попробуем как-нибудь вместе?"]);
 }
+
+// ---- Kendini tanı → Geliş: günlük sorular ve 7 günlük gelişim yolları (TR/RU) ----
+
+// Günün sorusu: her seçenek eksenleri küçük bir miktar kaydırır (karakter haritası netleşir).
+const DAILY_Q = {
+  tr: [
+    ["Bir arkadaşın kötü bir gün geçirdiğini söylüyor. İlk ne yaparsın?", [["Ne olduğunu sorar, dinlerim", { support: 1 }], ["Hemen bir çözüm öneririm", { support: -1 }], ["Onu dışarı çıkarıp kafasını dağıtırım", { energy: 1 }]]],
+    ["Hafta sonu planın iptal oldu.", [["Sevinirim, kendime vakit kalır", { energy: -1 }], ["Hemen yeni bir plan kurarım", { plan: 1, energy: 1 }], ["Akışına bırakırım", { plan: -1 }]]],
+    ["Yeni bir yere taşındın.", [["İlk hafta komşularla tanışırım", { energy: 1 }], ["Önce çevreyi tek başıma keşfederim", { energy: -1, open: 1 }], ["Bildiğim alışkanlıkları burada da kurarım", { open: -1 }]]],
+    ["Arkadaşının yeni saç kesimini beğenmedin.", [["Açıkça söylerim", { direct: 1 }], ["Güzel bir yanını bulup onu söylerim", { direct: -1 }], ["Sorarsa nazikçe söylerim", { support: 1 }]]],
+    ["En verimli saatlerin hangileri?", [["Sabah erken", { rhythm: 1 }], ["Öğleden sonra", {}], ["Gece geç saatler", { rhythm: -1 }]]],
+    ["Bir restoranda menüye bakıyorsun.", [["Hiç denemediğim bir şeyi seçerim", { open: 1 }], ["Her zamanki favorimi alırım", { open: -1 }], ["Garsona ne önerdiğini sorarım", { energy: 1 }]]],
+    ["Bir grup sohbetinde fikrin herkesten farklı.", [["Hemen söylerim", { direct: 1 }], ["Önce herkesi dinlerim", { support: 1, direct: -1 }], ["Sonra biriyle baş başa konuşurum", { energy: -1 }]]],
+    ["Tatil planı yapıyorsun.", [["Her günü planlarım", { plan: 1 }], ["Yalnızca yol ve konaklama, gerisi akışta", { plan: -1 }], ["Arkadaşlarım planlasın, ben uyarım", { support: 1 }]]],
+    ["Uzun bir günden sonra enerjini ne toplar?", [["Arkadaşlarla buluşmak", { energy: 1 }], ["Yalnız kalmak", { energy: -1 }], ["Bir hobiyle uğraşmak", { open: 1 }]]],
+    ["Biri sana bir sorununu anlatıyor.", [["Benzer bir hikâyemi anlatırım", { support: -1, energy: 1 }], ["Sorular sorarım", { support: 1 }], ["Ne yapması gerektiğini söylerim", { support: -1, direct: 1 }]]],
+    ["Yeni bir hobiyi denemeye davet edildin.", [["Hemen evet derim", { open: 1 }], ["Önce biraz araştırırım", { plan: 1 }], ["Bildiğim şeyleri tercih ederim", { open: -1 }]]],
+    ["Bir arkadaşın buluşmaya 20 dakika geç kaldı.", [["Rahatsız olduğumu söylerim", { direct: 1 }], ["Bir şey demem", { direct: -1 }], ["Şakayla karışık söylerim", { energy: 1 }]]],
+    ["Hafta içi akşamların genelde nasıl geçer?", [["Planlı: spor, kurs, buluşma", { plan: 1 }], ["O gün canım ne isterse", { plan: -1 }], ["Erken yatarım", { rhythm: 1 }]]],
+    ["Bir davette kimseyi tanımıyorsun.", [["Gidip kendimi tanıtırım", { energy: 1 }], ["Tanıdık birinin gelmesini beklerim", { energy: -1 }], ["Ev sahibine yardım ederim", { support: 1 }]]],
+  ],
+  ru: [
+    ["Друг говорит, что у него был тяжёлый день. Что ты сделаешь первым делом?", ["Спрошу, что случилось, и выслушаю", "Сразу предложу решение", "Вытащу его куда-нибудь развеяться"]],
+    ["Твои планы на выходные отменились.", ["Обрадуюсь — будет время для себя", "Сразу придумаю новый план", "Пусть всё идёт своим чередом"]],
+    ["Ты переехал(а) на новое место.", ["В первую же неделю познакомлюсь с соседями", "Сначала сам(а) исследую округу", "Заведу здесь свои привычные ритуалы"]],
+    ["Тебе не понравилась новая стрижка друга.", ["Скажу прямо", "Найду, что в ней хорошего, и скажу об этом", "Если спросит — скажу мягко"]],
+    ["В какие часы ты продуктивнее всего?", ["Рано утром", "Днём", "Поздно ночью"]],
+    ["Ты смотришь меню в ресторане.", ["Выберу то, что никогда не пробовал(а)", "Возьму своё любимое", "Спрошу у официанта, что он посоветует"]],
+    ["В групповом разговоре твоё мнение отличается от всех.", ["Сразу скажу", "Сначала выслушаю всех", "Потом поговорю с кем-то наедине"]],
+    ["Ты планируешь отпуск.", ["Распланирую каждый день", "Только дорога и жильё, остальное по ходу", "Пусть планируют друзья, я подстроюсь"]],
+    ["Что восстанавливает твои силы после долгого дня?", ["Встреча с друзьями", "Побыть одному(одной)", "Заняться хобби"]],
+    ["Кто-то рассказывает тебе о своей проблеме.", ["Расскажу похожую историю из своей жизни", "Буду задавать вопросы", "Скажу, что ему делать"]],
+    ["Тебя пригласили попробовать новое хобби.", ["Сразу соглашусь", "Сначала немного разузнаю", "Предпочту то, что уже знаю"]],
+    ["Друг опоздал на встречу на 20 минут.", ["Скажу, что мне это неприятно", "Ничего не скажу", "Скажу в шутку"]],
+    ["Как обычно проходят твои вечера в будни?", ["По плану: спорт, курсы, встречи", "Как захочется в тот день", "Рано ложусь спать"]],
+    ["На вечеринке ты никого не знаешь.", ["Подойду и представлюсь", "Подожду, пока придёт кто-то знакомый", "Помогу хозяевам"]],
+  ],
+};
+
+// Arketip → gelişim yolu
+const TRACK_OF = { ilp: "first", iss: "first", isp: "listen", dsp: "listen", dss: "listen", ils: "keep", dlp: "deep", dls: "deep" };
+const TRACK_ORDER = ["first", "listen", "keep", "deep"];
+
+const TRACKS = {
+  tr: {
+    first: { name: "İlk adımı at", icon: "👣", why: "Analizine göre ilk adımı çoğu zaman başkasından bekliyorsun. Bu yolda küçük adımlarla bunu değiştireceksin.", tasks: [
+      "Uzun zamandır konuşmadığın birine bugün ilk sen yaz. Tek cümle yeter.",
+      "Bir kasiyere, garsona ya da komşuna gülümseyerek teşekkür et ve iyi günler dile.",
+      "Bir arkadaşına bu hafta için somut bir plan öner: gün ve saat ver.",
+      "Bir grupta ya da sohbette fikrini ilk sen söyle.",
+      "Bir yabancıya küçük bir soru sor: yol, öneri ya da saat.",
+      "Birine içten bir iltifat et; neyi beğendiğini açıkça söyle.",
+      "Bu hafta ilk adımı attığın anlardan birini düşün: ne hissettin?"] },
+    listen: { name: "Önce dinle", icon: "👂", why: "Hızlı çözüm bulmak senin gücün. Bu yolda çözümden önce dinlemeyi deneyeceksin.", tasks: [
+      "Bugün bir sohbette çözüm önermeden önce bir soru daha sor.",
+      "Biri anlatırken sözünü hiç kesmeden sonuna kadar dinle.",
+      "Bir arkadaşına “Bu hafta seni en çok ne yordu?” diye sor.",
+      "Dinlediğin birine duyduğunu kendi cümlelerinle geri söyle.",
+      "Bir sohbet boyunca telefonunu tamamen kaldır; neyi fark ettin?",
+      "Senden farklı düşünen birinin görüşünü tartışmadan, merakla sor.",
+      "Bu hafta dinlerken öğrendiğin bir şeyi düşün."] },
+    keep: { name: "Sözünde dur", icon: "🤝", why: "Planların bazen havada kalabiliyor. Bu yolda küçük sözler verip onları tutacaksın.", tasks: [
+      "Bu hafta için tek bir küçük plan yap ve takvimine yaz.",
+      "Ertelediğin bir mesaja bugün cevap ver.",
+      "Birine küçük bir söz ver ve bugün yerine getir: bir bağlantı, bir fotoğraf, bir telefon.",
+      "Bir buluşmaya ya da işe 5 dakika erken git.",
+      "İptal etmen gereken bir plan varsa en az bir gün önce haber ver.",
+      "Yarınını bu akşam üç maddeyle planla.",
+      "Bu hafta tuttuğun bir sözü düşün: karşındaki nasıl karşıladı?"] },
+    deep: { name: "Az ama derin", icon: "🌱", why: "Herkese yetişmeye çalışırken kendini unutabiliyorsun. Bu yolda derin bağlara ve kendine alan açmaya odaklanacaksın.", tasks: [
+      "Bugün birine “evet” demeden önce kendine “Bu benim için uygun mu?” diye sor.",
+      "Kalabalık bir plan yerine tek bir kişiyle uzun bir sohbet ayarla.",
+      "Kendine telefonsuz, 30 dakikalık sessiz bir zaman ayır.",
+      "Bir arkadaşına yalnızca onunla ilgili, derin bir soru sor.",
+      "Bir isteğe kibarca “hayır” de ya da “başka zaman” öner.",
+      "Sana iyi gelen üç kişiyi düşün; birine bunu söyle.",
+      "Bu hafta kendin için yaptığın bir şeyi düşün."] },
+  },
+  ru: {
+    first: { name: "Сделай первый шаг", icon: "👣", why: "Судя по анализу, ты часто ждёшь, что первый шаг сделает кто-то другой. На этом пути ты изменишь это маленькими шагами.", tasks: [
+      "Сегодня первым(ой) напиши тому, с кем давно не общался(ась). Хватит одной фразы.",
+      "С улыбкой поблагодари кассира, официанта или соседа и пожелай хорошего дня.",
+      "Предложи другу конкретный план на эту неделю: назови день и время.",
+      "В группе или разговоре выскажи своё мнение первым(ой).",
+      "Задай незнакомцу небольшой вопрос: дорогу, совет или время.",
+      "Сделай кому-то искренний комплимент — прямо скажи, что тебе нравится.",
+      "Вспомни один момент этой недели, когда ты сделал(а) первый шаг: что ты почувствовал(а)?"] },
+    listen: { name: "Сначала выслушай", icon: "👂", why: "Быстро находить решения — твоя сила. На этом пути ты попробуешь сначала выслушать.", tasks: [
+      "Сегодня в разговоре задай ещё один вопрос, прежде чем предлагать решение.",
+      "Выслушай собеседника до конца, ни разу не перебив.",
+      "Спроси друга: «Что тебя больше всего вымотало на этой неделе?»",
+      "Перескажи собеседнику своими словами то, что ты услышал(а).",
+      "Убери телефон на весь разговор. Что ты заметил(а)?",
+      "С любопытством, без спора, расспроси человека, который думает иначе.",
+      "Вспомни, что нового ты узнал(а) на этой неделе, просто слушая."] },
+    keep: { name: "Держи слово", icon: "🤝", why: "Твои планы иногда повисают в воздухе. На этом пути ты будешь давать маленькие обещания и выполнять их.", tasks: [
+      "Составь один небольшой план на эту неделю и запиши его в календарь.",
+      "Сегодня ответь на сообщение, которое ты откладывал(а).",
+      "Дай кому-то маленькое обещание и выполни его сегодня: ссылка, фото, звонок.",
+      "Приди на встречу или на работу на 5 минут раньше.",
+      "Если нужно отменить план, предупреди хотя бы за день.",
+      "Сегодня вечером распланируй завтрашний день тремя пунктами.",
+      "Вспомни обещание, которое ты сдержал(а) на этой неделе: как отреагировал человек?"] },
+    deep: { name: "Меньше, но глубже", icon: "🌱", why: "Стараясь успеть ко всем, ты можешь забыть о себе. На этом пути ты сосредоточишься на глубоких связях и на времени для себя.", tasks: [
+      "Прежде чем сегодня кому-то сказать «да», спроси себя: «Подходит ли это мне?»",
+      "Вместо шумной компании договорись о долгом разговоре с одним человеком.",
+      "Выдели себе 30 минут тишины без телефона.",
+      "Задай другу глубокий вопрос — только о нём.",
+      "Вежливо скажи «нет» на чью-то просьбу или предложи «в другой раз».",
+      "Подумай о трёх людях, которые на тебя хорошо влияют, и скажи об этом одному из них.",
+      "Вспомни, что ты сделал(а) для себя на этой неделе."] },
+  },
+};
+
+function dailyQ(i) {
+  const tr = DAILY_Q.tr[i % DAILY_Q.tr.length];
+  if (typeof LANG !== "undefined" && LANG === "ru") { const ru = DAILY_Q.ru[i % DAILY_Q.ru.length]; return [ru[0], tr[1].map((o, k) => [ru[1][k], o[1]])]; }
+  return tr;
+}
+function trackOf(id) { return TRACKS[(typeof LANG !== "undefined" && LANG === "ru") ? "ru" : "tr"][id]; }
 
 // Can Dostum — tıklanabilir prototip arayüzü
 (function () {
@@ -1526,11 +1673,12 @@ function fakeReplyRu(u, text, n) {
   function App() {
     if (S.chat) return Chat();
     if (S.ice) return Ice();
-    let body = S.tab === "today" ? Today() : S.tab === "chats" ? Chats() : Profile();
+    let body = S.tab === "path" ? Path() : S.tab === "today" ? Today() : S.tab === "chats" ? Chats() : Profile();
     const unread = Object.values(S.matches).filter(x => x.unread).length;
     return `<div class="screen app">${body}</div>
       <nav class="tabs">
-        <button class="${S.tab === "today" ? "on" : ""}" data-act="tab" data-v="today"><span>✦</span>${t("tab_sug")}</button>
+        <button class="${S.tab === "path" ? "on" : ""}" data-act="tab" data-v="path"><span>🌱</span>${t("tab_path")}</button>
+        <button class="${S.tab === "today" ? "on" : ""}" data-act="tab" data-v="today"><span>${unlocked() ? "✦" : "🔒"}</span>${t("tab_sug")}</button>
         <button class="${S.tab === "chats" ? "on" : ""}" data-act="tab" data-v="chats"><span>💬</span>${t("tab_chat")}${unread ? `<em>${unread}</em>` : ""}</button>
         <button class="${S.tab === "profile" ? "on" : ""}" data-act="tab" data-v="profile"><span>◐</span>${t("tab_prof")}</button>
       </nav>`;
@@ -1546,7 +1694,50 @@ function fakeReplyRu(u, text, n) {
     return t("hm", Math.floor(s / 3600), Math.floor(s % 3600 / 60));
   }
 
+  // ---- Kendini tanı → Geliş ----
+  function ensureG() {
+    if (!S.g) S.g = { track: TRACK_OF[S.me.archetype] || "first", step: 0, lastDay: 0, done: [], dq: {}, unlock: false };
+    return S.g;
+  }
+  function unlocked() { const g = ensureG(); return g.unlock || g.done.length >= 3; }
+  function clarity() { return Math.min(100, 40 + 5 * Object.keys(ensureG().dq).length); }
+
+  function Path() {
+    const g = ensureG(), tr = trackOf(g.track), qi = S.day - 1, q = dailyQ(qi), ans = g.dq[S.day];
+    const doneToday = g.lastDay === S.day, finished = g.step >= 7;
+    const stepIdx = doneToday ? g.step - 1 : g.step;
+    const steps = [["know", true], ["grow", g.done.length > 0], ["meet", unlocked()]].map(([k, on], i) => `<div class="pst ${on ? "on" : ""}"><b>${i + 1}</b><span>${t("st_" + k)}</span></div>`).join("");
+    const dots = Array.from({ length: 7 }, (_, i) => `<i class="${i < g.step ? "on" : ""}"></i>`).join("");
+    const noteDone = g.done.length && g.done[g.done.length - 1].day === S.day ? g.done[g.done.length - 1].note : "";
+    return `<header class="top"><div><div class="muted small">${t("day", S.day)}</div><h2>${t("path_title")}</h2></div><img class="meav" src="${avatar(S.me.look, 1, 96)}"></header>
+      <div class="psteps">${steps}</div>
+      <div class="card"><h3>${t("dq_t")}</h3><p class="dq">${esc(q[0])}</p>
+        ${ans == null ? q[1].map((o, i) => `<button class="opt" data-act="dq" data-v="${i}">${esc(o[0])}</button>`).join("")
+          : `<div class="state">✓ ${esc(q[1][ans][0])}</div><p class="muted small">${t("dq_done")}</p>`}
+        <div class="clar"><span>${t("clarity", clarity())}</span><div class="bar"><i style="width:${clarity()}%"></i></div></div></div>
+      <div class="card track"><div class="trh"><span class="tri">${tr.icon}</span><div><div class="muted small">${t("your_track")}</div><h3>${tr.name}</h3></div></div>
+        <p class="muted small">${tr.why}</p><div class="tdots">${dots}</div>
+        ${finished && doneToday ? `<div class="state">${t("track_done", trackOf(TRACK_ORDER[(TRACK_ORDER.indexOf(g.track) + 1) % 4]).name)}</div>` : `
+        <div class="muted small">${t("task_t", Math.min(stepIdx, 6) + 1)}</div><p class="task">${esc(tr.tasks[Math.min(stepIdx, 6)])}</p>
+        ${doneToday ? `<div class="state">${t("task_done")}</div>${noteDone ? `<p class="note">“${esc(noteDone)}”</p>` : ""}`
+          : `<input class="in" id="g-note" maxlength="140" placeholder="${t("task_note_ph")}"><button class="btn primary" data-act="task-done">${t("task_done_btn")}</button>`}`}</div>
+      ${unlocked() ? `<div class="card ok"><b>${t("unlocked_t")}</b><p class="muted small">${t("unlocked_d")}</p><button class="btn ghost small" data-act="tab" data-v="today">${t("go_meet")}</button></div>`
+        : `<div class="card"><b>${t("meet_lock_t")}</b><p class="muted small">${t("meet_lock_p", g.done.length)}</p></div>`}
+      <button class="btn ghost small" data-act="next-day">${t("next_day")}</button>
+      <p class="fine center">${t("fine_growth")}</p>`;
+  }
+
+  function Locked() {
+    const g = ensureG();
+    return `<header class="top"><h2>${t("today_sugs")}</h2></header>
+      <div class="card center lock"><div class="big">🔒</div><h3>${t("meet_lock_t")}</h3><p class="muted">${t("meet_lock_d")}</p>
+        <div class="bar"><i style="width:${Math.round(g.done.length / 3 * 100)}%"></i></div><p class="muted small">${t("meet_lock_p", g.done.length)}</p>
+        <button class="btn primary" data-act="tab" data-v="path">${t("go_path")}</button>
+        <button class="link small" data-act="unlock-proto">${t("unlock_proto")}</button></div>`;
+  }
+
   function Today() {
+    if (!unlocked()) return Locked();
     ensureDaily();
     const ids = S.daily.ids;
     const cards = ids.map(id => SuggestionCard(byId(id))).join("");
@@ -1602,6 +1793,7 @@ function fakeReplyRu(u, text, n) {
         ${distLine(u) ? `<div class="muted small">${distLine(u)}</div>` : ""}
         <div class="arch">${a.icon} ${a.name}</div></div>
         <div class="score"><b>${LANG === "tr" ? "%" + c.score : c.score + "%"}</b><span>${t("match")}</span></div></div>
+      ${TRACK_OF[u.archetype] === ensureG().track ? `<div class="mate">${t("path_mate", trackOf(ensureG().track).name)}</div>` : ""}
       <p class="bio">${LANG === "ru" ? "«" + esc(bioOf(u)) + "»" : "“" + esc(bioOf(u)) + "”"}</p>
       <div class="why"><div class="whyt">${t("why")}</div>${c.reasons.map(r => `<div>• ${esc(reasonText(r, u))}</div>`).join("") || `<div>• ${t("why_diff")}</div>`}</div>
       <div class="chips">${u.interests.map(i => `<span class="chip ${c.shared.includes(i) ? "on" : ""}">${tInt(i)}</span>`).join("")}</div>
@@ -1628,6 +1820,12 @@ function fakeReplyRu(u, text, n) {
     return h;
   }
 
+  function GrowthCard() {
+    const g = ensureG(), tr = trackOf(g.track);
+    const notes = g.done.slice(-5).reverse().map(d => `<div class="hist"><span>${trackOf(d.track).icon} ${esc(trackOf(d.track).tasks[d.i])}</span>${d.note ? `<em>“${esc(d.note)}”</em>` : ""}</div>`).join("");
+    return `<div class="card"><h3>${t("your_track")}: ${tr.icon} ${tr.name}</h3><p class="muted small">${t("steps_total", g.done.length)} · ${t("clarity", clarity())}</p>${notes ? `<div class="muted small">${t("notes_t")}</div>${notes}` : ""}</div>`;
+  }
+
   function Profile() {
     const m = S.me, a = arch(m.archetype);
     return `<header class="top"><h2>${t("profile")}</h2></header>
@@ -1637,6 +1835,7 @@ function fakeReplyRu(u, text, n) {
         <p class="fine">${t("name_note")}</p>
         <div class="row2"><button class="btn ghost small" data-act="edit-cancel">${t("cancel")}</button><button class="btn primary small" data-act="edit-save">${t("save")}</button></div>` : `
         <h2>${esc(m.name)}, ${esc(m.age)}</h2><button class="link" data-act="edit-me">${t("edit_profile")}</button>`}<div class="arch">${a.icon} ${a.name}</div><p class="muted">${a.tag}</p></div>
+      ${GrowthCard()}
       <div class="card"><h3>${t("location")}</h3>${locBlock()}</div>
       <div class="card">${photoSection()}</div>
       <div class="card"><h3>${t("language")}</h3>${langBar()}</div>
@@ -1737,6 +1936,7 @@ function fakeReplyRu(u, text, n) {
   // ---------------------------------------------------------------- olaylar
   function nextDay() {
     S.day++;
+    if (S.g && S.g.step >= 7) { S.g.track = TRACK_ORDER[(TRACK_ORDER.indexOf(S.g.track) + 1) % 4]; S.g.step = 0; }
     // Bekleyen istekler: çoğu kabul edilir
     Object.keys(S.seen).forEach(id => {
       if (S.seen[id] !== "pending") return;
@@ -1795,7 +1995,7 @@ function fakeReplyRu(u, text, n) {
       case "look-random": m.look = randomLook(m.gender); save(); return render();
       case "finish": case "edit-avatar":
         if (act === "edit-avatar") return go("avatar");
-        S.tab = "today"; return go("app");
+        ensureG(); S.tab = "path"; return go("app");
       case "tab": S.tab = v; save(); return render();
       case "next-day": return nextDay();
       case "pass": S.seen[v] = "no"; save(); return render();
@@ -1839,6 +2039,19 @@ function fakeReplyRu(u, text, n) {
         mm.msgs.push({ t: t("bye_msg"), me: true });
         mm.closed = true; S.sheet = null; save(); return render();
       }
+      case "dq": {
+        const g = ensureG(), q = dailyQ(S.day - 1), eff = q[1][+v][1];
+        g.dq[S.day] = +v;
+        for (const k in eff) m.axes[k] = Math.max(-1, Math.min(1, Math.round((m.axes[k] + eff[k] * 0.06) * 100) / 100));
+        save(); return render();
+      }
+      case "task-done": {
+        const g = ensureG(), was = unlocked(), el = document.getElementById("g-note");
+        g.done.push({ day: S.day, track: g.track, i: g.step, note: el ? el.value.trim().slice(0, 140) : "" });
+        g.step++; g.lastDay = S.day; save(); render();
+        return toast(!was && unlocked() ? t("unlocked_t") : t("task_done"));
+      }
+      case "unlock-proto": ensureG().unlock = true; save(); render(); return toast(t("unlocked_t"));
       case "tbl-join": S.table.joined = true; save(); render(); return toast(t("tbl_joined"));
       case "tbl-leave": S.table.joined = false; save(); render(); return toast(t("tbl_left"));
       case "block": {
