@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#12121C">
+<title>Can Dostum — Prototip</title>
+<style>
+:root{--bg:#12121C;--sf:#1B1B29;--sf2:#232335;--bd:#2A2A3E;--tx:#F1EEF6;--mu:#A39FB3;--ac:#FF8C7A;--onac:#3A0E08;--good:#3DDC97;--blue:#4FB3FF;--r:18px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:#0b0b12;color:var(--tx);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:440px;min-height:100vh;margin:0 auto;background:var(--bg);position:relative;overflow-x:hidden}
+.screen{padding:20px 18px 32px}
+.screen.app{padding-bottom:96px}
+.center{text-align:center}
+h1{font-size:30px;margin:8px 0 4px;letter-spacing:-.5px}
+h2{font-size:22px;margin:6px 0 8px}
+h3{font-size:15px;margin:14px 0 8px}
+p{margin:6px 0}
+.lead{font-size:18px;color:var(--ac);font-weight:600}
+.muted{color:var(--mu)}.small{font-size:13px}
+.fine{font-size:12px;color:var(--mu);margin:10px 0}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin:14px 0}
+.card h3:first-child{margin-top:0}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:15px;font:600 16px system-ui;margin:10px 0;cursor:pointer;color:var(--tx);background:var(--sf2)}
+.btn.primary{background:var(--ac);color:var(--onac)}
+.btn.ghost{background:transparent;border:1px solid var(--bd)}
+.btn.small{padding:11px;font-size:14px}
+.btn.danger{color:#FF6B6B}
+.link{background:none;border:0;color:var(--mu);font:inherit;cursor:pointer;padding:6px 0;min-width:28px;text-align:left}
+.ticks{padding-left:0;list-style:none;margin:8px 0 0}.ticks li{padding:5px 0 5px 26px;position:relative}.ticks li:before{content:"✦";color:var(--ac);position:absolute;left:4px}
+.check{display:flex;gap:10px;align-items:center;justify-content:center;margin:14px 0 4px}
+.check input{width:20px;height:20px;accent-color:var(--ac)}
+.trio{display:flex;justify-content:center;align-items:flex-end;margin:18px 0 6px}
+.trio img{width:96px;height:96px;border-radius:24px;margin:0 -8px;border:3px solid var(--bg)}.trio .mid{width:124px;height:124px;z-index:1}
+.steps{display:flex;gap:6px;margin:4px 0 14px}.steps i{flex:1;height:4px;border-radius:2px;background:var(--bd)}.steps i.on{background:var(--ac)}
+.lbl{display:block;font-size:13px;color:var(--mu);margin:14px 0 6px}
+.in{width:100%;background:var(--sf);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:13px;font:16px system-ui}
+.row2{display:flex;gap:10px;align-items:stretch}.row2>*{flex:1;margin:0}
+.row2 .btn{margin:0}
+.seg{display:flex;gap:6px;flex-wrap:wrap}.seg button{flex:1;min-width:0;background:var(--sf);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:12px 6px;font:600 14px system-ui;cursor:pointer}
+.seg button.on{background:var(--ac);color:var(--onac);border-color:var(--ac)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0}
+.chip{background:var(--sf2);border:1px solid var(--bd);color:var(--mu);border-radius:999px;padding:7px 12px;font:600 13px system-ui;cursor:pointer}
+.chip.on{background:rgba(255,140,122,.16);border-color:rgba(255,140,122,.5);color:var(--ac)}
+.qhead{display:flex;justify-content:space-between;align-items:center}
+.progress{height:6px;background:var(--bd);border-radius:3px;margin:8px 0 18px;overflow:hidden}.progress i{display:block;height:100%;background:var(--ac);transition:width .3s}
+.scene{background:var(--sf2);border-radius:var(--r);padding:20px;font-size:19px;font-weight:600;margin:10px 0 16px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;background:var(--sf);border:1px solid var(--bd);color:var(--tx);border-radius:16px;padding:14px;font:15px system-ui;cursor:pointer}
+.opt b{flex:none;width:30px;height:30px;border-radius:50%;background:var(--sf2);display:grid;place-items:center;color:var(--mu)}
+.opt.on,.opt:active{border-color:var(--ac)}
+.archcard{text-align:center;background:linear-gradient(160deg,#2b1f2c,#1B1B29 60%);border:1px solid var(--bd);border-radius:24px;padding:22px 18px;margin:8px 0}
+.archcard.small{padding:18px}
+.aicon{font-size:54px;line-height:1.1}
+.arch{display:inline-block;margin-top:4px;font-weight:700;color:var(--ac)}
+.axis{margin:12px 0}.axl{display:flex;justify-content:space-between;font-size:12px;color:var(--mu);margin-bottom:6px}
+.track{position:relative;height:8px;border-radius:4px;background:linear-gradient(90deg,#4FB3FF55,#B28CFF55,#FF8C7A55)}
+.dot{position:absolute;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--ac);border:2px solid var(--bg);display:inline-block}
+.dot.them{background:var(--blue)}
+.legend{font-size:12px;color:var(--mu);display:flex;gap:6px;align-items:center}.legend .dot{position:static;margin:0 0 0 8px;width:10px;height:10px;border-width:0}
+.avwrap{position:relative;width:220px;margin:8px auto}.avbig{width:220px;height:220px;border-radius:28px;display:block}
+.dice{position:absolute;right:-50px;bottom:4px;width:42px;height:42px;border-radius:12px;border:1px solid var(--bd);background:var(--sf);font-size:20px;cursor:pointer}
+.sw{display:flex;gap:9px;flex-wrap:wrap}.sw button{width:34px;height:34px;border-radius:50%;border:2px solid var(--bd);cursor:pointer}.sw button.on{outline:3px solid var(--ac);outline-offset:2px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.top h2{margin:0}.meav{width:44px;height:44px;border-radius:14px}
+.sug{background:var(--sf);border:1px solid var(--bd);border-radius:22px;padding:16px;margin:14px 0}
+.sug.dim{opacity:.55}
+.sughead{display:flex;gap:12px;align-items:center}.sughead img{width:84px;height:84px;border-radius:20px;flex:none}
+.who{flex:1;min-width:0}.who h3{margin:0;font-size:18px}
+.ver{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--blue);color:#06233a;font-size:11px;vertical-align:2px}
+.score{text-align:center;flex:none}.score b{display:block;font-size:22px;color:var(--good)}.score span{font-size:11px;color:var(--mu)}
+.bio{font-style:italic;margin:12px 0 8px}
+.why{background:var(--sf2);border-radius:14px;padding:12px;font-size:14px;margin:8px 0}.whyt{font-weight:700;color:var(--ac);margin-bottom:4px}
+details{margin:8px 0}summary{cursor:pointer;color:var(--mu);font-size:14px}
+.lock{font-size:12px;color:var(--mu);margin:8px 0}
+.state{text-align:center;padding:12px;border-radius:12px;background:var(--sf2);margin-top:8px;font-weight:600}
+.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;display:flex;background:#161622;border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom)}
+.tabs button{flex:1;background:none;border:0;color:var(--mu);font:600 12px system-ui;padding:10px 0 12px;cursor:pointer;position:relative}
+.tabs button span{display:block;font-size:20px}.tabs button.on{color:var(--ac)}
+.tabs em{position:absolute;top:6px;left:58%;background:var(--ac);color:var(--onac);font-style:normal;border-radius:9px;padding:0 6px;font-size:11px}
+.row{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:10px;margin:8px 0;color:var(--tx);font:inherit;cursor:pointer}
+.row img{width:52px;height:52px;border-radius:14px}.row div{flex:1;display:flex;flex-direction:column;min-width:0}.row em{color:var(--ac);font-style:normal}
+.row.dim{opacity:.6}.sec{color:var(--mu)}
+.srow{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bd);font-size:14px}.srow:last-child{border:0}
+.badge{background:var(--sf2);color:var(--mu);border-radius:8px;padding:2px 8px;font-size:12px}
+.avmid{width:120px;height:120px;border-radius:28px}
+.pair{display:flex;justify-content:center;align-items:center;gap:12px;margin:14px 0}.pair img{width:110px;height:110px;border-radius:26px}.pair span{font-size:30px}
+.ans{padding:10px 0;border-top:1px solid var(--bd)}.ans:first-of-type{margin-top:8px}
+.chat{display:flex;flex-direction:column;height:100vh;height:100dvh}
+.chead{display:flex;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd);background:var(--sf)}
+.chead img{width:42px;height:42px;border-radius:12px}.chead>div{flex:1}.chead .link{font-size:22px;padding:0 6px}
+.msgs{flex:1;overflow-y:auto;padding:14px;display:block}
+.msg{display:block;width:fit-content;max-width:78%;margin:0 auto 8px 0;overflow-wrap:anywhere;white-space:normal;background:var(--sf2);padding:10px 13px;border-radius:16px 16px 16px 4px}
+.msg.me{margin:0 0 8px auto;background:var(--ac);color:var(--onac);border-radius:16px 16px 4px 16px}
+.sys{display:block;width:fit-content;margin:0 auto 8px;text-align:center;font-size:12px;color:var(--mu);background:var(--sf);border:1px dashed var(--bd);border-radius:12px;padding:8px 12px;max-width:92%}
+.typing i{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:var(--mu);animation:b 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,60%,100%{opacity:.3}30%{opacity:1}}
+.photo{display:block;text-align:center;margin:0 auto 8px}.photo img{width:180px;height:180px;border-radius:24px}.photo span{display:block;font-size:12px;color:var(--mu)}
+.starters{display:flex;gap:8px;overflow-x:auto;padding:0 14px 8px}.starters button{flex:none;max-width:260px;background:var(--sf);border:1px solid var(--bd);color:var(--tx);border-radius:14px;padding:9px 12px;font:13px system-ui;text-align:left;cursor:pointer}
+.tools{display:flex;gap:8px;padding:0 14px 8px}.tools button{flex:1;background:var(--sf2);border:0;color:var(--tx);border-radius:12px;padding:10px;font:600 13px system-ui;cursor:pointer}
+.send{display:flex;gap:8px;padding:10px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--bd);background:var(--sf)}
+.send input{flex:1;background:var(--bg);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:12px;font:16px system-ui}.send .btn{width:auto;margin:0;padding:0 16px}
+.sheetbg{position:fixed;inset:0;background:rgba(0,0,0,.6)}
+.sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;background:var(--sf);border-radius:24px 24px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--bd)}
+.sheet h3{margin-top:0}.vi{font-size:26px;width:44px;text-align:center}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;max-width:400px;width:calc(100% - 36px);background:#2C2C42;color:var(--tx);border-radius:14px;padding:12px 16px;box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:9;animation:t .25s}
+@keyframes t{from{opacity:0;transform:translate(-50%,10px)}}
+input[type=range]{width:100%;accent-color:var(--ac)}
+.langs{display:flex;gap:6px;justify-content:center;margin:0 0 6px}.langs button{background:var(--sf);border:1px solid var(--bd);color:var(--mu);border-radius:999px;padding:7px 14px;font:600 13px system-ui;cursor:pointer}
+.langs button.on{background:var(--ac);color:var(--onac);border-color:var(--ac)}
+.card .langs{justify-content:flex-start}
+.photos{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 10px}
+.ph{width:96px;text-align:center}.ph img{width:96px;height:120px;object-fit:cover;border-radius:14px;display:block}
+.ph button{background:none;border:0;color:var(--mu);font:12px system-ui;padding:4px;cursor:pointer}
+.ph.add{position:relative;overflow:hidden;height:120px;display:grid;place-items:center;border:1.5px dashed var(--bd);border-radius:14px;color:var(--ac);font:600 13px system-ui;cursor:pointer;padding:8px}
+.msg.pic{padding:4px;background:var(--ac)}.msg.pic img{display:block;width:160px;border-radius:12px}
+.ask{background:var(--sf);border:1px solid var(--ac);border-radius:16px;padding:12px;margin:0 0 8px;font-size:14px}.ask .row2{margin-top:10px}
+.ph.add input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0}
+.locst{font-size:14px;color:var(--mu);padding:10px 0}.locst.on{color:var(--good)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// Can Dostum — portre çizici (C# PortraitPainter'ın JavaScript karşılığı)
+const SkinHex = ["F6D9C4","EDC3A2","D9A47E","BB845C","8F5C3C","5F3D29"];
+const HairHex = ["1F1B19","3B2A20","6B4A2F","9C6C40","D9B56C","8E3B22","E9DDBB","B9B6B0"];
+const EyeHex = ["5B3A21","2E1F14","7D6A2C","4E7A4A","4A78A8"];
+const OutfitHex = ["3DDC97","4FB3FF","F5B648","FF7A7A","B28CFF","2E3B55","E8EEF8","8A5A44"];
+const HAIR_STYLES = 5;
+const Mood = { Neutral: 0, Happy: 1, Sad: 2, Angry: 3, Surprised: 4, Shy: 5, Worried: 6 };
+class C {
+  constructor(r, g, b, a = 1) { this.r = r; this.g = g; this.b = b; this.a = a; }
+  A(al) { return new C(this.r, this.g, this.b, this.a * al); }
+  Mul(k) { return new C(this.r * k, this.g * k, this.b * k, this.a); }
+  Mix(o, t) { return new C(this.r + (o.r - this.r) * t, this.g + (o.g - this.g) * t, this.b + (o.b - this.b) * t, this.a + (o.a - this.a) * t); }
+}
+function Hex(h) { const v = parseInt(h, 16); return new C(((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255, 1); }
+function Pick(pal, i) { const n = pal.length; return Hex(pal[((i % n) + n) % n]); }
+class Canvas {
+  constructor() { this.Layers = []; }
+  Add(d, col, x0, y0, x1, y1) { this.Layers.push({ D: d, Col: col, X0: x0, Y0: y0, X1: x1, Y1: y1 }); }
+  AddGrad(d, top, bottom, t, x0, y0, x1, y1) { this.Layers.push({ D: d, Col: top, Col2: bottom, Grad: t, X0: x0, Y0: y0, X1: x1, Y1: y1, Fixed: true }); }
+  AddFixed(d, col, x0, y0, x1, y1) { this.Layers.push({ D: d, Col: col, X0: x0, Y0: y0, X1: x1, Y1: y1, Fixed: true }); }
+}
+const FocusX = 0.5, FocusY = 0.5, TargetY = 0.53;
+function Rasterize(cv, size, zoom) {
+  const buf = new Float32Array(size * size * 4);
+  const px = 1 / size;
+  for (const L of cv.Layers) {
+    const z = L.Fixed ? 1 : zoom, ty = L.Fixed ? FocusY : TargetY;
+    const u0 = (L.X0 - FocusX) * z + 0.5, u1 = (L.X1 - FocusX) * z + 0.5;
+    const v0 = (L.Y0 - FocusY) * z + ty, v1 = (L.Y1 - FocusY) * z + ty;
+    const ix0 = Math.max(0, Math.floor(u0 * size) - 1), ix1 = Math.min(size - 1, Math.ceil(u1 * size) + 1);
+    const iy0 = Math.max(0, Math.floor(v0 * size) - 1), iy1 = Math.min(size - 1, Math.ceil(v1 * size) + 1);
+    const dpx = px / z;
+    for (let iy = iy0; iy <= iy1; iy++) {
+      const y = ((iy + 0.5) * px - ty) / z + FocusY;
+      for (let ix = ix0; ix <= ix1; ix++) {
+        const x = ((ix + 0.5) * px - 0.5) / z + FocusX;
+        const d = L.D(x, y);
+        let cov = 0.5 - d / dpx;
+        if (cov <= 0) continue;
+        if (cov > 1) cov = 1;
+        let c = L.Col;
+        if (L.Grad) { const t = L.Grad(x, y); c = L.Col.Mix(L.Col2, t < 0 ? 0 : t > 1 ? 1 : t); }
+        const a = c.a * cov, inv = 1 - a, o = (iy * size + ix) * 4;
+        buf[o] = c.r * a + buf[o] * inv; buf[o + 1] = c.g * a + buf[o + 1] * inv;
+        buf[o + 2] = c.b * a + buf[o + 2] * inv; buf[o + 3] = a + buf[o + 3] * inv;
+      }
+    }
+  }
+  const out = new Uint8ClampedArray(size * size * 4);
+  for (let i = 0; i < size * size * 4; i += 4) {
+    const a = buf[i + 3], k = a > 1e-5 ? 1 / a : 0;
+    out[i] = buf[i] * k * 255 + 0.5; out[i + 1] = buf[i + 1] * k * 255 + 0.5; out[i + 2] = buf[i + 2] * k * 255 + 0.5; out[i + 3] = a * 255 + 0.5;
+  }
+  return out;
+}
+/** look: {Gender:'f'|'m', Skin, Hair, HairColor, Eyes, Outfit, Glasses, Beard, Age} → RGBA (Uint8ClampedArray) */
+function RenderPortrait(look, mood, size, bgHex, zoom = 1.22) {
+  const cv = new Canvas();
+  Build(cv, look, mood, bgHex);
+  return Rasterize(cv, size, zoom);
+}
+        // ------------------------------------------------------------------ SDF ilkelleri
+
+        function Len(x, y) { return Math.sqrt(x * x + y * y); }
+        function Circle(x, y, cx, cy, r) { return Len(x - cx, y - cy) - r; }
+
+        function Ellipse(x, y, cx, cy, a, b)
+        {
+            // iq yaklaşımı: k0 (k0 - 1) / k1 — kenar yumuşatma için yeterince doğru
+            let dx = x - cx, dy = y - cy;
+            let k0 = Len(dx / a, dy / b);
+            let k1 = Len(dx / (a * a), dy / (b * b));
+            if (k1 < 1e-6) return -Math.min(a, b);
+            return k0 * (k0 - 1) / k1;
+        }
+
+        function Box(x, y, cx, cy, hw, hh, r)
+        {
+            let qx = Math.abs(x - cx) - hw + r, qy = Math.abs(y - cy) - hh + r;
+            return Len(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - r;
+        }
+
+        function Seg(x, y, ax, ay, bx, by)
+        {
+            let px = x - ax, py = y - ay, dx = bx - ax, dy = by - ay;
+            let h = Math.max(0, Math.min(1, (px * dx + py * dy) / Math.max(1e-8, dx * dx + dy * dy)));
+            return Len(px - dx * h, py - dy * h);
+        }
+
+        function Union(a, b) { return Math.min(a, b); }
+        function Inter(a, b) { return Math.max(a, b); }
+        function Sub(a, b) { return Math.max(a, -b); }
+
+        function SmoothUnion(a, b, k)
+        {
+            let h = Math.max(0, Math.min(1, 0.5 + 0.5 * (b - a) / k));
+            return b + (a - b) * h - k * h * (1 - h);
+        }
+
+        /// <summary>Kapalı çokgen için işaretli uzaklık (iq).</summary>
+        function Poly(x, y, v)
+        {
+            let n = v.length / 2;
+            let d = (x - v[0]) * (x - v[0]) + (y - v[1]) * (y - v[1]);
+            let s = 1;
+            for (let i = 0, j = n - 1; i < n; j = i, i++)
+            {
+                let ex = v[j * 2] - v[i * 2], ey = v[j * 2 + 1] - v[i * 2 + 1];
+                let wx = x - v[i * 2], wy = y - v[i * 2 + 1];
+                let h = Math.max(0, Math.min(1, (wx * ex + wy * ey) / Math.max(1e-9, ex * ex + ey * ey)));
+                let bx = wx - ex * h, by = wy - ey * h;
+                d = Math.min(d, bx * bx + by * by);
+                let c1 = y >= v[i * 2 + 1], c2 = y < v[j * 2 + 1], c3 = ex * wy > ey * wx;
+                if ((c1 && c2 && c3) || (!c1 && !c2 && !c3)) s = -s;
+            }
+            return s * Math.sqrt(d);
+        }
+
+        /// <summary>Kuadratik Bezier eğrisini noktalara böler.</summary>
+        function Bez(ax, ay, cx, cy, bx, by, n)
+        {
+            let p = new Array((n + 1) * 2);
+            for (let i = 0; i <= n; i++)
+            {
+                let t = i / n, u = 1 - t;
+                p[i * 2] = u * u * ax + 2 * u * t * cx + t * t * bx;
+                p[i * 2 + 1] = u * u * ay + 2 * u * t * cy + t * t * by;
+            }
+            return p;
+        }
+
+        function Join(a, b) { return a.concat(b); }
+
+        function Reverse(p)
+        {
+            let n = p.length / 2;
+            let r = new Array(p.length);
+            for (let i = 0; i < n; i++) { r[i * 2] = p[(n - 1 - i) * 2]; r[i * 2 + 1] = p[(n - 1 - i) * 2 + 1]; }
+            return r;
+        }
+
+        /// <summary>Çoklu nokta çizgisine uzaklık − yarı kalınlık (uçlarda incelen fırça).</summary>
+        function Stroke(x, y, p, w, taper)
+        {
+            let n = p.length / 2;
+            let best = 1e9, bestT = 0;
+            for (let i = 0; i + 1 < n; i++)
+            {
+                let d = Seg(x, y, p[i * 2], p[i * 2 + 1], p[i * 2 + 2], p[i * 2 + 3]);
+                if (d < best) { best = d; bestT = (i + 0.5) / (n - 1); }
+            }
+            let hw = w * 0.5;
+            if (taper) hw *= 0.35 + 0.65 * Math.sin(Math.PI * Math.max(0.04, Math.min(0.96, bestT)));
+            return best - hw;
+        }
+
+        function Bounds(p, pad) {
+            let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+            for (let i = 0; i < p.length; i += 2)
+            {
+                x0 = Math.min(x0, p[i]); x1 = Math.max(x1, p[i]);
+                y0 = Math.min(y0, p[i + 1]); y1 = Math.max(y1, p[i + 1]);
+            }
+            x0 -= pad; y0 -= pad; x1 += pad; y1 += pad;
+            return [x0, y0, x1, y1];
+        }
+
+        // ------------------------------------------------------------------ çizim
+
+        function Build(cv, lk, mood, bgHex)
+        {
+            let male = lk.Gender == "m";
+            let old = lk.Age >= 55;
+            let skin = Pick(SkinHex, lk.Skin);
+            let skinShade = skin.Mul(0.86);
+            let skinDeep = skin.Mul(0.74);
+            let hair = Pick(HairHex, old && lk.HairColor < 6 ? 7 : lk.HairColor);
+            let hairDark = hair.Mul(0.78);
+            let hairLight = hair.Mix(new C(1, 1, 1), 0.22);
+            let outfit = Pick(OutfitHex, lk.Outfit);
+            let outfitShade = outfit.Mul(0.82);
+            let ink = new C(0.16, 0.11, 0.10);
+
+            // Arka plan: köşeleri yuvarlak kart, yukarıdan aşağı hafif ışık
+            if (bgHex != null)
+            {
+                let bg = Hex(bgHex);
+                cv.AddGrad((x, y) => Box(x, y, 0.5, 0.5, 0.5, 0.5, 0.16), bg.Mix(new C(1, 1, 1), 0.18), bg.Mul(0.9), (x, y) => y, 0, 0, 1, 1);
+                cv.AddFixed((x, y) => Circle(x, y, 0.5, 0.42, 0.36), new C(1, 1, 1, 0.10), 0.1, 0.05, 0.9, 0.8);
+            }
+
+            let jaw = male ? 0.128 : 0.112;
+            let face = (x, y) => SmoothUnion(Ellipse(x, y, 0.5, 0.385, 0.162, 0.19), Ellipse(x, y, 0.5, 0.468, jaw, 0.118), 0.05);
+
+            // 1) Arka saç
+            BackHair(cv, lk, hair, hairDark);
+
+            // 2) Gövde ve boyun
+            let body = (x, y) => SmoothUnion(Ellipse(x, y, 0.5, 1.02, male ? 0.39 : 0.35, 0.31), Box(x, y, 0.5, 0.9, 0.2, 0.12, 0.06), 0.04);
+            cv.Add(body, outfit, 0.05, 0.66, 0.95, 1.1);
+            cv.Add((x, y) => Sub(body(x, y), body(x + 0.045, y + 0.01)), outfitShade, 0.05, 0.66, 0.95, 1.1);
+            let neck = (x, y) => Box(x, y, 0.5, 0.62, male ? 0.062 : 0.052, 0.09, 0.03);
+            cv.Add(neck, skinShade, 0.4, 0.5, 0.6, 0.73);
+            // Boyunda çene gölgesi
+            cv.Add((x, y) => Inter(neck(x, y), Ellipse(x, y, 0.5, 0.56, 0.09, 0.05)), skinDeep.A(0.55), 0.4, 0.5, 0.6, 0.62);
+            // Yaka: tek sayılı kıyafetlerde V yaka gömlek, çiftlerde bisiklet yaka
+            if (lk.Outfit % 2 == 1)
+            {
+                let v = [ 0.44, 0.685, 0.56, 0.685, 0.5, 0.79 ];
+                cv.Add((x, y) => Poly(x, y, v), skinShade, 0.43, 0.68, 0.57, 0.8);
+                let lapL = [ 0.44, 0.68, 0.5, 0.795, 0.42, 0.76, 0.385, 0.70 ];
+                let lapR = [ 0.56, 0.68, 0.5, 0.795, 0.58, 0.76, 0.615, 0.70 ];
+                let collar = outfit.Mix(new C(1, 1, 1), 0.35);
+                cv.Add((x, y) => Poly(x, y, lapL), collar, 0.38, 0.67, 0.51, 0.8);
+                cv.Add((x, y) => Poly(x, y, lapR), collar, 0.49, 0.67, 0.62, 0.8);
+            }
+            else
+            {
+                cv.Add((x, y) => Inter(Ellipse(x, y, 0.5, 0.69, 0.085, 0.04), -(y - 0.69)), skinShade, 0.41, 0.64, 0.59, 0.74);
+                cv.Add((x, y) => Math.abs(Ellipse(x, y, 0.5, 0.69, 0.088, 0.043)) - 0.006 + (y < 0.69 ? 1 : 0), outfitShade, 0.4, 0.68, 0.6, 0.75);
+            }
+
+            // 3) Kulaklar ve yüz
+            cv.Add((x, y) => Ellipse(x, y, 0.338, 0.415, 0.028, 0.044), skinShade, 0.3, 0.36, 0.37, 0.47);
+            cv.Add((x, y) => Ellipse(x, y, 0.662, 0.415, 0.028, 0.044), skinShade, 0.63, 0.36, 0.7, 0.47);
+            cv.Add(face, skin, 0.32, 0.18, 0.68, 0.6);
+            // Yandan gölge (hilal): yüz eksi kaydırılmış yüz
+            cv.Add((x, y) => Sub(face(x, y), face(x + 0.028, y + 0.01)), skinShade.A(0.9), 0.32, 0.18, 0.68, 0.6);
+            // Yanak ışığı
+            cv.Add((x, y) => Ellipse(x, y, 0.43, 0.36, 0.06, 0.05), new C(1, 1, 1, 0.07), 0.36, 0.3, 0.5, 0.42);
+
+            // 4) Yüz çizgileri (yaş)
+            if (old)
+            {
+                let l1 = Bez(0.438, 0.462, 0.425, 0.49, 0.44, 0.515, 8);
+                let l2 = Bez(0.562, 0.462, 0.575, 0.49, 0.56, 0.515, 8);
+                cv.Add((x, y) => Stroke(x, y, l1, 0.005, true), skinDeep.A(0.55), 0.41, 0.45, 0.46, 0.53);
+                cv.Add((x, y) => Stroke(x, y, l2, 0.005, true), skinDeep.A(0.55), 0.54, 0.45, 0.59, 0.53);
+                let f1 = Bez(0.36, 0.395, 0.35, 0.405, 0.355, 0.418, 5);
+                let f2 = Bez(0.64, 0.395, 0.65, 0.405, 0.645, 0.418, 5);
+                cv.Add((x, y) => Stroke(x, y, f1, 0.004, true), skinDeep.A(0.5), 0.34, 0.38, 0.37, 0.43);
+                cv.Add((x, y) => Stroke(x, y, f2, 0.004, true), skinDeep.A(0.5), 0.63, 0.38, 0.66, 0.43);
+            }
+
+            // 5) Sakal (yüzün altında kalan kısmı)
+            if (male && lk.Beard > 0) Beard(cv, lk.Beard, face, hair, hairDark);
+
+            // 6) Yanak kızarıklığı
+            let blush = mood == Mood.Shy ? 0.5 : mood == Mood.Happy ? 0.3 : 0.14;
+            let rose = new C(0.93, 0.45, 0.45, blush);
+            cv.Add((x, y) => Ellipse(x, y, 0.405, 0.468, 0.038, 0.022), rose, 0.36, 0.44, 0.45, 0.5);
+            cv.Add((x, y) => Ellipse(x, y, 0.595, 0.468, 0.038, 0.022), rose, 0.55, 0.44, 0.64, 0.5);
+
+            // 7) Gözler, kaşlar, burun, ağız
+            let iris = Pick(EyeHex, lk.Eyes);
+            Eye(cv, mood, -1, iris, ink, male);
+            Eye(cv, mood, 1, iris, ink, male);
+            Brow(cv, mood, -1, hairDark.Mix(ink, 0.25), male);
+            Brow(cv, mood, 1, hairDark.Mix(ink, 0.25), male);
+            let nose = Bez(0.502, 0.425, 0.488, 0.465, 0.506, 0.47, 8);
+            cv.Add((x, y) => Stroke(x, y, nose, 0.007, true), skinDeep.A(0.75), 0.47, 0.41, 0.53, 0.49);
+            cv.Add((x, y) => Ellipse(x, y, 0.5, 0.475, 0.022, 0.008), skinDeep.A(0.25), 0.47, 0.46, 0.53, 0.49);
+            Mouth(cv, mood, male, skin, ink, lk.Beard > 0);
+
+            // 8) Ön saç
+            FrontHair(cv, lk, hair, hairDark, hairLight, face);
+
+            // 9) Gözlük
+            if (lk.Glasses > 0) Glasses(cv, lk.Glasses);
+        }
+
+        // ------------------------------------------------------------------ yüz parçaları
+
+        function Eye(cv, mood, side, iris, ink, male)
+        {
+            let cx = 0.5 + side * 0.069, cy = 0.405;
+            let w = 0.037, h = 0.022;
+            let inner = cx - side * w, outer = cx + side * w;
+            // Üst ve alt kapak eğrileri (iç köşe → dış köşe)
+            let topLift = 0, outerDrop = 0, innerDrop = 0, bottomLift = 0, open = 1;
+            let lookX = 0, lookY = 0;
+            switch (mood)
+            {
+                case Mood.Happy: bottomLift = 0.016; open = 0.95; break;
+                case Mood.Sad: outerDrop = 0.012; open = 0.75; lookY = 0.004; break;
+                case Mood.Angry: innerDrop = 0.012; open = 0.8; break;
+                case Mood.Surprised: topLift = 0.008; open = 1.25; break;
+                case Mood.Shy: open = 0.7; lookX = -side * 0.0 + 0.008; lookY = 0.007; bottomLift = 0.006; break;
+                case Mood.Worried: outerDrop = 0.006; topLift = 0.003; open = 0.95; lookX = -0.006; break;
+            }
+            let topY = cy - h * open - topLift;
+            let top = Bez(inner, cy + innerDrop * 0.6, cx, topY - 0.012 * open + (innerDrop + outerDrop) * 0.5, outer, cy + outerDrop * 0.3, 12);
+            let bottom = Bez(outer, cy + outerDrop * 0.3, cx, cy + h * 1.05 - bottomLift * 1.6, inner, cy + innerDrop * 0.6, 12);
+            let shape = Join(top, bottom);
+            let [x0, y0, x1, y1] = Bounds(shape, 0.01);
+            let opening = (x, y) => Poly(x, y, shape);
+            cv.Add(opening, new C(0.98, 0.97, 0.95), x0, y0, x1, y1);
+            let ix = cx + lookX + side * 0.002, iy = cy + 0.002 + lookY;
+            let ir = 0.0165;
+            cv.Add((x, y) => Inter(Circle(x, y, ix, iy, ir), opening(x, y)), iris, x0, y0, x1, y1);
+            cv.Add((x, y) => Inter(Circle(x, y, ix, iy + 0.004, ir * 0.72), opening(x, y)), iris.Mul(0.75).A(0.5), x0, y0, x1, y1);
+            cv.Add((x, y) => Inter(Circle(x, y, ix, iy, 0.0078), opening(x, y)), new C(0.08, 0.06, 0.06), x0, y0, x1, y1);
+            cv.Add((x, y) => Inter(Circle(x, y, ix + 0.006, iy - 0.007, 0.0042), opening(x, y)), new C(1, 1, 1, 0.95), x0, y0, x1, y1);
+            // Üst kapak gölgesi ve çizgisi (kirpik)
+            cv.Add((x, y) => Inter(opening(x, y), Stroke(x, y, top, 0.012, false)), new C(0, 0, 0, 0.12), x0, y0, x1, y1);
+            let lash = male ? 0.0075 : 0.0105;
+            cv.Add((x, y) => Stroke(x, y, top, lash, true), ink, x0 - 0.01, y0 - 0.01, x1 + 0.01, y1);
+            if (!male)
+            {
+                // Dış köşede küçük kirpik kıvrımı
+                let tip = Bez(outer, cy + outerDrop * 0.3, outer + side * 0.008, cy - 0.006, outer + side * 0.013, cy - 0.011, 4);
+                cv.Add((x, y) => Stroke(x, y, tip, 0.006, true), ink, Math.min(outer, outer + side * 0.02) - 0.01, cy - 0.025, Math.max(outer, outer + side * 0.02) + 0.01, cy + 0.01);
+            }
+            // Alt kapak (ince)
+            cv.Add((x, y) => Stroke(x, y, bottom, 0.003, true), ink.A(0.35), x0, y0, x1, y1 + 0.01);
+        }
+
+        function Brow(cv, mood, side, col, male)
+        {
+            let cx = 0.5 + side * 0.07, cy = 0.352;
+            let innerY = 0, outerY = 0, arch = 0.01, lift = 0;
+            switch (mood)
+            {
+                case Mood.Happy: lift = 0.006; arch = 0.013; break;
+                case Mood.Sad: innerY = -0.014; outerY = 0.006; arch = 0.004; break;
+                case Mood.Angry: innerY = 0.014; outerY = -0.008; arch = 0.002; break;
+                case Mood.Surprised: lift = 0.02; arch = 0.016; break;
+                case Mood.Shy: innerY = -0.006; lift = 0.002; break;
+                case Mood.Worried: innerY = -0.012; outerY = 0.002; arch = 0.006; break;
+            }
+            let ix = cx - side * 0.038, ox = cx + side * 0.042;
+            let p = Bez(ix, cy + innerY - lift, cx + side * 0.004, cy - arch - lift, ox, cy + 0.008 + outerY - lift, 10);
+            let w = male ? 0.017 : 0.011;
+            let [x0, y0, x1, y1] = Bounds(p, 0.02);
+            cv.Add((x, y) => Stroke(x, y, p, w, true), col, x0, y0, x1, y1);
+        }
+
+        function Mouth(cv, mood, male, skin, ink, beard)
+        {
+            let cx = 0.5, cy = 0.516;
+            let lip = male ? skin.Mul(0.72).Mix(new C(0.6, 0.3, 0.3), 0.25) : new C(0.80, 0.38, 0.40);
+            let dark = new C(0.36, 0.12, 0.14);
+            switch (mood)
+            {
+                case Mood.Happy:
+                    {
+                        let top = Bez(cx - 0.05, cy - 0.006, cx, cy + 0.004, cx + 0.05, cy - 0.006, 10);
+                        let bot = Bez(cx + 0.05, cy - 0.006, cx, cy + 0.058, cx - 0.05, cy - 0.006, 12);
+                        let shape = Join(top, bot);
+                        let m = (x, y) => Poly(x, y, shape);
+                        cv.Add(m, dark, cx - 0.06, cy - 0.02, cx + 0.06, cy + 0.05);
+                        cv.Add((x, y) => Inter(m(x, y), Ellipse(x, y, cx, cy - 0.004, 0.045, 0.011)), new C(1, 1, 1, 0.95), cx - 0.06, cy - 0.02, cx + 0.06, cy + 0.02);
+                        cv.Add((x, y) => Inter(m(x, y), Ellipse(x, y, cx, cy + 0.036, 0.026, 0.012)), new C(0.86, 0.42, 0.45), cx - 0.04, cy + 0.01, cx + 0.04, cy + 0.05);
+                        let corners = Bez(cx - 0.056, cy - 0.012, cx - 0.052, cy - 0.004, cx - 0.048, cy - 0.004, 3);
+                        cv.Add((x, y) => Stroke(x, y, corners, 0.004, false), ink.A(0.4), cx - 0.07, cy - 0.03, cx - 0.03, cy + 0.01);
+                        let corners2 = Bez(cx + 0.056, cy - 0.012, cx + 0.052, cy - 0.004, cx + 0.048, cy - 0.004, 3);
+                        cv.Add((x, y) => Stroke(x, y, corners2, 0.004, false), ink.A(0.4), cx + 0.03, cy - 0.03, cx + 0.07, cy + 0.01);
+                        break;
+                    }
+                case Mood.Surprised:
+                    cv.Add((x, y) => Ellipse(x, y, cx, cy + 0.01, 0.019, 0.024), dark, cx - 0.03, cy - 0.03, cx + 0.03, cy + 0.05);
+                    cv.Add((x, y) => Math.abs(Ellipse(x, y, cx, cy + 0.01, 0.021, 0.026)) - 0.004, lip, cx - 0.035, cy - 0.03, cx + 0.035, cy + 0.05);
+                    break;
+                default:
+                    {
+                        let curve, width = 0.04, yOff = 0;
+                        switch (mood)
+                        {
+                            case Mood.Sad: curve = -0.016; width = 0.034; yOff = 0.006; break;
+                            case Mood.Angry: curve = -0.008; width = 0.036; break;
+                            case Mood.Shy: curve = 0.012; width = 0.026; break;
+                            case Mood.Worried: curve = -0.004; width = 0.03; break;
+                            default: curve = 0.008; break;
+                        }
+                        let line = Bez(cx - width, cy + yOff - curve * 0.2, cx, cy + yOff + curve, cx + width, cy + yOff - curve * 0.2, 12);
+                        if (mood == Mood.Worried) line = [ cx - width, cy + 0.004, cx - width * 0.35, cy - 0.003, cx + width * 0.3, cy + 0.004, cx + width, cy - 0.002 ];
+                        if (!male)
+                        {
+                            // Dudak: üst ve alt ince dolgu
+                            let lower = Bez(cx - width * 0.8, cy + yOff + 0.002, cx, cy + yOff + curve + 0.03, cx + width * 0.8, cy + yOff + 0.002, 10);
+                            let lowerShape = Join(lower, Reverse(Bez(cx - width * 0.8, cy + yOff + 0.002, cx, cy + yOff + curve + 0.004, cx + width * 0.8, cy + yOff + 0.002, 8)));
+                            cv.Add((x, y) => Poly(x, y, lowerShape), lip.A(0.85), cx - 0.05, cy - 0.02, cx + 0.05, cy + 0.05);
+                            let upper = Bez(cx - width * 0.9, cy + yOff - curve * 0.2, cx, cy + yOff - 0.02 + curve * 0.5, cx + width * 0.9, cy + yOff - curve * 0.2, 10);
+                            let upperShape = Join(upper, Reverse(Bez(cx - width * 0.9, cy + yOff - curve * 0.2, cx, cy + yOff + curve, cx + width * 0.9, cy + yOff - curve * 0.2, 8)));
+                            cv.Add((x, y) => Poly(x, y, upperShape), lip.Mul(0.9).A(0.85), cx - 0.05, cy - 0.04, cx + 0.05, cy + 0.03);
+                        }
+                        else if (!beard)
+                        {
+                            let under = Bez(cx - 0.018, cy + yOff + 0.018, cx, cy + yOff + 0.024, cx + 0.018, cy + yOff + 0.018, 6);
+                            cv.Add((x, y) => Stroke(x, y, under, 0.006, true), lip.A(0.5), cx - 0.03, cy, cx + 0.03, cy + 0.04);
+                        }
+                        let [lx0, ly0, lx1, ly1] = Bounds(line, 0.01);
+                        let ln = line;
+                        cv.Add((x, y) => Stroke(x, y, ln, 0.0065, true), dark, lx0, ly0, lx1, ly1);
+                        break;
+                    }
+            }
+        }
+
+        function Glasses(cv, kind)
+        {
+            let frame = new C(0.13, 0.12, 0.13);
+            for (let s = -1; s <= 1; s += 2)
+            {
+                let cx = 0.5 + s * 0.07, cy = 0.407;
+                let lens;
+                if (kind == 1) { let r = 0.05; lens = (x, y) => Circle(x, y, cx, cy, r); }
+                else lens = (x, y) => Box(x, y, cx, cy, 0.056, 0.037, 0.014);
+                let ln = lens;
+                cv.Add(ln, new C(1, 1, 1, 0.12), cx - 0.07, cy - 0.06, cx + 0.07, cy + 0.06);
+                cv.Add((x, y) => Math.abs(ln(x, y)) - 0.0045, frame, cx - 0.07, cy - 0.06, cx + 0.07, cy + 0.06);
+                let ex = cx + s * (kind == 1 ? 0.05 : 0.056);
+                cv.Add((x, y) => Seg(x, y, ex, cy - 0.006, 0.5 + s * 0.162, cy - 0.012) - 0.004, frame, Math.min(ex, 0.5 + s * 0.17) - 0.01, cy - 0.03, Math.max(ex, 0.5 + s * 0.17) + 0.01, cy + 0.01);
+            }
+            let bridge = Bez(0.5 - 0.02, 0.40, 0.5, 0.392, 0.5 + 0.02, 0.40, 6);
+            cv.Add((x, y) => Stroke(x, y, bridge, 0.008, false), frame, 0.47, 0.38, 0.53, 0.42);
+        }
+
+        function Beard(cv, kind, face, hair, hairDark)
+        {
+            // Ağız çevresi hariç alt yüz
+            let lower = (x, y) => Inter(face(x, y), -(y - (0.455 + Math.abs(x - 0.5) * 0.25)));
+            let mouthHole = (x, y) => Ellipse(x, y, 0.5, 0.518, 0.042, 0.013);
+            if (kind == 1)
+            {
+                cv.Add((x, y) => Sub(lower(x, y), mouthHole(x, y)), hairDark.A(0.28), 0.32, 0.4, 0.68, 0.62);
+                return;
+            }
+            if (kind == 2)
+            {
+                let full = (x, y) => SmoothUnion(Inter(face(x, y) - 0.008, -(y - (0.45 + Math.abs(x - 0.5) * 0.35))), Ellipse(x, y, 0.5, 0.575, 0.07, 0.04), 0.04);
+                cv.Add((x, y) => Sub(full(x, y), mouthHole(x, y)), hair.A(0.92), 0.3, 0.4, 0.7, 0.65);
+                cv.Add((x, y) => Sub(Inter(full(x, y), Ellipse(x, y, 0.53, 0.55, 0.12, 0.07)), mouthHole(x, y)), hairDark.A(0.5), 0.4, 0.47, 0.66, 0.65);
+            }
+            // Bıyık (2 ve 3)
+            let mL = [ 0.5, 0.49, 0.455, 0.493, 0.438, 0.51, 0.452, 0.507, 0.5, 0.5 ];
+            let mR = [ 0.5, 0.49, 0.545, 0.493, 0.562, 0.51, 0.548, 0.507, 0.5, 0.5 ];
+            cv.Add((x, y) => Poly(x, y, mL) - 0.004, hair, 0.42, 0.48, 0.51, 0.52);
+            cv.Add((x, y) => Poly(x, y, mR) - 0.004, hair, 0.49, 0.48, 0.58, 0.52);
+        }
+
+        // ------------------------------------------------------------------ saç
+
+        function BackHair(cv, lk, hair, dark)
+        {
+            let male = lk.Gender == "m";
+            let s = ((lk.Hair % HAIR_STYLES) + HAIR_STYLES) % HAIR_STYLES;
+            if (!male)
+            {
+                switch (s)
+                {
+                    case 0: // Uzun düz
+                        cv.Add((x, y) => SmoothUnion(Ellipse(x, y, 0.5, 0.38, 0.205, 0.23), Box(x, y, 0.5, 0.6, 0.19, 0.2, 0.09), 0.05), dark, 0.28, 0.13, 0.72, 0.82);
+                        break;
+                    case 1: // Kısa küt
+                        cv.Add((x, y) => SmoothUnion(Ellipse(x, y, 0.5, 0.38, 0.205, 0.23), Box(x, y, 0.5, 0.5, 0.2, 0.08, 0.05), 0.05), dark, 0.28, 0.13, 0.72, 0.6);
+                        break;
+                    case 2: // Topuz
+                        cv.Add((x, y) => Circle(x, y, 0.5, 0.15, 0.075), hair, 0.41, 0.06, 0.59, 0.24);
+                        cv.Add((x, y) => Inter(Circle(x, y, 0.5, 0.15, 0.075), Circle(x, y, 0.53, 0.17, 0.07)), dark.A(0.6), 0.41, 0.06, 0.59, 0.24);
+                        break;
+                    case 3: // Kıvırcık
+                        cv.Add((x, y) => Ellipse(x, y, 0.5, 0.42, 0.2, 0.23), dark, 0.28, 0.17, 0.72, 0.67);
+                        for (let i = 0; i < 15; i++)
+                        {
+                            let an = Math.PI * (-0.18 + i / 14.0 * 1.36);
+                            let cx = 0.5 + Math.cos(an) * 0.2, cy = 0.42 - Math.sin(an) * 0.22;
+                            let r = 0.05 + (i % 3) * 0.008;
+                            cv.Add((x, y) => Circle(x, y, cx, cy, r), i % 2 == 0 ? dark : hair, cx - r, cy - r, cx + r, cy + r);
+                        }
+                        break;
+                    case 4: // At kuyruğu (yandan görünen)
+                        cv.Add((x, y) => Ellipse(x, y, 0.69, 0.47, 0.05, 0.15), dark, 0.63, 0.3, 0.75, 0.64);
+                        break;
+                }
+            }
+            else if (s == 4)
+            {
+                cv.Add((x, y) => Circle(x, y, 0.5, 0.165, 0.05), hair, 0.44, 0.11, 0.56, 0.22);
+            }
+            else if (s == 3)
+            {
+                for (let i = 0; i < 7; i++)
+                {
+                    let an = Math.PI * (0.12 + i / 6.0 * 0.76);
+                    let cx = 0.5 + Math.cos(an) * 0.17, cy = 0.37 - Math.sin(an) * 0.17;
+                    let r = 0.06;
+                    cv.Add((x, y) => Circle(x, y, cx, cy, r), dark, cx - r, cy - r, cx + r, cy + r);
+                }
+            }
+        }
+
+        function FrontHair(cv, lk, hair, dark, light, face)
+        {
+            let male = lk.Gender == "m";
+            let s = ((lk.Hair % HAIR_STYLES) + HAIR_STYLES) % HAIR_STYLES;
+            // Başın üstünü örten "kep": baş elipsi ile saç çizgisinin üstü
+            let cap = (hairline) => (x, y) => Inter(Ellipse(x, y, 0.5, 0.375, 0.178, 0.205), (y - (hairline + (x - 0.5) * (x - 0.5) * 3.2)));
+            if (!male)
+            {
+                switch (s)
+                {
+                    case 0:
+                        {
+                            // Yandan ayrılmış perçem
+                            let c = cap(0.27);
+                            let bang = [ 0.33, 0.31, 0.36, 0.22, 0.5, 0.17, 0.64, 0.2, 0.68, 0.3, 0.67, 0.42, 0.62, 0.31, 0.52, 0.27, 0.42, 0.3, 0.36, 0.4 ];
+                            cv.Add((x, y) => Union(c(x, y), Poly(x, y, bang)), hair, 0.3, 0.15, 0.7, 0.45);
+                            SideLocks(cv, hair, 0.5);
+                            Shine(cv, light, 0.43, 0.22);
+                            break;
+                        }
+                    case 1:
+                        {
+                            let c = cap(0.25);
+                            let fringe = (x, y) => Inter(Ellipse(x, y, 0.5, 0.33, 0.18, 0.18), y - 0.315 + Math.sin(x * 80) * 0.004);
+                            cv.Add((x, y) => Union(c(x, y), fringe(x, y)), hair, 0.3, 0.15, 0.7, 0.35);
+                            SideLocks(cv, hair, 0.48);
+                            Shine(cv, light, 0.44, 0.22);
+                            break;
+                        }
+                    case 2:
+                    case 4:
+                        {
+                            let c = cap(0.265);
+                            let part = [ 0.5, 0.2, 0.66, 0.27, 0.67, 0.36, 0.6, 0.28 ];
+                            cv.Add((x, y) => Union(c(x, y), Poly(x, y, part)), hair, 0.3, 0.15, 0.7, 0.4);
+                            Shine(cv, light, 0.44, 0.215);
+                            break;
+                        }
+                    case 3:
+                        {
+                            let c = cap(0.28);
+                            cv.Add(c, hair, 0.3, 0.15, 0.7, 0.35);
+                            for (let i = 0; i < 7; i++)
+                            {
+                                let cx = 0.37 + i * 0.044, cy = 0.255 + Math.abs(i - 3) * 0.012;
+                                let r = 0.034;
+                                cv.Add((x, y) => Circle(x, y, cx, cy, r), hair, cx - r, cy - r, cx + r, cy + r);
+                            }
+                            cv.Add((x, y) => Circle(x, y, 0.335, 0.37, 0.035), hair, 0.29, 0.32, 0.38, 0.41);
+                            cv.Add((x, y) => Circle(x, y, 0.665, 0.37, 0.035), hair, 0.62, 0.32, 0.71, 0.41);
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                switch (s)
+                {
+                    case 0:
+                    case 4:
+                        {
+                            let c = cap(0.255);
+                            let part = [ 0.35, 0.29, 0.42, 0.235, 0.6, 0.225, 0.67, 0.31, 0.66, 0.25, 0.52, 0.2 ];
+                            cv.Add((x, y) => Union(c(x, y), Poly(x, y, part)), hair, 0.3, 0.15, 0.7, 0.37);
+                            Sideburns(cv, hair);
+                            Shine(cv, light, 0.45, 0.21);
+                            break;
+                        }
+                    case 1:
+                        {
+                            let c = cap(0.26);
+                            let quiff = [ 0.36, 0.27, 0.38, 0.17, 0.5, 0.12, 0.62, 0.14, 0.66, 0.22, 0.6, 0.25, 0.48, 0.235 ];
+                            cv.Add((x, y) => SmoothUnion(c(x, y), Poly(x, y, quiff), 0.03), hair, 0.3, 0.1, 0.7, 0.37);
+                            Sideburns(cv, hair);
+                            Shine(cv, light, 0.48, 0.155);
+                            break;
+                        }
+                    case 2:
+                        {
+                            let c = cap(0.268);
+                            cv.Add(c, hair.A(0.82), 0.3, 0.15, 0.7, 0.35);
+                            Sideburns(cv, hair.A(0.82));
+                            break;
+                        }
+                    case 3:
+                        {
+                            let c = cap(0.265);
+                            cv.Add(c, hair, 0.3, 0.15, 0.7, 0.35);
+                            for (let i = 0; i < 6; i++)
+                            {
+                                let cx = 0.38 + i * 0.048, cy = 0.245 + Math.abs(i - 2.5) * 0.01;
+                                let r = 0.032;
+                                cv.Add((x, y) => Circle(x, y, cx, cy, r), hair, cx - r, cy - r, cx + r, cy + r);
+                            }
+                            Sideburns(cv, hair);
+                            break;
+                        }
+                }
+            }
+        }
+
+        function SideLocks(cv, hair, bottom)
+        {
+            let l = [ 0.325, 0.3, 0.36, 0.33, 0.355, bottom, 0.33, bottom + 0.04, 0.315, 0.42 ];
+            let r = [ 0.675, 0.3, 0.64, 0.33, 0.645, bottom, 0.67, bottom + 0.04, 0.685, 0.42 ];
+            cv.Add((x, y) => Poly(x, y, l), hair, 0.3, 0.28, 0.38, bottom + 0.06);
+            cv.Add((x, y) => Poly(x, y, r), hair, 0.62, 0.28, 0.7, bottom + 0.06);
+        }
+
+        function Sideburns(cv, hair)
+        {
+            cv.Add((x, y) => Box(x, y, 0.338, 0.35, 0.012, 0.055, 0.01), hair, 0.31, 0.28, 0.36, 0.42);
+            cv.Add((x, y) => Box(x, y, 0.662, 0.35, 0.012, 0.055, 0.01), hair, 0.64, 0.28, 0.69, 0.42);
+        }
+
+        function Shine(cv, light, cx, cy)
+        {
+            let p = Bez(cx - 0.05, cy + 0.02, cx, cy - 0.012, cx + 0.06, cy + 0.006, 10);
+            cv.Add((x, y) => Stroke(x, y, p, 0.012, true), light.A(0.55), cx - 0.07, cy - 0.03, cx + 0.08, cy + 0.04);
+        }
+    
+
+// Can Dostum — prototip verileri ve eşleşme mantığı (arayüzden bağımsız)
+
+// Altı eksen: -1 … +1
+//  energy   içe dönük (-) ↔ dışa dönük (+)
+//  support  çözümcü (-)   ↔ dinleyici (+)
+//  plan     spontane (-)  ↔ plancı (+)
+//  rhythm   gece kuşu (-) ↔ sabahçı (+)
+//  open     alışkanlık (-) ↔ yenilik (+)
+//  direct   diplomatik (-) ↔ dobra (+)
+const AXES = [
+  { id: "energy", lo: "İçe dönük", hi: "Dışa dönük" },
+  { id: "support", lo: "Çözüm odaklı", hi: "Dinleyici" },
+  { id: "plan", lo: "Spontane", hi: "Plancı" },
+  { id: "rhythm", lo: "Gece kuşu", hi: "Sabahçı" },
+  { id: "open", lo: "Alışkanlıklarına bağlı", hi: "Yeniliğe açık" },
+  { id: "direct", lo: "Diplomatik", hi: "Dobra" },
+];
+
+const QUIZ = [
+  { q: "Cuma akşamı, plansız bir boşluğun var.", o: [
+    ["Kalabalık bir konsere ya da partiye giderim", { energy: 2, plan: -1, open: 1 }],
+    ["Bir arkadaşla sakin bir yemek yerim", { energy: -1, support: 1 }],
+    ["Evde kendime vakit ayırırım: kitap, dizi, battaniye", { energy: -2 }],
+    ["Son dakika bir kaçamak planlarım", { plan: -2, open: 2 }]] },
+  { q: "Bir arkadaşın derdini anlatıyor.", o: [
+    ["Sessizce dinler, “Bu çok zor olmalı” derim", { support: 2 }],
+    ["Hemen çözüm yollarını sıralarım", { support: -2, direct: 1 }],
+    ["Önce dinler, sonra “Fikir ister misin?” diye sorarım", { support: 1 }],
+    ["Onu dışarı çıkarıp kafasını dağıtırım", { energy: 1, support: -1 }]] },
+  { q: "Hafta sonu, sabah saat 7.", o: [
+    ["Çoktan koşuya ya da yürüyüşe çıkmışım", { rhythm: 2 }],
+    ["Kahvemle güne yavaş yavaş başlıyorum", { rhythm: 1 }],
+    ["Uyuyorum; dün gece geç yattım", { rhythm: -2 }],
+    ["Gün doğumunu izler, sonra yine yatarım", { open: 1 }]] },
+  { q: "Bir tatil planlıyorsun.", o: [
+    ["Tablo hazır, rezervasyonlar yapılmış", { plan: 2 }],
+    ["Ana hatlar belli, gerisi akışına", { plan: 0.5, open: 0.5 }],
+    ["Bileti alırım, gerisini orada düşünürüz", { plan: -2, open: 1 }],
+    ["Hep gittiğim yere giderim, sürpriz sevmem", { open: -2, plan: 1 }]] },
+  { q: "Arkadaşın yeni saç kesimini soruyor; pek yakışmamış.", o: [
+    ["Açıkça söylerim; nazik ama net", { direct: 2 }],
+    ["Beğendiğim bir yanını bulur, onu söylerim", { direct: -1, support: 1 }],
+    ["“Eskisini daha çok sevmiştim ama sana nasıl hissettirdiği önemli”", { direct: 1, support: 1 }],
+    ["“Harika olmuş!” derim", { direct: -2 }]] },
+  { q: "Yeni bir gruba katıldın.", o: [
+    ["İlk ben konuşur, herkesle tanışırım", { energy: 2 }],
+    ["Önce izler, bir iki kişiyle bağ kurarım", { energy: -1 }],
+    ["Grupta sessiz kalanı bulup onunla konuşurum", { support: 1, energy: -0.5 }],
+    ["Ortamı ısıtacak bir espri ya da oyun bulurum", { energy: 1, open: 1 }]] },
+  { q: "Arkadaşın planı son dakikada iptal etti.", o: [
+    ["Sorun değil, başka zaman", { plan: -1, direct: -1 }],
+    ["Biraz bozulurum ve bunu söylerim", { direct: 2 }],
+    ["Hemen B planına geçerim", { plan: 1, open: 1 }],
+    ["İçten içe rahatlarım; evde kalmak istiyordum", { energy: -2 }]] },
+  { q: "Senin için ideal buluşma hangisi?", o: [
+    ["Kahve ve uzun bir sohbet", { energy: -1, support: 1 }],
+    ["Doğa yürüyüşü ya da kamp", { open: 1, rhythm: 1 }],
+    ["Konser, festival, kalabalık", { energy: 2 }],
+    ["Masa oyunu ya da birlikte yemek yapma gecesi", { plan: 1 }]] },
+  { q: "Bir arkadaşınla tartıştınız.", o: [
+    ["Hemen konuşup çözmek isterim", { direct: 2, support: -1 }],
+    ["Biraz zaman tanır, sonra konuşurum", { plan: 1 }],
+    ["Konuyu kapatırım, büyütmem", { direct: -2 }],
+    ["Önce onun ne hissettiğini anlamaya çalışırım", { support: 2 }]] },
+  { q: "Yeni bir şey öğrenmek söz konusu olunca…", o: [
+    ["Her ay yeni bir hobi denerim", { open: 2, plan: -1 }],
+    ["Bir işte ustalaşana kadar devam ederim", { open: -1, plan: 1 }],
+    ["Arkadaşım neyle ilgileniyorsa ona katılırım", { support: 1, open: 1 }],
+    ["Tanıdık şeyler bana iyi gelir", { open: -2 }]] },
+  { q: "Gece 23.30. Arkadaşın arıyor: “Çık gel!”", o: [
+    ["Geliyorum!", { rhythm: -2, energy: 1, plan: -1 }],
+    ["Yarın erken kalkacağım, olmaz", { rhythm: 2, plan: 1 }],
+    ["Yarım saatliğine uğrarım", { rhythm: -1, energy: 0.5 }],
+    ["Evdeyim ama mesajla sohbet ederiz", { energy: -1 }]] },
+  { q: "Arkadaşlıkta senin için en önemlisi ne?", value: true, o: [
+    ["Sadakat", "sadakat"], ["Mizah", "mizah"], ["Dürüstlük", "dürüstlük"], ["Macera", "macera"], ["Huzur", "huzur"]] },
+];
+
+const ARCHETYPES = {
+  // anahtar: enerji (i/d) + destek (l/s) + plan (p/s)
+  ilp: { name: "Sakin Liman", icon: "⚓", tag: "Güvenilir, dinleyen, düzenli", text: "Yanında olmak insanlara iyi gelir. Küçük ve derin arkadaşlıkları seversin; sözünü tutar, sırrı saklarsın.", plus: ["Güvenilirsin", "İyi bir dinleyicisin", "Sözünü tutarsın"], grow: "Bazen ilk adımı atmak için başkasını beklersin.", best: ["Deniz Feneri", "Pusula", "Gün Işığı"] },
+  ils: { name: "Ay Işığı", icon: "🌙", tag: "Sakin, sezgisel, anı yaşayan", text: "Sezgilerin güçlü. Plansız ama derin sohbetleri, gece yürüyüşlerini, küçük sürprizleri seversin.", plus: ["Empati kurarsın", "Yargılamazsın", "Anı yaşarsın"], grow: "Planlar sende bazen havada kalabilir.", best: ["Gün Işığı", "Sakin Liman", "Kâşif"] },
+  isp: { name: "Pusula", icon: "🧭", tag: "Akıl hocası, sorun çözen, plancı", text: "Arkadaşların zor anda seni arar; çünkü sakin kalır ve yol gösterirsin. Az ama sağlam arkadaşlık seversin.", plus: ["Pratik çözümler bulursun", "Sakin kalırsın", "Plan yaparsın"], grow: "Bazen dinlemek yerine hemen çözüm sunarsın.", best: ["Sakin Liman", "Kaptan", "Ay Işığı"] },
+  iss: { name: "Kâşif", icon: "🔭", tag: "Meraklı, bağımsız, pratik", text: "Kendi yolunu çizersin. Yeni şeyler keşfetmeyi, ilginç konuları konuşmayı ve özgür arkadaşlıkları seversin.", plus: ["Meraklısın", "Bağımsızsın", "İlginç fikirlerin var"], grow: "Arkadaşların bazen senden haber alamayabilir.", best: ["Kıvılcım", "Ay Işığı", "Pusula"] },
+  dlp: { name: "Deniz Feneri", icon: "💡", tag: "İnsanları bir araya getiren", text: "Grubun gizli organizatörüsün. Kimseyi dışarıda bırakmaz, herkesin iyi vakit geçirmesini önemsersin.", plus: ["İnsanları birleştirirsin", "İlgilisin", "Organize edersin"], grow: "Kendi ihtiyaçlarını bazen unutursun.", best: ["Sakin Liman", "Gün Işığı", "Kaptan"] },
+  dls: { name: "Gün Işığı", icon: "☀️", tag: "Sıcak, enerjik, herkesle bağ kuran", text: "Girdiğin ortamı ısıtırsın. Yeni insanlarla kolayca tanışır, onları gerçekten dinlersin.", plus: ["Sıcakkanlısın", "Enerjiksin", "Kolay bağ kurarsın"], grow: "Çok kişiye yetişmeye çalışırken yorulabilirsin.", best: ["Ay Işığı", "Deniz Feneri", "Kıvılcım"] },
+  dsp: { name: "Kaptan", icon: "⛵", tag: "Lider, plan yapan, harekete geçiren", text: "Fikirleri plana, planları gerçeğe dönüştürürsün. Seninle hafta sonu boş geçmez.", plus: ["Harekete geçirirsin", "Kararlısın", "Plan yaparsın"], grow: "Herkes senin temponda olmayabilir.", best: ["Pusula", "Deniz Feneri", "Kıvılcım"] },
+  dss: { name: "Kıvılcım", icon: "✨", tag: "Maceracı, eğlenceli, anlık", text: "Hayat seninle bir maceraya dönüşür. Son dakika planları, yeni yerler, kahkahalar…", plus: ["Eğlencelisin", "Cesursun", "Yeniliğe açıksın"], grow: "Sakin arkadaşlarına bazen fazla gelebilirsin.", best: ["Kâşif", "Gün Işığı", "Kaptan"] },
+};
+
+const INTERESTS = ["Koşu", "Yürüyüş", "Kamp", "Kahve", "Kitap", "Sinema", "Müzik", "Konser", "Masa oyunları", "Yemek", "Fotoğraf", "Yoga", "Bisiklet", "Dalış", "Sanat", "Dil öğrenme", "Teknoloji", "Seyahat", "Gönüllülük", "Hayvanlar", "Deniz", "Tiyatro"];
+
+const DISTRICTS = {
+  "Kemer": [36.60, 30.56], "Göynük": [36.66, 30.55], "Beldibi": [36.71, 30.56], "Çamyuva": [36.56, 30.56], "Tekirova": [36.50, 30.53],
+  "Konyaaltı": [36.87, 30.64], "Muratpaşa": [36.89, 30.71], "Lara": [36.86, 30.80], "Kepez": [36.93, 30.70], "Kundu": [36.85, 30.86],
+};
+
+const VALUES = { sadakat: "sadakat", mizah: "mizah", dürüstlük: "dürüstlük", macera: "macera", huzur: "huzur" };
+
+function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+
+function scoreQuiz(answers) {
+  const sum = { energy: 0, support: 0, plan: 0, rhythm: 0, open: 0, direct: 0 };
+  let value = "dürüstlük";
+  answers.forEach((ai, qi) => {
+    const q = QUIZ[qi];
+    if (ai == null || !q) return;
+    if (q.value) { value = q.o[ai][1]; return; }
+    const d = q.o[ai][1];
+    for (const k in d) sum[k] += d[k];
+  });
+  const axes = {};
+  for (const k in sum) axes[k] = clamp(sum[k] / 5, -1, 1);
+  return { axes, value, archetype: archetypeOf(axes) };
+}
+
+function archetypeOf(ax) {
+  return (ax.energy >= 0 ? "d" : "i") + (ax.support >= 0 ? "l" : "s") + (ax.plan >= 0 ? "p" : "s");
+}
+
+function distanceKm(a, b) {
+  const A = DISTRICTS[a] || DISTRICTS.Kemer, B = DISTRICTS[b] || DISTRICTS.Kemer;
+  const dy = (A[0] - B[0]) * 111, dx = (A[1] - B[1]) * 111 * Math.cos(A[0] * Math.PI / 180);
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+// Tohumlu rastgele (sahte kullanıcılar her açılışta aynı olsun)
+function rng(seed) {
+  let s = seed >>> 0;
+  return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+
+const F_NAMES = ["Elif", "Zeynep", "Ayşe", "Defne", "Ece", "Selin", "Melis", "İpek", "Nazlı", "Cansu", "Derya", "Buse", "Gizem", "Seda", "Pınar", "Ebru"];
+const M_NAMES = ["Emre", "Deniz", "Kerem", "Mert", "Can", "Burak", "Onur", "Kaan", "Barış", "Efe", "Tolga", "Serkan", "Umut", "Cem", "Arda", "Ozan"];
+const BIO_BITS = {
+  "Koşu": "Sabah koşularına eşlik edecek birini arıyorum", "Yürüyüş": "Likya Yolu'nda her hafta bir etap", "Kamp": "Çadır, kahve, yıldızlar", "Kahve": "İyi bir kahve ve uzun sohbet",
+  "Kitap": "Okuduğum kitabı konuşacak biri lazım", "Sinema": "Haftada bir film, sonra uzun yorumlar", "Müzik": "Gitar çalıyorum, birlikte çalacak biri?", "Konser": "Konser arkadaşı aranıyor",
+  "Masa oyunları": "Kutu oyunları koleksiyonum var, rakip arıyorum", "Yemek": "Yeni tarifler denemeyi seviyorum", "Fotoğraf": "Gün batımı fotoğrafçısı", "Yoga": "Sahilde sabah yogası",
+  "Bisiklet": "Hafta sonu bisiklet turları", "Dalış": "Kemer koylarında dalış", "Sanat": "Atölye ve sergi gezmeyi severim", "Dil öğrenme": "İspanyolca öğreniyorum, pratik arkadaşı?",
+  "Teknoloji": "Kodlama ve yeni cihazlar", "Seyahat": "Bir sonraki rotayı birlikte planlayalım", "Gönüllülük": "Sokak hayvanları için gönüllüyüm", "Hayvanlar": "Köpeğimle uzun yürüyüşler",
+  "Deniz": "Denize girmek için mevsim beklemem", "Tiyatro": "Tiyatro ve doğaçlama severim",
+};
+
+function makeUsers() {
+  const r = rng(20261118);
+  const pick = a => a[Math.floor(r() * a.length)];
+  const users = [];
+  const dnames = Object.keys(DISTRICTS);
+  for (let i = 0; i < 36; i++) {
+    const g = i % 2 === 0 ? "f" : "m";
+    const name = (g === "f" ? F_NAMES : M_NAMES)[Math.floor(i / 2) % 16];
+    const ax = {};
+    for (const a of AXES) ax[a.id] = Math.round((r() * 2 - 1) * 100) / 100;
+    const ints = [];
+    while (ints.length < 4) { const x = pick(INTERESTS); if (!ints.includes(x)) ints.push(x); }
+    const look = { Gender: g, Skin: Math.floor(r() * 6), Hair: Math.floor(r() * 5), HairColor: Math.floor(r() * 7), Eyes: Math.floor(r() * 5), Outfit: Math.floor(r() * 8), Glasses: r() < 0.25 ? 1 + Math.floor(r() * 2) : 0, Beard: g === "m" && r() < 0.45 ? 1 + Math.floor(r() * 3) : 0, Age: 25 };
+    const age = 20 + Math.floor(r() * 26);
+    users.push({
+      id: "u" + i, name, gender: g, age, district: pick(dnames), jitter: r() * 1.5,
+      axes: ax, archetype: archetypeOf(ax), value: pick(Object.keys(VALUES)), interests: ints, look,
+      bio: BIO_BITS[ints[0]] + ".",
+      onlySame: g === "f" && r() < 0.3, // bazı kadınlar yalnızca kadınlarla tanışmak istiyor
+      verified: r() < 0.7,
+    });
+  }
+  return users;
+}
+
+/** Arkadaşlık uyumu (0..100) ve gerekçeler. */
+function compat(me, u) {
+  const sim = k => 1 - Math.abs(me.axes[k] - u.axes[k]) / 2;
+  const shared = u.interests.filter(x => me.interests.includes(x));
+  const parts = [
+    { w: 0.2, v: sim("energy"), k: "energy" },
+    { w: 0.15, v: sim("rhythm"), k: "rhythm" },
+    { w: 0.1, v: sim("plan"), k: "plan" },
+    { w: 0.1, v: sim("open"), k: "open" },
+    { w: 0.1, v: 1 - Math.abs(me.axes.support - u.axes.support) / 4, k: "support" },
+    { w: 0.05, v: sim("direct"), k: "direct" },
+    { w: 0.22, v: Math.min(1, shared.length / 3), k: "shared" },
+    { w: 0.08, v: me.value === u.value ? 1 : 0.3, k: "value" },
+  ];
+  let s = 0;
+  for (const p of parts) s += p.w * p.v;
+  const score = Math.round(clamp(50 + (s - 0.45) * 120, 45, 98));
+  // Gerekçeler
+  const reasons = [];
+  const A = me.axes, B = u.axes;
+  if (shared.length) reasons.push({ w: 3 + shared.length, k: "shared", p: shared.slice(0, 3) });
+  if (A.rhythm > 0.25 && B.rhythm > 0.25) reasons.push({ w: 3, k: "morning" });
+  if (A.rhythm < -0.25 && B.rhythm < -0.25) reasons.push({ w: 3, k: "night" });
+  if (A.energy < -0.2 && B.energy < -0.2) reasons.push({ w: 3, k: "calm" });
+  if (A.energy > 0.2 && B.energy > 0.2) reasons.push({ w: 3, k: "crowd" });
+  if (A.support > 0.2 && B.support > 0.2) reasons.push({ w: 2, k: "listen" });
+  if (A.support > 0.2 && B.support < -0.2) reasons.push({ w: 2, k: "ls" });
+  if (A.support < -0.2 && B.support > 0.2) reasons.push({ w: 2, k: "sl" });
+  if (A.plan > 0.3 && B.plan > 0.3) reasons.push({ w: 2, k: "plan" });
+  if (A.plan < -0.3 && B.plan < -0.3) reasons.push({ w: 2, k: "spont" });
+  if (A.open > 0.3 && B.open > 0.3) reasons.push({ w: 2, k: "open" });
+  if (me.value === u.value) reasons.push({ w: 2.5, k: "value", p: me.value });
+  reasons.sort((a, b) => b.w - a.w);
+  return { score, reasons: reasons.slice(0, 3), shared };
+}
+
+/** Telefon konumundan en yakın semt */
+function nearestDistrict(lat, lon) {
+  let best = "Kemer", bd = 1e9;
+  for (const k in DISTRICTS) {
+    const [a, b] = DISTRICTS[k];
+    const dy = (a - lat) * 111, dx = (b - lon) * 111 * Math.cos(lat * Math.PI / 180), dd = dx * dx + dy * dy;
+    if (dd < bd) { bd = dd; best = k; }
+  }
+  return best;
+}
+
+/** Mesafe (km). Konum kapalıysa null. */
+function userDistance(me, u) {
+  if (!me.loc) return null;
+  const B = DISTRICTS[u.district];
+  const dy = (me.loc.lat - B[0]) * 111, dx = (me.loc.lon - B[1]) * 111 * Math.cos(me.loc.lat * Math.PI / 180);
+  return Math.max(0.5, Math.round((Math.sqrt(dx * dx + dy * dy) + u.jitter) * 2) / 2);
+}
+
+/** Bugünün önerileri: filtrelere uyan, daha önce görülmemiş, en uyumlu 3 kişi (biraz rastgelelikle). */
+function pickDaily(me, users, seen, day) {
+  const r = rng(1000 + day * 7919);
+  const pool = users.filter(u => {
+    if (seen[u.id]) return false;
+    if (me.prefs.gender !== "all" && u.gender !== me.prefs.gender) return false;
+    if (u.onlySame && me.gender !== u.gender) return false;
+    if (u.age < me.prefs.ageMin || u.age > me.prefs.ageMax) return false;
+    const dist = userDistance(me, u);
+    if (dist != null && dist > me.prefs.maxKm) return false;
+    return true;
+  }).map(u => ({ u, s: compat(me, u).score + r() * 12 }));
+  pool.sort((a, b) => b.s - a.s);
+  return pool.slice(0, 3).map(x => x.u.id);
+}
+
+// Buz kırıcı ortak senaryolar: iki kişi aynı soruyu cevaplar, sonra karşılaştırılır
+const ICEBREAKERS = [
+  { q: "Bir pazar günü birlikte ne yaparız?", o: [["Sabah erkenden Likya Yolu'nda yürüyüş", { rhythm: 1, open: 0.5 }], ["Sahilde kahve ve uzun sohbet", { energy: -1 }], ["Plansız takılırız, ne çıkarsa", { plan: -1 }], ["Akşam bir konser ya da etkinlik", { energy: 1, rhythm: -1 }]] },
+  { q: "Issız bir adaya düştük. İlk iş?", o: [["Barınak planı yaparım", { plan: 1 }], ["Adayı keşfe çıkarım", { open: 1 }], ["Seni sakinleştiririm", { support: 1 }], ["Kumdan SOS yazarım, sonra yüzmeye giderim", { direct: 1, plan: -1 }]] },
+  { q: "Birlikte yemek yapıyoruz. Senin görevin?", o: [["Tarifi bulur, malzemeleri hazırlarım", { plan: 1 }], ["Doğaçlama yaparım, tarif kimin umrunda", { plan: -1, open: 1 }], ["Müziği ve masayı ayarlarım", { energy: 1 }], ["Bulaşıkları yıkar, sohbet ederim", { support: 1 }]] },
+  { q: "Bir film seçeceğiz.", o: [["Herkesin sevdiği bir klasik", { open: -1 }], ["Kimsenin bilmediği bağımsız bir film", { open: 1 }], ["Komedi, gülmek istiyorum", { energy: 1 }], ["Sen seç, ben uyarım", { support: 1 }]] },
+];
+
+function theirIcebreakerAnswer(u, ib) {
+  let best = 0, bv = -1e9;
+  ib.o.forEach((opt, i) => {
+    let v = 0;
+    for (const k in opt[1]) v += opt[1][k] * u.axes[k];
+    if (v > bv) { bv = v; best = i; }
+  });
+  return best;
+}
+
+// Sahte sohbet cevapları
+function fakeReply(u, text, n) {
+  const t = text.toLocaleLowerCase("tr");
+  const i0 = u.interests[0].toLocaleLowerCase("tr"), i1 = u.interests[1].toLocaleLowerCase("tr");
+  if (n === 0 || /merhaba|selam|hey|slm/.test(t)) return pickFrom([`Selam! 😊 Önerilerde seni görünce sevindim. ${u.interests[0]} sever misin?`, `Merhaba! Ben en çok ${i0} ve ${i1} ile vakit geçiriyorum. Sen neler yaparsın genelde?`], n);
+  if (/neden|niye/.test(t)) return "Bilmem, içimden geldi 😄 Galiba ben biraz " + (u.axes.plan > 0 ? "plancıyım, sürprizlere pek gelemem." : "anı yaşayan biriyim, fazla düşünmem.");
+  if (/buluş|kahve|görüş|hafta sonu|haftasonu/.test(t)) return u.axes.energy < 0 ? "Olur, ama ilk seferde kısa bir kahve iyi olur, kalabalık olmayan bir yer?" : "Kesinlikle! Hafta sonu sahil tarafı nasıl?";
+  if (/\?/.test(t)) return pickFrom([`Güzel soru! Ben genelde ${i0} ve ${i1} ile vakit geçiriyorum. Sen?`, `Hmm, ${u.axes.rhythm > 0 ? "sabahları daha enerjik oluyorum" : "akşamları daha canlı oluyorum"}. Sen hangisisin?`], n);
+  return pickFrom(["Haha, aynen öyle 😄", `Çok iyi! Ben de geçen hafta ${i1} ile ilgili bir şey denedim, anlatayım mı?`, "Bunu duymak güzel. Peki seni en çok ne mutlu ediyor bu aralar?", "Sana katılıyorum. Bir gün birlikte deneyelim mi?"], n);
+}
+
+function pickFrom(a, n) { return a[n % a.length]; }
+
+
+// Can Dostum — dil desteği (Türkçe, Rusça)
+// Yeni dil: STR'ye, QUIZ_TX'e, ARCH_TX'e, ICE_TX'e ve diğer tablolara aynı anahtarlarla ekleyin.
+let LANG = "tr";
+const LANGS = [["tr", "Türkçe"], ["ru", "Русский"]];
+
+const STR = {
+  tr: {
+    photos: "Fotoğrafların", photos_note: "İsteğe bağlı. Fotoğrafların kimseye gösterilmez; yalnızca bir sohbette ikiniz de açarsanız görünür.", add_photo: "＋ Fotoğraf ekle", remove: "Kaldır",
+    photo_none: "Önce Profil sekmesinden bir fotoğraf yükle.", photo_shared: "Fotoğrafın bu sohbette açıldı:", photo_max: "En fazla 3 fotoğraf yükleyebilirsin.", photo_err: "Fotoğraf okunamadı, başka bir tane dene.",
+    tagline: "Önce karakterin, sonra yüzün.",
+    w_intro: "Yakınındaki insanlarla <b>arkadaşlık</b> için tanış. Kaydırma yok, sonsuz liste yok:",
+    w_1: "Kısa, oyun gibi bir <b>karakter analizi</b>", w_2: "Önce <b>avatar</b>; fotoğraf ancak ikiniz de isterseniz",
+    w_3: "Her gün <b>3 öneri</b>, neden önerildiğiyle birlikte", w_4: "Sohbetten önce kısa bir <b>buz kırıcı oyun</b>", w_5: "Konumun hiçbir zaman tam gösterilmez",
+    adult: "18 yaşından büyüğüm", start: "Başla", proto_note: "Bu bir prototiptir: kişiler hayalidir, hiçbir veri sunucuya gönderilmez.",
+    need_adult: "Devam etmek için 18 yaşından büyük olduğunu onayla.",
+    know_you: "Seni tanıyalım", name: "Adın", age: "Yaşın", gender: "Cinsiyetin", woman: "Kadın", man: "Erkek",
+    location: "Konumun", locate: "📍 Telefonumun konumunu kullan", loc_on: "📍 Konum açık · {0}", loc_off: "Konum kapalı: mesafe gösterilmez.", loc_wait: "Konum alınıyor…",
+    loc_denied: "Konum alınamadı (izin verilmedi ya da kapalı). Konumsuz devam ediliyor.", loc_hidden: "konum kapalı", loc_retry: "Tekrar dene", loc_note: "Konumun yalnızca yaklaşık mesafe için kullanılır (“~3 km · Konyaaltı”). Tam yerin kimseye gösterilmez.",
+    interests: "İlgi alanların", min3: "(en az 3)", to_quiz: "Karakter analizine geç",
+    located: "Konumun yaklaşık olarak bulundu: {0}", need_name: "Adını yaz.", need_18: "Can Dostum 18 yaş ve üstü içindir.",
+    need_gender: "Cinsiyetini seç (güvenlik filtreleri için).", need_3: "En az 3 ilgi alanı seç.",
+    back: "← Geri", no_right: "Doğru ya da yanlış cevap yok. İlk aklına geleni seç.",
+    you_are: "Sen bir", strengths: "Güçlü yanların", careful: "Biraz dikkat", best_with: "En iyi anlaştıkların", most_important: "Arkadaşlıkta en önemlisi",
+    your_profile: "Profilin", make_avatar: "Avatarını oluştur", redo: "Analizi tekrarla",
+    your_avatar: "Avatarın", avatar_note: "İlk başta herkes seni bu avatarla görür. Fotoğrafını yalnızca istediğin kişiye açarsın.",
+    skin: "Ten rengi", hair: "Saç modeli", hairc: "Saç rengi", eyes: "Göz rengi", outfit: "Kıyafet", glasses: "Gözlük", beard: "Sakal",
+    gl0: "Yok", gl1: "Yuvarlak", gl2: "Köşeli", bd0: "Yok", bd1: "Kirli", bd2: "Sakal", bd3: "Bıyık", see_sugs: "Önerilerime bak",
+    tab_sug: "Öneriler", tab_chat: "Sohbetler", tab_prof: "Profil",
+    day: "Gün {0}", today_sugs: "Bugünün önerileri", left: "Bugün {0} öneri seni bekliyor. Acele etme, her birini oku.",
+    done_today: "Bugünlük bu kadar. Yeni öneriler {0} sonra.", hm: "{0} sa {1} dk",
+    none_left: "Filtrelerine uyan yeni kimse kalmadı. Profil sekmesinden mesafeyi ya da yaş aralığını genişletebilirsin.",
+    next_day: "⏩ Yarına geç (demo)", not_today: "Bugün değil", want_meet: "Tanışmak isterim", sent_wait: "İsteğin iletildi · yanıt bekleniyor",
+    go_chat: "Sohbete git", passed: "Geçtin", verified: "Doğrulanmış", match: "uyum", why: "Neden önerildi?", why_diff: "Farklı yanlarınız size yeni şeyler katabilir",
+    compare: "Karakterini karşılaştır", you: "sen", photo_locked: "📷 Fotoğraf kilitli · ikiniz de isterseniz açılır",
+    chats: "Sohbetler", no_matches: "Henüz bir eşleşmen yok. Öneriler sekmesinde “Tanışmak isterim” dediğin kişi de kabul ederse burada görünür.",
+    ice_waiting: "Buz kırıcı oyun seni bekliyor", start_chat: "Sohbete başla", waiting: "Yanıt bekleyenler", req_sent: "İsteğin iletildi",
+    profile: "Profilin", character: "Karakterin", your_interests: "İlgi alanların", who_meet: "Kimlerle tanışmak istiyorsun?",
+    all: "Herkes", only_f: "Kadınlar", only_m: "Erkekler", max_km: "En fazla uzaklık:", age_range: "Yaş aralığı:", pref_note: "Değişiklikler yarınki önerilerde geçerli olur.",
+    safety: "Güvenlik", s_photo: "📷 Fotoğraflar", s_photo2: "Yalnızca karşılıklı açılır", s_selfie: "✓ Selfie doğrulaması", soon: "yakında",
+    s_loc: "📍 Konum", s_loc2: "Yalnızca yaklaşık mesafe", s_block: "🚫 Engelle ve şikâyet et", s_block2: "Her sohbette",
+    edit_avatar: "Avatarını düzenle", redo_quiz: "Karakter analizini tekrarla", reset: "Prototipi sıfırla", footer: "Can Dostum · tıklanabilir prototip · kişiler hayalidir",
+    reset_sure: "Her şey silinecek. Emin isen tekrar dokun.", language: "Dil",
+    icebreaker: "Buz kırıcı", ice_note: "Sohbete geçmeden önce ikiniz de aynı soruyu cevaplıyorsunuz. Cevaplar birlikte açılacak.",
+    same: "Aynı şeyi seçtiniz!", diff: "Farklı seçtiniz", same2: "Daha ilk sorudan anlaştınız.", diff2: "Güzel: konuşacak bir konunuz çıktı.", you_c: "Sen",
+    safe_tip: "İlk buluşmanızı herkese açık bir yerde yapın ve konumunuzu bir yakınınızla paylaşın.",
+    photo_opened: "📷 {0} fotoğrafını açtı (prototipte avatar gösteriliyor)", photo_btn: "📷 Fotoğrafımı aç", photo_on: "📷 Fotoğrafın açık", meet_btn: "📍 Buluşma öner",
+    msg_ph: "Mesaj yaz…", send: "Gönder", where_meet: "Nerede buluşalım?", public_only: "Yalnızca herkese açık mekânlar önerilir.",
+    block: "Engelle", block2: "Bir daha karşına çıkmaz, sohbet silinir", report: "Şikâyet et ve engelle", report2: "Moderasyon ekibi inceler",
+    photo_already: "Fotoğrafın zaten açık.", photo_you: "Fotoğrafını açtın. Karşı taraf da açarsa birbirinizi göreceksiniz.", photo_them: "{0} de fotoğrafını açtı.",
+    meet_sys: "Buluşma önerin: {0}, cumartesi 11.00", meet_msg: "{0} nasıl? Cumartesi 11.00?",
+    reported: "{0} şikâyet edildi ve engellendi.", blocked: "{0} engellendi.",
+    mutual: "Karşılıklı! {0} de seninle tanışmak istiyor 🎉", req_toast: "İsteğin iletildi. Yanıt gelince haber vereceğiz.", accepted: "{0} isteğini kabul etti!",
+    st1: "{0} konusunda en sevdiğin şey ne?", st1b: "Bu aralar seni en çok ne mutlu ediyor?", st2: "Buz kırıcıda neden “{0}” dedin?", st3: "Hafta sonu kısa bir kahveye ne dersin?",
+    km: "~{0} km · {1}",
+    v1: "Liman kafeleri", v1d: "Kalabalık, herkese açık · ~1 km", v2: "Sahil Parkı", v2d: "Yürüyüş yolu, gündüz kalabalık · ~2 km",
+    v3: "Alışveriş merkezi", v3d: "Kalabalık, güvenlikli, kafeler var · ~4 km",
+    ph_ask: "{0} fotoğrafını açmak istiyor. Sen de açarsan birbirinizi göreceksiniz.", ph_yes: "Evet, aç", ph_no: "Şimdilik değil",
+    ph_no_done: "Şimdilik açmadın. İstediğin zaman “Fotoğrafımı aç” ile açabilirsin.", ph_waiting: "{0} senin kararını bekliyor.",
+    r_shared: "Ortak ilgi: {0}", r_morning: "İkiniz de sabahçısınız", r_night: "İkiniz de gece kuşusunuz", r_calm: "İkiniz de sakin, küçük buluşmaları seviyorsunuz",
+    r_crowd: "İkiniz de kalabalıktan enerji alıyorsunuz", r_listen: "İkiniz de iyi birer dinleyicisiniz", r_ls: "Sen dinlersin, o çözüm bulur: iyi bir ikili",
+    r_sl: "Sen çözüm bulursun, o dinler: iyi bir ikili", r_plan: "İkiniz de plan yapmayı seviyorsunuz", r_spont: "İkiniz de anı yaşıyorsunuz",
+    r_open: "İkiniz de yeni şeyler denemeye açıksınız", r_value: "İkiniz için de arkadaşlıkta en önemlisi: {0}",
+  },
+  ru: {
+    photos: "Твои фото", photos_note: "Необязательно. Фото никому не показываются — только в чате, если вы оба решите их открыть.", add_photo: "＋ Добавить фото", remove: "Убрать",
+    photo_none: "Сначала загрузи фото во вкладке «Профиль».", photo_shared: "Твоё фото открыто в этом чате:", photo_max: "Можно загрузить не больше 3 фото.", photo_err: "Не удалось прочитать фото, попробуй другое.",
+    tagline: "Сначала характер, потом лицо.",
+    w_intro: "Знакомься с людьми рядом для <b>дружбы</b>. Никаких свайпов и бесконечных лент:",
+    w_1: "Короткий <b>анализ характера</b> в форме игры", w_2: "Сначала <b>аватар</b>; фото — только если вы оба захотите",
+    w_3: "Каждый день <b>3 предложения</b> с объяснением, почему именно они", w_4: "Перед чатом — короткая <b>игра-ледокол</b>", w_5: "Твоё точное местоположение никогда не показывается",
+    adult: "Мне больше 18 лет", start: "Начать", proto_note: "Это прототип: люди вымышлены, никакие данные не отправляются на сервер.",
+    need_adult: "Чтобы продолжить, подтверди, что тебе больше 18 лет.",
+    know_you: "Давай познакомимся", name: "Имя", age: "Возраст", gender: "Пол", woman: "Женщина", man: "Мужчина",
+    location: "Где ты", locate: "📍 Использовать геолокацию телефона", loc_on: "📍 Геолокация включена · {0}", loc_off: "Геолокация выключена: расстояние не показывается.", loc_wait: "Определяем местоположение…",
+    loc_denied: "Не удалось получить местоположение (нет разрешения или геолокация выключена). Продолжаем без него.", loc_hidden: "геолокация выключена", loc_retry: "Ещё раз", loc_note: "Местоположение используется только для примерного расстояния («~3 км · Коньяалты»). Точный адрес никто не увидит.",
+    interests: "Интересы", min3: "(минимум 3)", to_quiz: "К анализу характера",
+    located: "Примерное местоположение: {0}", need_name: "Напиши своё имя.", need_18: "Can Dostum — только для тех, кому 18+.",
+    need_gender: "Выбери пол (нужно для фильтров безопасности).", need_3: "Выбери минимум 3 интереса.",
+    back: "← Назад", no_right: "Правильных и неправильных ответов нет. Выбирай первое, что приходит в голову.",
+    you_are: "Ты —", strengths: "Твои сильные стороны", careful: "Обрати внимание", best_with: "Лучше всего ладишь с", most_important: "Главное в дружбе",
+    your_profile: "Твой профиль", make_avatar: "Создать аватар", redo: "Пройти заново",
+    your_avatar: "Твой аватар", avatar_note: "Сначала все видят тебя с этим аватаром. Фото откроешь только тому, кому захочешь.",
+    skin: "Цвет кожи", hair: "Причёска", hairc: "Цвет волос", eyes: "Цвет глаз", outfit: "Одежда", glasses: "Очки", beard: "Борода",
+    gl0: "Нет", gl1: "Круглые", gl2: "Квадратные", bd0: "Нет", bd1: "Щетина", bd2: "Борода", bd3: "Усы", see_sugs: "Смотреть предложения",
+    tab_sug: "Предложения", tab_chat: "Чаты", tab_prof: "Профиль",
+    day: "День {0}", today_sugs: "Предложения на сегодня", left: "Сегодня их {0}. Не спеши, прочитай каждое.",
+    done_today: "На сегодня всё. Новые предложения через {0}.", hm: "{0} ч {1} мин",
+    none_left: "Больше никто не подходит под твои фильтры. Увеличь расстояние или возрастной диапазон во вкладке «Профиль».",
+    next_day: "⏩ Следующий день (демо)", not_today: "Не сегодня", want_meet: "Хочу познакомиться", sent_wait: "Запрос отправлен · ждём ответа",
+    go_chat: "Перейти в чат", passed: "Пропущено", verified: "Проверен", match: "совпадение", why: "Почему предложено?", why_diff: "Ваши различия могут дать вам что-то новое",
+    compare: "Сравнить характеры", you: "ты", photo_locked: "📷 Фото скрыто · откроется, если вы оба захотите",
+    chats: "Чаты", no_matches: "Пока нет совпадений. Если человек, которому ты нажал(а) «Хочу познакомиться», ответит взаимностью, он появится здесь.",
+    ice_waiting: "Тебя ждёт игра-ледокол", start_chat: "Начать чат", waiting: "Ждут ответа", req_sent: "Запрос отправлен",
+    profile: "Профиль", character: "Твой характер", your_interests: "Интересы", who_meet: "С кем хочешь знакомиться?",
+    all: "Все", only_f: "Женщины", only_m: "Мужчины", max_km: "Максимальное расстояние:", age_range: "Возраст:", pref_note: "Изменения вступят в силу с завтрашних предложений.",
+    safety: "Безопасность", s_photo: "📷 Фото", s_photo2: "Открываются только взаимно", s_selfie: "✓ Проверка по селфи", soon: "скоро",
+    s_loc: "📍 Местоположение", s_loc2: "Только примерное расстояние", s_block: "🚫 Блокировка и жалоба", s_block2: "В каждом чате",
+    edit_avatar: "Изменить аватар", redo_quiz: "Пройти анализ заново", reset: "Сбросить прототип", footer: "Can Dostum · кликабельный прототип · люди вымышлены",
+    reset_sure: "Всё будет удалено. Если уверен(а), нажми ещё раз.", language: "Язык",
+    icebreaker: "Ледокол", ice_note: "Перед чатом вы оба отвечаете на один и тот же вопрос. Ответы откроются одновременно.",
+    same: "Вы выбрали одно и то же!", diff: "Вы выбрали разное", same2: "Совпали с первого вопроса.", diff2: "Отлично: есть о чём поговорить.", you_c: "Ты",
+    safe_tip: "Первую встречу назначайте в людном месте и поделитесь своим местоположением с близким человеком.",
+    photo_opened: "📷 {0} открыл(а) фото (в прототипе показан аватар)", photo_btn: "📷 Открыть моё фото", photo_on: "📷 Твоё фото открыто", meet_btn: "📍 Предложить встречу",
+    msg_ph: "Сообщение…", send: "Отправить", where_meet: "Где встретимся?", public_only: "Предлагаются только общественные места.",
+    block: "Заблокировать", block2: "Больше не появится, чат удалится", report: "Пожаловаться и заблокировать", report2: "Проверит команда модерации",
+    photo_already: "Твоё фото уже открыто.", photo_you: "Ты открыл(а) фото. Если собеседник тоже откроет, вы увидите друг друга.", photo_them: "{0} тоже открыл(а) фото.",
+    meet_sys: "Ты предложил(а) встречу: {0}, суббота 11:00", meet_msg: "Как насчёт: {0}? В субботу в 11:00?",
+    reported: "На {0} отправлена жалоба, пользователь заблокирован.", blocked: "{0}: пользователь заблокирован.",
+    mutual: "Взаимно! {0} тоже хочет познакомиться 🎉", req_toast: "Запрос отправлен. Сообщим, когда придёт ответ.", accepted: "{0} принял(а) твой запрос!",
+    st1: "Что тебе больше всего нравится в теме «{0}»?", st1b: "Что тебя сейчас больше всего радует?", st2: "Почему в ледоколе ты выбрал(а) «{0}»?", st3: "Как насчёт короткого кофе на выходных?",
+    km: "~{0} км · {1}",
+    v1: "Кафе у пристани", v1d: "Людно, общественное место · ~1 км", v2: "Прибрежный парк", v2d: "Набережная, днём многолюдно · ~2 км",
+    v3: "Торговый центр", v3d: "Людно, есть охрана и кафе · ~4 км",
+    ph_ask: "{0} хочет открыть фото. Если ты тоже откроешь, вы увидите друг друга.", ph_yes: "Да, открыть", ph_no: "Пока нет",
+    ph_no_done: "Ты пока не открыл(а) фото. Сделать это можно в любой момент кнопкой «Открыть моё фото».", ph_waiting: "{0} ждёт твоего решения.",
+    r_shared: "Общие интересы: {0}", r_morning: "Вы оба жаворонки", r_night: "Вы оба совы", r_calm: "Вы оба любите спокойные встречи в узком кругу",
+    r_crowd: "Вы оба заряжаетесь в компании", r_listen: "Вы оба хорошо умеете слушать", r_ls: "Ты слушаешь, {0} находит решения — хорошая пара",
+    r_sl: "Ты находишь решения, {0} слушает — хорошая пара", r_plan: "Вы оба любите планировать", r_spont: "Вы оба живёте моментом",
+    r_open: "Вы оба открыты новому", r_value: "Для вас обоих главное в дружбе — {0}",
+  },
+};
+
+let PLAYER_G = "";   // oyuncunun cinsiyeti: Rusçada fiil ve sıfat sonları buna göre seçilir
+
+/** Rusça "(а)" gibi iki biçimli yazımları cinsiyete göre tek biçime indirir. Cinsiyet bilinmiyorsa olduğu gibi bırakır. */
+function ruG(s, g) {
+  if (LANG !== "ru" || (g !== "f" && g !== "m")) return s;
+  const f = g === "f";
+  return s.replace(/(\S+?)ый\(ая\)/g, f ? "$1ая" : "$1ый")
+          .replace(/(\S+?)ся\(ась\)/g, f ? "$1ась" : "$1ся")
+          .replace(/(\S+?)ен\(на\)/g, f ? "$1на" : "$1ен")
+          .replace(/\(а\)/g, f ? "а" : "");
+}
+
+function t(key, ...a) {
+  let s = (STR[LANG] && STR[LANG][key]) || STR.tr[key] || key;
+  s = ruG(s, PLAYER_G);
+  a.forEach((v, i) => { s = s.split("{" + i + "}").join(v); });
+  return s;
+}
+function lower(s) { return s.toLocaleLowerCase(LANG); }
+
+const AXES_TX = {
+  ru: { energy: ["Интроверт", "Экстраверт"], support: ["Ищет решения", "Слушатель"], plan: ["Спонтанный", "Планировщик"], rhythm: ["Сова", "Жаворонок"], open: ["Любит привычное", "Открыт новому"], direct: ["Дипломат", "Прямолинейный"] },
+};
+function axisLabels(a) { const x = AXES_TX[LANG] && AXES_TX[LANG][a.id]; return x ? { lo: x[0], hi: x[1] } : { lo: a.lo, hi: a.hi }; }
+
+const INTEREST_TX = {
+  ru: { "Koşu": "Бег", "Yürüyüş": "Прогулки", "Kamp": "Кемпинг", "Kahve": "Кофе", "Kitap": "Книги", "Sinema": "Кино", "Müzik": "Музыка", "Konser": "Концерты", "Masa oyunları": "Настолки", "Yemek": "Кулинария", "Fotoğraf": "Фото", "Yoga": "Йога", "Bisiklet": "Велосипед", "Dalış": "Дайвинг", "Sanat": "Искусство", "Dil öğrenme": "Языки", "Teknoloji": "Технологии", "Seyahat": "Путешествия", "Gönüllülük": "Волонтёрство", "Hayvanlar": "Животные", "Deniz": "Море", "Tiyatro": "Театр" },
+};
+function tInt(x) { return (INTEREST_TX[LANG] && INTEREST_TX[LANG][x]) || x; }
+
+const VALUE_TX = { ru: { sadakat: "верность", mizah: "юмор", "dürüstlük": "честность", macera: "приключения", huzur: "спокойствие" } };
+function tVal(x) { return (VALUE_TX[LANG] && VALUE_TX[LANG][x]) || x; }
+
+const DISTRICT_TX = { ru: { "Kemer": "Кемер", "Göynük": "Гёйнюк", "Beldibi": "Бельдиби", "Çamyuva": "Чамьюва", "Tekirova": "Текирова", "Konyaaltı": "Коньяалты", "Muratpaşa": "Муратпаша", "Lara": "Лара", "Kepez": "Кепез", "Kundu": "Кунду" } };
+function tDist(x) { return (DISTRICT_TX[LANG] && DISTRICT_TX[LANG][x]) || x; }
+
+// Karakter analizi soruları (etkiler data.js'deki QUIZ'de; burada yalnızca metinler)
+const QUIZ_TX = {
+  ru: [
+    { q: "Вечер пятницы, у тебя свободное время без планов.", o: ["Иду на шумный концерт или вечеринку", "Спокойный ужин с другом", "Время для себя дома: книга, сериал, плед", "Устраиваю спонтанную поездку"] },
+    { q: "Друг рассказывает о своей проблеме.", o: ["Молча слушаю и говорю: «Это, должно быть, очень тяжело»", "Сразу предлагаю варианты решения", "Сначала слушаю, потом спрашиваю: «Хочешь совет?»", "Вытаскиваю его куда-нибудь развеяться"] },
+    { q: "Выходной, семь утра.", o: ["Я уже на пробежке или прогулке", "Неспешно начинаю день с кофе", "Сплю — вчера был поздний вечер", "Встаю посмотреть рассвет, потом снова сплю"] },
+    { q: "Ты планируешь отпуск.", o: ["Таблица готова, всё забронировано", "Основное ясно, остальное — по ходу", "Покупаю билет, остальное решим на месте", "Еду туда же, куда всегда, не люблю сюрпризы"] },
+    { q: "Друг спрашивает про новую стрижку, а она ему не очень идёт.", o: ["Говорю прямо — мягко, но честно", "Нахожу, что мне нравится, и говорю об этом", "«Старая мне нравилась больше, но главное — как тебе самому»", "Говорю: «Отлично получилось!»"] },
+    { q: "Новая компания, ты никого не знаешь.", o: ["Заговариваю первым и знакомлюсь со всеми", "Сначала наблюдаю, сближаюсь с одним-двумя", "Нахожу того, кто молчит, и говорю с ним", "Придумываю шутку или игру, чтобы разрядить обстановку"] },
+    { q: "Друг отменил встречу в последний момент.", o: ["Ничего страшного, в другой раз", "Немного расстраиваюсь и говорю об этом", "Сразу переключаюсь на план Б", "В глубине души рад(а) — хотел(а) остаться дома"] },
+    { q: "Какая встреча для тебя идеальна?", o: ["Кофе и долгий разговор", "Поход на природу или кемпинг", "Концерт, фестиваль, толпа людей", "Вечер настолок или совместной готовки"] },
+    { q: "Вы поссорились с другом.", o: ["Хочу сразу поговорить и всё решить", "Беру паузу, потом разговариваем", "Закрываю тему, не раздуваю", "Сначала пытаюсь понять, что он чувствует"] },
+    { q: "Когда речь о том, чтобы научиться чему-то новому…", o: ["Каждый месяц пробую новое хобби", "Занимаюсь одним делом, пока не стану мастером", "Присоединяюсь к тому, чем увлекается друг", "Мне хорошо с привычными вещами"] },
+    { q: "23:30. Звонит друг: «Приезжай!»", o: ["Еду!", "Завтра рано вставать, не могу", "Заеду на полчасика", "Я дома, но давай переписываться"] },
+    { q: "Что для тебя главное в дружбе?", o: ["Верность", "Юмор", "Честность", "Приключения", "Спокойствие"] },
+  ],
+};
+function quizText(qi) {
+  const base = QUIZ[qi], tx = QUIZ_TX[LANG] && QUIZ_TX[LANG][qi];
+  return { q: tx ? tx.q : base.q, o: base.o.map((o, i) => tx ? tx.o[i] : o[0]) };
+}
+
+const ARCH_TX = {
+  ru: {
+    ilp: { name: "Тихая Гавань", tag: "Надёжный, умеет слушать, организованный", text: "Рядом с тобой людям становится спокойнее. Ты ценишь немногочисленную, но глубокую дружбу, держишь слово и хранишь секреты.", plus: ["Тебе можно доверять", "Ты умеешь слушать", "Ты держишь слово"], grow: "Иногда ждёшь, чтобы первый шаг сделал кто-то другой." },
+    ils: { name: "Лунный Свет", tag: "Спокойный, интуитивный, живёт моментом", text: "У тебя сильная интуиция. Любишь спонтанные, но глубокие разговоры, ночные прогулки и маленькие сюрпризы.", plus: ["Ты умеешь сопереживать", "Ты не осуждаешь", "Ты живёшь моментом"], grow: "Планы у тебя иногда зависают в воздухе." },
+    isp: { name: "Компас", tag: "Наставник, решает проблемы, планирует", text: "В трудную минуту друзья звонят тебе: ты сохраняешь спокойствие и подсказываешь путь. Друзей немного, но они надёжные.", plus: ["Находишь практичные решения", "Сохраняешь спокойствие", "Умеешь планировать"], grow: "Иногда сразу предлагаешь решение вместо того, чтобы выслушать." },
+    iss: { name: "Исследователь", tag: "Любознательный, независимый, практичный", text: "Ты идёшь своим путём. Любишь открывать новое, обсуждать интересные темы и свободную дружбу.", plus: ["Ты любознательный(ая)", "Ты независимый(ая)", "У тебя интересные идеи"], grow: "Друзья иногда долго не получают от тебя вестей." },
+    dlp: { name: "Маяк", tag: "Объединяет людей", text: "Ты тайный организатор компании. Никого не оставляешь в стороне и заботишься, чтобы всем было хорошо.", plus: ["Объединяешь людей", "Ты внимательный(ая)", "Умеешь организовать"], grow: "Иногда забываешь о собственных потребностях." },
+    dls: { name: "Солнечный Свет", tag: "Тёплый, энергичный, легко находит контакт", text: "Ты согреваешь любую компанию. Легко знакомишься с людьми и по-настоящему их слушаешь.", plus: ["Ты тёплый(ая)", "Ты энергичный(ая)", "Легко находишь контакт"], grow: "Стараясь успеть ко всем, можешь устать." },
+    dsp: { name: "Капитан", tag: "Лидер, планирует, вдохновляет действовать", text: "Ты превращаешь идеи в планы, а планы — в реальность. С тобой выходные не проходят впустую.", plus: ["Вдохновляешь действовать", "Ты решительный(ая)", "Умеешь планировать"], grow: "Не все могут держать твой темп." },
+    dss: { name: "Искра", tag: "Авантюрный, весёлый, живёт моментом", text: "С тобой жизнь превращается в приключение: планы в последнюю минуту, новые места, смех…", plus: ["С тобой весело", "Ты смелый(ая)", "Открыт(а) новому"], grow: "Спокойным друзьям тебя иногда бывает слишком много." },
+  },
+};
+const ARCH_NAME_RU = { "Sakin Liman": "Тихая Гавань", "Ay Işığı": "Лунный Свет", "Pusula": "Компас", "Kâşif": "Исследователь", "Deniz Feneri": "Маяк", "Gün Işığı": "Солнечный Свет", "Kaptan": "Капитан", "Kıvılcım": "Искра" };
+function archText(id) {
+  const a = ARCHETYPES[id] || ARCHETYPES.ilp, tx = ARCH_TX[LANG] && ARCH_TX[LANG][id];
+  if (!tx) return a;
+  return Object.assign({}, a, tx, { plus: tx.plus.map(p => ruG(p, PLAYER_G)), grow: ruG(tx.grow, PLAYER_G), best: a.best.map(n => ARCH_NAME_RU[n] || n) });
+}
+
+const ICE_TX = {
+  ru: [
+    { q: "Что мы делаем вместе в воскресенье?", o: ["С утра пораньше идём по Ликийской тропе", "Кофе на набережной и долгий разговор", "Без планов — как пойдёт", "Вечером концерт или мероприятие"] },
+    { q: "Мы попали на необитаемый остров. Первое дело?", o: ["Составляю план, как построить укрытие", "Иду исследовать остров", "Успокаиваю тебя", "Пишу SOS на песке, потом иду купаться"] },
+    { q: "Готовим вместе. Твоя задача?", o: ["Нахожу рецепт и готовлю продукты", "Импровизирую — кому нужен рецепт", "Отвечаю за музыку и сервировку", "Мою посуду и болтаю"] },
+    { q: "Выбираем фильм.", o: ["Классика, которую любят все", "Независимое кино, о котором никто не слышал", "Комедия — хочу посмеяться", "Выбирай ты, я подстроюсь"] },
+  ],
+};
+function iceText(i) {
+  const b = ICEBREAKERS[i], tx = ICE_TX[LANG] && ICE_TX[LANG][i];
+  return { q: tx ? tx.q : b.q, o: b.o.map((o, k) => tx ? tx.o[k] : o[0]) };
+}
+
+const BIO_TX = {
+  ru: {
+    "Koşu": "Ищу компанию для утренних пробежек", "Yürüyüş": "Каждую неделю — новый участок Ликийской тропы", "Kamp": "Палатка, кофе, звёзды", "Kahve": "Хороший кофе и долгий разговор",
+    "Kitap": "Нужен кто-то, с кем обсудить прочитанное", "Sinema": "Фильм раз в неделю, потом долгие обсуждения", "Müzik": "Играю на гитаре — сыграем вместе?", "Konser": "Ищу компанию на концерты",
+    "Masa oyunları": "У меня коллекция настолок, ищу соперников", "Yemek": "Люблю пробовать новые рецепты", "Fotoğraf": "Фотографирую закаты", "Yoga": "Утренняя йога на пляже",
+    "Bisiklet": "Велопрогулки по выходным", "Dalış": "Дайвинг в бухтах Кемера", "Sanat": "Люблю мастерские и выставки", "Dil öğrenme": "Учу испанский, нужен партнёр для практики",
+    "Teknoloji": "Программирование и новые гаджеты", "Seyahat": "Давай вместе спланируем следующий маршрут", "Gönüllülük": "Волонтёрю для бездомных животных", "Hayvanlar": "Долгие прогулки с моей собакой",
+    "Deniz": "Купаюсь в море в любое время года", "Tiyatro": "Люблю театр и импровизацию",
+  },
+};
+function bioOf(u) { return LANG === "tr" ? u.bio : ((BIO_TX[LANG] && BIO_TX[LANG][u.interests[0]]) || u.bio.replace(/\.$/, "")) + "."; }
+
+function reasonText(r, u) {
+  if (r.k === "shared") return t("r_shared", r.p.map(x => lower(tInt(x))).join(", "));
+  if (r.k === "value") return t("r_value", tVal(r.p));
+  return t("r_" + r.k, u && u.gender === "f" ? "она" : "он");
+}
+function num(x) { return String(x).replace(".", ","); }
+
+// Sahte sohbet cevapları (Rusça)
+function fakeReplyRu(u, text, n) {
+  const tl = text.toLocaleLowerCase("ru");
+  const i0 = tInt(u.interests[0]), i1 = lower(tInt(u.interests[1]));
+  const pick = a => ruG(a[n % a.length], u.gender);
+  if (n === 0 || /привет|здравств|хай|салют/.test(tl)) return pick([`Привет! 😊 Рад(а), что мы совпали. Ты любишь ${lower(i0)}?`, `Привет! Я больше всего времени провожу так: ${lower(i0)}, ${i1}. А ты чем обычно занимаешься?`]);
+  if (/почему|зачем/.test(tl)) return ruG("Не знаю, просто так почувствовал(а) 😄 Наверное, я " + (u.axes.plan > 0 ? "люблю планировать и не очень люблю сюрпризы." : "живу моментом и не люблю долго думать."), u.gender);
+  if (/встрет|кофе|увидим|выходн/.test(tl)) return u.axes.energy < 0 ? "Давай, но для первого раза — короткий кофе в спокойном месте?" : "Конечно! Как насчёт набережной в выходные?";
+  if (/\?/.test(tl)) return pick([`Хороший вопрос! Обычно у меня это ${lower(i0)} и ${i1}. А у тебя?`, `Хм, ${u.axes.rhythm > 0 ? "утром я бодрее" : "вечером я оживаю"}. А ты?`]);
+  return pick(["Ха-ха, точно 😄", `Здорово! На прошлой неделе я пробовал(а) кое-что связанное с темой «${i1}», рассказать?`, "Приятно слышать. А что тебя сейчас больше всего радует?", "Согласен(на). Может, попробуем как-нибудь вместе?"]);
+}
+
+// Can Dostum — tıklanabilir prototip arayüzü
+(function () {
+  const KEY = "candostum_proto_v1";
+  const USERS = makeUsers();
+  const byId = id => USERS.find(u => u.id === id);
+  let S = load();
+  LANG = S.lang || ((navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "tr");
+  S.lang = LANG;
+  document.documentElement.lang = LANG;
+  const $app = document.getElementById("app");
+
+  function fresh() {
+    return {
+      step: "welcome", day: 1, quiz: [], qi: 0,
+      me: { name: "", age: "", gender: "", district: "Kemer", interests: [], look: null, axes: null, value: null, archetype: null, prefs: { maxKm: 15, ageMin: 18, ageMax: 45, gender: "all" } },
+      daily: null, seen: {}, matches: {}, pending: [], tab: "today", chat: null, ice: null, toast: null,
+    };
+  }
+  function load() {
+    try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.me) return s; } catch (e) { }
+    return fresh();
+  }
+  function save() { try { const c = Object.assign({}, S, { toast: null }); localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) { } }
+
+  // ---------------------------------------------------------------- avatar
+  const avatarCache = new Map();
+  function avatar(look, mood, size) {
+    mood = mood || 0; size = size || 160;
+    const k = JSON.stringify(look) + mood + "_" + size;
+    if (avatarCache.has(k)) return avatarCache.get(k);
+    const px = RenderPortrait(look, mood, size, "232335");
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    c.getContext("2d").putImageData(new ImageData(px, size, size), 0, 0);
+    const url = c.toDataURL();
+    avatarCache.set(k, url);
+    return url;
+  }
+  function randomLook(g) {
+    const r = Math.random;
+    return { Gender: g, Skin: Math.floor(r() * 6), Hair: Math.floor(r() * 5), HairColor: Math.floor(r() * 7), Eyes: Math.floor(r() * 5), Outfit: Math.floor(r() * 8), Glasses: r() < 0.25 ? 1 + Math.floor(r() * 2) : 0, Beard: g === "m" && r() < 0.4 ? 1 + Math.floor(r() * 3) : 0, Age: 25 };
+  }
+
+  // ---------------------------------------------------------------- yardımcılar
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  let toastTimer = null;
+  function toast(msg) {
+    S.toast = msg; render();
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { S.toast = null; render(); }, 2600);
+  }
+  function go(step) { S.step = step; save(); render(); window.scrollTo(0, 0); }
+  function arch(id) { return archText(id); }
+  function langBar() { return `<div class="langs">${LANGS.map(([k, n]) => `<button class="${LANG === k ? "on" : ""}" data-act="lang" data-v="${k}">${n}</button>`).join("")}</div>`; }
+  function axisBar(a, v, theirs) {
+    const pct = Math.round((v + 1) * 50);
+    const t = theirs != null ? `<i class="dot them" style="left:${Math.round((theirs + 1) * 50)}%"></i>` : "";
+    const lb = axisLabels(a);
+    return `<div class="axis"><div class="axl"><span>${lb.lo}</span><span>${lb.hi}</span></div><div class="track"><i class="dot" style="left:${pct}%"></i>${t}</div></div>`;
+  }
+  function chip(t, on, act, val) { return `<button class="chip ${on ? "on" : ""}" data-act="${act}" data-v="${esc(val)}">${esc(t)}</button>`; }
+
+  // ---------------------------------------------------------------- konum (telefonun konumu; yoksa gösterilmez)
+  function locBlock() {
+    const m = S.me;
+    if (S.locBusy) return `<div class="locst">${t("loc_wait")}</div>`;
+    if (m.loc) return `<div class="locst on">${t("loc_on", tDist(m.district))}</div>`;
+    return `<button class="btn ghost small" data-act="locate">${t("locate")}</button>${S.locTried ? `<div class="locst">${t("loc_off")}</div>` : ""}`;
+  }
+  function locate() {
+    const fail = () => { S.locBusy = false; S.locTried = true; S.me.loc = null; S.daily = null; save(); render(); toast(t("loc_denied")); };
+    if (!navigator.geolocation) return fail();
+    S.locBusy = true; render();
+    try {
+      navigator.geolocation.getCurrentPosition(p => {
+        S.locBusy = false; S.locTried = true;
+        S.me.loc = { lat: p.coords.latitude, lon: p.coords.longitude };
+        S.me.district = nearestDistrict(p.coords.latitude, p.coords.longitude);
+        S.daily = null; save(); render();
+      }, fail, { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 });
+    } catch (e) { fail(); }
+  }
+  function distLine(u) {
+    const dkm = userDistance(S.me, u);
+    return dkm == null ? "" : t("km", num(dkm), tDist(u.district));
+  }
+
+  // ---------------------------------------------------------------- fotoğraflar (yalnızca bu cihazda tutulur)
+  function photoSection() {
+    const ph = S.me.photos || [];
+    return `<label class="lbl">${t("photos")}</label><p class="fine">${t("photos_note")}</p>
+      <div class="photos">${ph.map((p, i) => `<div class="ph"><img src="${p}"><button data-act="photo-del" data-v="${i}">${t("remove")}</button></div>`).join("")}
+      ${ph.length < 3 ? `<label class="ph add"><span>${t("add_photo")}</span><input type="file" accept="image/*" id="photo-in"></label>` : ""}</div>`;
+  }
+  function readPhoto(file) {
+    const fr = new FileReader();
+    fr.onerror = () => toast(t("photo_err"));
+    fr.onload = () => {
+      const img = new Image();
+      img.onerror = () => toast(t("photo_err"));
+      img.onload = () => {
+        const max = 640, k = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        S.me.photos = (S.me.photos || []).concat([c.toDataURL("image/jpeg", 0.8)]).slice(0, 3);
+        save(); render();
+      };
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  }
+  document.addEventListener("change", e => {
+    if (e.target.id !== "photo-in" || !e.target.files || !e.target.files[0]) return;
+    if ((S.me.photos || []).length >= 3) return toast(t("photo_max"));
+    readPhoto(e.target.files[0]);
+  });
+
+  // ---------------------------------------------------------------- ekranlar
+  function render() {
+    PLAYER_G = S.me.gender || "";
+    let h = "";
+    switch (S.step) {
+      case "welcome": h = Welcome(); break;
+      case "onboard": h = Onboard(); break;
+      case "quiz": h = Quiz(); break;
+      case "result": h = Result(); break;
+      case "avatar": h = Avatar(); break;
+      default: h = App(); break;
+    }
+    if (S.toast) h += `<div class="toast">${esc(S.toast)}</div>`;
+    $app.innerHTML = h;
+    const log = document.querySelector(".msgs");
+    if (log) log.scrollTop = log.scrollHeight;
+  }
+
+  function Welcome() {
+    const a = avatar(USERS[0].look, 1, 140), b = avatar(USERS[1].look, 1, 140), c = avatar(USERS[3].look, 1, 140);
+    return `<div class="screen center">${langBar()}
+      <div class="trio"><img src="${b}"><img src="${a}" class="mid"><img src="${c}"></div>
+      <h1>Can Dostum</h1>
+      <p class="lead">${t("tagline")}</p>
+      <div class="card">
+        <p>${t("w_intro")}</p>
+        <ul class="ticks">${[1, 2, 3, 4, 5].map(i => `<li>${t("w_" + i)}</li>`).join("")}</ul>
+      </div>
+      <label class="check"><input type="checkbox" id="adult"> ${t("adult")}</label>
+      <button class="btn primary" data-act="start">${t("start")}</button>
+      <p class="fine">${t("proto_note")}</p>
+    </div>`;
+  }
+
+  function Onboard() {
+    const m = S.me;
+    return `<div class="screen">
+      <div class="steps"><i class="on"></i><i></i><i></i><i></i></div>
+      <h2>${t("know_you")}</h2>
+      <label class="lbl">${t("name")}</label><input class="in" id="f-name" value="${esc(m.name)}" placeholder="${t("name")}" maxlength="20">
+      <div class="row2">
+        <div><label class="lbl">${t("age")}</label><input class="in" id="f-age" type="number" min="18" max="99" value="${esc(m.age)}" placeholder="18+"></div>
+        <div><label class="lbl">${t("gender")}</label><div class="seg">${["f", "m"].map(g => `<button data-act="gender" data-v="${g}" class="${m.gender === g ? "on" : ""}">${g === "f" ? t("woman") : t("man")}</button>`).join("")}</div></div>
+      </div>
+      <label class="lbl">${t("location")}</label>
+      ${locBlock()}
+      <p class="fine">${t("loc_note")}</p>
+      <label class="lbl">${t("who_meet")}</label>
+      <div class="seg">${[["all", t("all")], ["f", t("only_f")], ["m", t("only_m")]].map(([v, l]) => `<button class="${m.prefs.gender === v ? "on" : ""}" data-act="pref-gender" data-v="${v}">${l}</button>`).join("")}</div>
+      <label class="lbl">${t("interests")} <span class="muted">${t("min3")}</span></label>
+      <div class="chips">${INTERESTS.map(i => chip(tInt(i), m.interests.includes(i), "interest", i)).join("")}</div>
+      <button class="btn primary" data-act="onboard-next">${t("to_quiz")}</button>
+    </div>`;
+  }
+
+  function Quiz() {
+    const q = quizText(S.qi);
+    const pct = Math.round(S.qi / QUIZ.length * 100);
+    return `<div class="screen">
+      <div class="steps"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+      <div class="qhead"><button class="link" data-act="quiz-back">${S.qi > 0 ? t("back") : ""}</button><span class="muted">${S.qi + 1} / ${QUIZ.length}</span></div>
+      <div class="progress"><i style="width:${pct}%"></i></div>
+      <div class="scene">${esc(q.q)}</div>
+      <div class="opts">${q.o.map((o, i) => `<button class="opt ${S.quiz[S.qi] === i ? "on" : ""}" data-act="answer" data-v="${i}"><b>${"ABCDE"[i]}</b><span>${esc(o)}</span></button>`).join("")}</div>
+      <p class="fine">${t("no_right")}</p>
+    </div>`;
+  }
+
+  function Result() {
+    const m = S.me, a = arch(m.archetype);
+    return `<div class="screen">
+      <div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+      <div class="archcard">
+        <div class="aicon">${a.icon}</div>
+        <div class="muted">${t("you_are")}</div>
+        <h1>${a.name}</h1>
+        <p class="lead">${a.tag}</p>
+        <p>${a.text}</p>
+      </div>
+      <div class="card"><h3>${t("strengths")}</h3><div class="chips">${a.plus.map(p => `<span class="chip on">${p}</span>`).join("")}</div>
+        <h3>${t("careful")}</h3><p class="muted">${a.grow}</p>
+        <h3>${t("best_with")}</h3><p>${a.best.join(" · ")}</p>
+        <h3>${t("most_important")}</h3><p>${(v => v[0].toLocaleUpperCase(LANG) + v.slice(1))(tVal(m.value))}</p></div>
+      <div class="card"><h3>${t("your_profile")}</h3>${AXES.map(x => axisBar(x, m.axes[x.id])).join("")}</div>
+      <button class="btn primary" data-act="to-avatar">${t("make_avatar")}</button>
+      <button class="btn ghost" data-act="redo-quiz">${t("redo")}</button>
+    </div>`;
+  }
+
+  function Avatar() {
+    const m = S.me;
+    if (!m.look) m.look = randomLook(m.gender || "f");
+    const L = m.look;
+    const sw = (arr, field) => `<div class="sw">${arr.map((hx, i) => `<button style="background:#${hx}" class="${L[field] === i ? "on" : ""}" data-act="look" data-f="${field}" data-v="${i}"></button>`).join("")}</div>`;
+    const seg = (labels, field) => `<div class="seg">${labels.map((t, i) => `<button class="${L[field] === i ? "on" : ""}" data-act="look" data-f="${field}" data-v="${i}">${t}</button>`).join("")}</div>`;
+    return `<div class="screen">
+      <div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+      <h2>${t("your_avatar")}</h2>
+      <p class="muted">${t("avatar_note")}</p>
+      <div class="avwrap"><img class="avbig" src="${avatar(L, 1, 240)}"><button class="dice" data-act="look-random">🎲</button></div>
+      <label class="lbl">${t("skin")}</label>${sw(SkinHex, "Skin")}
+      <label class="lbl">${t("hair")}</label>${seg(["1", "2", "3", "4", "5"], "Hair")}
+      <label class="lbl">${t("hairc")}</label>${sw(HairHex, "HairColor")}
+      <label class="lbl">${t("eyes")}</label>${sw(EyeHex, "Eyes")}
+      <label class="lbl">${t("outfit")}</label>${sw(OutfitHex, "Outfit")}
+      <label class="lbl">${t("glasses")}</label>${seg([t("gl0"), t("gl1"), t("gl2")], "Glasses")}
+      ${L.Gender === "m" ? `<label class="lbl">${t("beard")}</label>${seg([t("bd0"), t("bd1"), t("bd2"), t("bd3")], "Beard")}` : ""}
+      ${photoSection()}
+      <button class="btn primary" data-act="finish">${t("see_sugs")}</button>
+    </div>`;
+  }
+
+  // ---------------------------------------------------------------- ana uygulama
+  function App() {
+    if (S.chat) return Chat();
+    if (S.ice) return Ice();
+    let body = S.tab === "today" ? Today() : S.tab === "chats" ? Chats() : Profile();
+    const unread = Object.values(S.matches).filter(x => x.unread).length;
+    return `<div class="screen app">${body}</div>
+      <nav class="tabs">
+        <button class="${S.tab === "today" ? "on" : ""}" data-act="tab" data-v="today"><span>✦</span>${t("tab_sug")}</button>
+        <button class="${S.tab === "chats" ? "on" : ""}" data-act="tab" data-v="chats"><span>💬</span>${t("tab_chat")}${unread ? `<em>${unread}</em>` : ""}</button>
+        <button class="${S.tab === "profile" ? "on" : ""}" data-act="tab" data-v="profile"><span>◐</span>${t("tab_prof")}</button>
+      </nav>`;
+  }
+
+  function ensureDaily() {
+    if (!S.daily || S.daily.day !== S.day) { S.daily = { day: S.day, ids: pickDaily(S.me, USERS, S.seen, S.day) }; save(); }
+  }
+
+  function untilMidnight() {
+    const n = new Date(), m = new Date(n); m.setHours(24, 0, 0, 0);
+    const s = Math.floor((m - n) / 1000);
+    return t("hm", Math.floor(s / 3600), Math.floor(s % 3600 / 60));
+  }
+
+  function Today() {
+    ensureDaily();
+    const ids = S.daily.ids;
+    const cards = ids.map(id => SuggestionCard(byId(id))).join("");
+    const left = ids.filter(id => !S.seen[id]).length;
+    return `<header class="top"><div><div class="muted small">${t("day", S.day)}${S.me.loc ? " · " + tDist(S.me.district) : ""}</div><h2>${t("today_sugs")}</h2></div><img class="meav" src="${avatar(S.me.look, 1, 96)}"></header>
+      <p class="muted">${left ? t("left", left) : t("done_today", untilMidnight())}</p>
+      ${ids.length ? cards : `<div class="card"><p>${t("none_left")}</p></div>`}
+      <button class="btn ghost small" data-act="next-day">${t("next_day")}</button>`;
+  }
+
+  function SuggestionCard(u) {
+    const c = compat(S.me, u), a = arch(u.archetype), st = S.seen[u.id];
+    let actions;
+    if (!st) actions = `<div class="row2"><button class="btn ghost" data-act="pass" data-v="${u.id}">${t("not_today")}</button><button class="btn primary" data-act="like" data-v="${u.id}">${t("want_meet")}</button></div>`;
+    else if (st === "pending") actions = `<div class="state">${t("sent_wait")}</div>`;
+    else if (st === "match") actions = `<button class="btn primary" data-act="open-chat" data-v="${u.id}">${t("go_chat")}</button>`;
+    else actions = `<div class="state muted">${t("passed")}</div>`;
+    return `<article class="sug ${st && st !== "match" && st !== "pending" ? "dim" : ""}">
+      <div class="sughead"><img src="${avatar(u.look, 0, 160)}"><div class="who">
+        <h3>${u.name}, ${u.age} ${u.verified ? `<span class="ver" title="${t("verified")}">✓</span>` : ""}</h3>
+        ${distLine(u) ? `<div class="muted small">${distLine(u)}</div>` : ""}
+        <div class="arch">${a.icon} ${a.name}</div></div>
+        <div class="score"><b>${LANG === "tr" ? "%" + c.score : c.score + "%"}</b><span>${t("match")}</span></div></div>
+      <p class="bio">${LANG === "ru" ? "«" + esc(bioOf(u)) + "»" : "“" + esc(bioOf(u)) + "”"}</p>
+      <div class="why"><div class="whyt">${t("why")}</div>${c.reasons.map(r => `<div>• ${esc(reasonText(r, u))}</div>`).join("") || `<div>• ${t("why_diff")}</div>`}</div>
+      <div class="chips">${u.interests.map(i => `<span class="chip ${c.shared.includes(i) ? "on" : ""}">${tInt(i)}</span>`).join("")}</div>
+      <details><summary>${t("compare")}</summary>${AXES.map(x => axisBar(x, S.me.axes[x.id], u.axes[x.id])).join("")}<div class="legend"><i class="dot"></i> ${t("you")} <i class="dot them"></i> ${u.name}</div></details>
+      <div class="lock">${t("photo_locked")}</div>
+      ${actions}
+    </article>`;
+  }
+
+  function Chats() {
+    const ms = Object.keys(S.matches);
+    const pend = Object.keys(S.seen).filter(id => S.seen[id] === "pending");
+    let h = `<header class="top"><h2>${t("chats")}</h2></header>`;
+    if (!ms.length && !pend.length) h += `<div class="card"><p>${t("no_matches")}</p></div>`;
+    ms.forEach(id => {
+      const u = byId(id), m = S.matches[id];
+      const last = m.msgs.length ? m.msgs[m.msgs.length - 1].t : (m.stage === "ice" ? t("ice_waiting") : t("start_chat"));
+      h += `<button class="row" data-act="open-chat" data-v="${id}"><img src="${avatar(u.look, 1, 96)}"><div><b>${u.name}</b><span class="muted small">${esc(last).slice(0, 60)}</span></div>${m.unread ? "<em>●</em>" : ""}</button>`;
+    });
+    if (pend.length) {
+      h += `<h3 class="sec">${t("waiting")}</h3>`;
+      pend.forEach(id => { const u = byId(id); h += `<div class="row dim"><img src="${avatar(u.look, 0, 96)}"><div><b>${u.name}</b><span class="muted small">${t("req_sent")}</span></div></div>`; });
+    }
+    return h;
+  }
+
+  function Profile() {
+    const m = S.me, a = arch(m.archetype);
+    return `<header class="top"><h2>${t("profile")}</h2></header>
+      <div class="archcard small"><img class="avmid" src="${avatar(m.look, 1, 200)}"><h2>${esc(m.name)}, ${esc(m.age)}</h2><div class="arch">${a.icon} ${a.name}</div><p class="muted">${a.tag}</p></div>
+      <div class="card"><h3>${t("location")}</h3>${locBlock()}</div>
+      <div class="card">${photoSection()}</div>
+      <div class="card"><h3>${t("language")}</h3>${langBar()}</div>
+      <div class="card"><h3>${t("character")}</h3>${AXES.map(x => axisBar(x, m.axes[x.id])).join("")}</div>
+      <div class="card"><h3>${t("your_interests")}</h3><div class="chips">${m.interests.map(i => `<span class="chip on">${tInt(i)}</span>`).join("")}</div></div>
+      <div class="card"><h3>${t("who_meet")}</h3>
+        <div class="seg">${[["all", t("all")], ["f", t("only_f")], ["m", t("only_m")]].map(([v, l]) => `<button class="${m.prefs.gender === v ? "on" : ""}" data-act="pref-gender" data-v="${v}">${l}</button>`).join("")}</div>
+        ${m.loc ? `<label class="lbl">${t("max_km")} <b>${m.prefs.maxKm} ${LANG === "ru" ? "км" : "km"}</b></label><input type="range" min="1" max="40" value="${m.prefs.maxKm}" data-act="pref-km">` : ""}
+        <label class="lbl">${t("age_range")} <b>${m.prefs.ageMin}–${m.prefs.ageMax}</b></label>
+        <div class="row2"><input type="range" min="18" max="60" value="${m.prefs.ageMin}" data-act="pref-amin"><input type="range" min="18" max="70" value="${m.prefs.ageMax}" data-act="pref-amax"></div>
+        <p class="fine">${t("pref_note")}</p></div>
+      <div class="card"><h3>${t("safety")}</h3>
+        <div class="srow">${t("s_photo")} <span class="muted">${t("s_photo2")}</span></div>
+        <div class="srow">${t("s_selfie")} <span class="badge">${t("soon")}</span></div>
+        <div class="srow">${t("s_loc")} <span class="muted">${t("s_loc2")}</span></div>
+        <div class="srow">${t("s_block")} <span class="muted">${t("s_block2")}</span></div></div>
+      <button class="btn ghost" data-act="edit-avatar">${t("edit_avatar")}</button>
+      <button class="btn ghost" data-act="redo-quiz">${t("redo_quiz")}</button>
+      <button class="btn ghost danger" data-act="reset">${t("reset")}</button>
+      <p class="fine center">${t("footer")}</p>`;
+  }
+
+  // ---------------------------------------------------------------- buz kırıcı
+  function Ice() {
+    const u = byId(S.ice), m = S.matches[S.ice], ib = iceText(m.ib);
+    if (m.mine == null) {
+      return `<div class="screen">
+        <button class="link" data-act="close-ice">${t("back")}</button>
+        <div class="pair"><img src="${avatar(S.me.look, 1, 140)}"><span>🤝</span><img src="${avatar(u.look, 1, 140)}"></div>
+        <h2 class="center">${t("icebreaker")}</h2>
+        <p class="muted center">${t("ice_note")}</p>
+        <div class="scene">${esc(ib.q)}</div>
+        <div class="opts">${ib.o.map((o, i) => `<button class="opt" data-act="ice-answer" data-v="${i}"><b>${"ABCD"[i]}</b><span>${esc(o)}</span></button>`).join("")}</div>
+      </div>`;
+    }
+    const same = m.mine === m.theirs;
+    return `<div class="screen">
+      <div class="pair"><img src="${avatar(S.me.look, same ? 1 : 4, 140)}"><span>${same ? "🎉" : "🤔"}</span><img src="${avatar(u.look, same ? 1 : 4, 140)}"></div>
+      <h2 class="center">${same ? t("same") : t("diff")}</h2>
+      <p class="muted center">${same ? t("same2") : t("diff2")}</p>
+      <div class="card"><div class="muted small">${esc(ib.q)}</div>
+        <div class="ans"><b>${t("you_c")}:</b> ${esc(ib.o[m.mine])}</div><div class="ans"><b>${u.name}:</b> ${esc(ib.o[m.theirs])}</div></div>
+      <button class="btn primary" data-act="ice-done">${t("start_chat")}</button>
+    </div>`;
+  }
+
+  // ---------------------------------------------------------------- sohbet
+  const VENUE_ICONS = ["☕", "🌊", "🛍️"];
+  const venue = i => [VENUE_ICONS[i], t("v" + (i + 1)), t("v" + (i + 1) + "d")];
+
+  function Chat() {
+    const u = byId(S.chat), m = S.matches[S.chat], a = arch(u.archetype);
+    m.unread = false;
+    const c = compat(S.me, u);
+    const starters = [
+      c.shared[0] ? t("st1", lower(tInt(c.shared[0]))) : t("st1b"),
+      t("st2", iceText(m.ib).o[m.theirs]),
+      t("st3"),
+    ];
+    const photo = m.theirPhoto ? `<div class="photo"><img src="${avatar(u.look, 1, 280)}"><span>${t("photo_opened", u.name)}</span></div>` : "";
+    return `<div class="chat">
+      <header class="chead"><button class="link" data-act="close-chat">←</button><img src="${avatar(u.look, 1, 96)}"><div><b>${u.name}</b><div class="muted small">${a.icon} ${a.name}${userDistance(S.me, u) != null ? " · ~" + num(userDistance(S.me, u)) + (LANG === "ru" ? " км" : " km") : ""}</div></div><button class="link" data-act="report">⋯</button></header>
+      <div class="msgs">
+        <div class="sys">${t("safe_tip")}</div>
+        ${photo}
+        ${m.msgs.map(x => x.ask ? (m.myPhoto || m.askDone ? "" : `<div class="ask"><div>${esc(t("ph_ask", u.name))}</div><div class="row2"><button class="btn ghost small" data-act="photo-no">${t("ph_no")}</button><button class="btn primary small" data-act="photo-yes">${t("ph_yes")}</button></div></div>`) : x.img ? `<div class="msg me pic"><img src="${x.img}"></div>` : x.sys ? `<div class="sys">${esc(x.t)}</div>` : `<div class="msg ${x.me ? "me" : ""}">${esc(x.t)}</div>`).join("")}
+        ${m.typing ? `<div class="msg typing"><i></i><i></i><i></i></div>` : ""}
+      </div>
+      ${m.msgs.filter(x => x.me).length < 2 ? `<div class="starters">${starters.map(s => `<button data-act="starter" data-v="${esc(s)}">${esc(s)}</button>`).join("")}</div>` : ""}
+      <div class="tools"><button data-act="photo">${m.myPhoto ? t("photo_on") : t("photo_btn")}</button><button data-act="meet">${t("meet_btn")}</button></div>
+      <form class="send" data-act="send"><input id="msg" placeholder="${t("msg_ph")}" autocomplete="off"><button class="btn primary small">${t("send")}</button></form>
+      ${S.sheet === "meet" ? `<div class="sheetbg" data-act="close-sheet"></div><div class="sheet"><h3>${t("where_meet")}</h3><p class="muted small">${t("public_only")}</p>${[0, 1, 2].map(i => { const v = venue(i); return `<button class="row" data-act="venue" data-v="${i}"><span class="vi">${v[0]}</span><div><b>${v[1]}</b><span class="muted small">${v[2]}</span></div></button>`; }).join("")}</div>` : ""}
+      ${S.sheet === "report" ? `<div class="sheetbg" data-act="close-sheet"></div><div class="sheet"><h3>${u.name}</h3><button class="row" data-act="block"><span class="vi">🚫</span><div><b>${t("block")}</b><span class="muted small">${t("block2")}</span></div></button><button class="row" data-act="block" data-v="report"><span class="vi">⚠️</span><div><b>${t("report")}</b><span class="muted small">${t("report2")}</span></div></button></div>` : ""}
+    </div>`;
+  }
+
+  function addMsg(id, text, me) {
+    const m = S.matches[id];
+    m.msgs.push({ t: text, me });
+    if (!me) return;
+    const u = byId(id);
+    const n = m.msgs.filter(x => !x.me && !x.sys).length;
+    m.typing = true;
+    save(); render();
+    setTimeout(() => {
+      m.typing = false;
+      m.msgs.push({ t: LANG === "ru" ? fakeReplyRu(u, text, n) : fakeReply(u, text, n), me: false });
+      const mine = m.msgs.filter(x => x.me).length;
+      if (m.myPhoto && !m.theirPhoto && mine >= 3) { m.theirPhoto = true; m.msgs.push({ sys: true, t: t("photo_them", u.name) }); }
+      else if (!m.myPhoto && !m.theirWants && mine >= 2) { m.theirWants = true; m.msgs.push({ ask: true }); }
+      if (S.chat !== id) m.unread = true;
+      save(); render();
+    }, 900 + Math.random() * 900);
+  }
+
+  // ---------------------------------------------------------------- olaylar
+  function nextDay() {
+    S.day++;
+    // Bekleyen istekler: çoğu kabul edilir
+    Object.keys(S.seen).forEach(id => {
+      if (S.seen[id] !== "pending") return;
+      if (Math.random() < 0.7) { makeMatch(id); setTimeout(() => toast(t("accepted", byId(id).name)), 0); }
+      else S.seen[id] = "no";
+    });
+    S.daily = null;
+    save(); render();
+  }
+
+  function makeMatch(id) {
+    S.seen[id] = "match";
+    S.matches[id] = { stage: "ice", ib: Math.floor(Math.random() * ICEBREAKERS.length), mine: null, theirs: null, msgs: [], unread: true };
+  }
+
+  document.addEventListener("click", e => {
+    const el = e.target.closest("[data-act]");
+    if (!el || el.tagName === "FORM" || el.type === "range") return;
+    const act = el.dataset.act, v = el.dataset.v;
+    const m = S.me;
+    switch (act) {
+      case "start":
+        if (!document.getElementById("adult").checked) return toast(t("need_adult"));
+        return go("onboard");
+      case "gender": readOnboard(); m.gender = v; if (m.look) m.look.Gender = v; return render();
+      case "locate": readOnboard(); return locate();
+      case "lang": LANG = S.lang = v; document.documentElement.lang = v; readOnboard(); save(); return render();
+      case "interest": readOnboard(); m.interests = m.interests.includes(v) ? m.interests.filter(x => x !== v) : m.interests.concat([v]).slice(-8); return render();
+      case "onboard-next":
+        readOnboard();
+        if (!m.name.trim()) return toast(t("need_name"));
+        if (!(+m.age >= 18)) return toast(t("need_18"));
+        if (!m.gender) return toast(t("need_gender"));
+        if (m.interests.length < 3) return toast(t("need_3"));
+        if (!S.prefsSet) { m.prefs.ageMin = Math.max(18, +m.age - 8); m.prefs.ageMax = Math.min(70, +m.age + 10); S.prefsSet = true; }
+        S.qi = 0; S.quiz = []; return go("quiz");
+      case "answer":
+        S.quiz[S.qi] = +v;
+        if (S.qi < QUIZ.length - 1) { S.qi++; save(); return render(); }
+        Object.assign(m, scoreQuiz(S.quiz)); S.daily = null;
+        return go("result");
+      case "quiz-back": if (S.qi > 0) { S.qi--; render(); } return;
+      case "redo-quiz": S.qi = 0; S.quiz = []; return go("quiz");
+      case "to-avatar": if (!m.look) m.look = randomLook(m.gender); return go("avatar");
+      case "look": m.look[el.dataset.f] = +v; save(); return render();
+      case "look-random": m.look = randomLook(m.gender); save(); return render();
+      case "finish": case "edit-avatar":
+        if (act === "edit-avatar") return go("avatar");
+        S.tab = "today"; return go("app");
+      case "tab": S.tab = v; save(); return render();
+      case "next-day": return nextDay();
+      case "pass": S.seen[v] = "no"; save(); return render();
+      case "like": {
+        const u = byId(v), c = compat(m, u);
+        if (c.score >= 72 || Math.random() < 0.45) { makeMatch(v); save(); S.ice = v; toast(t("mutual", u.name)); return; }
+        S.seen[v] = "pending"; save(); return toast(t("req_toast"));
+      }
+      case "open-chat": {
+        const mm = S.matches[v];
+        if (mm.stage === "ice") { S.ice = v; save(); return render(); }
+        S.chat = v; save(); return render();
+      }
+      case "close-ice": S.ice = null; save(); return render();
+      case "ice-answer": {
+        const mm = S.matches[S.ice], u = byId(S.ice);
+        mm.mine = +v; mm.theirs = theirIcebreakerAnswer(u, ICEBREAKERS[mm.ib]); save(); return render();
+      }
+      case "ice-done": { const id = S.ice; S.matches[id].stage = "chat"; S.ice = null; S.chat = id; S.tab = "chats"; save(); return render(); }
+      case "close-chat": S.chat = null; S.sheet = null; save(); return render();
+      case "starter": addMsg(S.chat, v, true); return;
+      case "photo": {
+        const mm = S.matches[S.chat];
+        if (mm.myPhoto) return toast(t("photo_already"));
+        if (!(S.me.photos || []).length) return toast(t("photo_none"));
+        mm.myPhoto = true; mm.msgs.push({ sys: true, t: t("photo_you") }); mm.msgs.push({ img: S.me.photos[0], me: true });
+        if (mm.theirWants || mm.msgs.filter(x => x.me && !x.img).length >= 3) { mm.theirPhoto = true; mm.msgs.push({ sys: true, t: t("photo_them", byId(S.chat).name) }); }
+        save(); return render();
+      }
+      case "meet": S.sheet = "meet"; return render();
+      case "report": S.sheet = "report"; return render();
+      case "close-sheet": S.sheet = null; return render();
+      case "venue": {
+        const vn = venue(+v); S.sheet = null;
+        S.matches[S.chat].msgs.push({ sys: true, t: t("meet_sys", vn[1]) });
+        addMsg(S.chat, t("meet_msg", vn[1]), true);
+        return;
+      }
+      case "block": {
+        const id = S.chat, u = byId(id);
+        delete S.matches[id]; S.seen[id] = "blocked"; S.chat = null; S.sheet = null; save();
+        return toast(v === "report" ? t("reported", u.name) : t("blocked", u.name));
+      }
+      case "photo-yes": {
+        const mm = S.matches[S.chat];
+        if (!(S.me.photos || []).length) return toast(t("photo_none"));
+        mm.askDone = true; mm.myPhoto = true; mm.theirPhoto = true;
+        mm.msgs.push({ img: S.me.photos[0], me: true }); mm.msgs.push({ sys: true, t: t("photo_them", byId(S.chat).name) });
+        save(); return render();
+      }
+      case "photo-no": { const mm = S.matches[S.chat]; mm.askDone = true; mm.msgs.push({ sys: true, t: t("ph_no_done") }); save(); return render(); }
+      case "photo-del": S.me.photos.splice(+v, 1); save(); return render();
+      case "pref-gender": readOnboard(); m.prefs.gender = v; S.daily = null; save(); return render();
+      case "reset":
+        if (!S.resetArm) { S.resetArm = true; return toast(t("reset_sure")); }
+        { const keep = LANG; S = fresh(); S.lang = keep; } save(); window.scrollTo(0, 0); return render();
+    }
+  });
+
+  document.addEventListener("input", e => {
+    const el = e.target;
+    if (el.type !== "range") return;
+    const p = S.me.prefs, val = +el.value;
+    if (el.dataset.act === "pref-km") p.maxKm = val;
+    if (el.dataset.act === "pref-amin") p.ageMin = Math.min(val, p.ageMax);
+    if (el.dataset.act === "pref-amax") p.ageMax = Math.max(val, p.ageMin);
+    const lbl = el.closest(".card").querySelectorAll(".lbl b");
+    if (lbl[0]) lbl[0].textContent = p.maxKm + (LANG === "ru" ? " км" : " km");
+    if (lbl[1]) lbl[1].textContent = p.ageMin + "–" + p.ageMax;
+    save();
+  });
+
+  document.addEventListener("submit", e => {
+    e.preventDefault();
+    const inp = document.getElementById("msg");
+    const t = inp.value.trim();
+    if (!t || !S.chat) return;
+    addMsg(S.chat, t, true);
+  });
+
+  function readOnboard() {
+    const n = document.getElementById("f-name"), a = document.getElementById("f-age"), d = document.getElementById("f-district");
+    if (n) S.me.name = n.value;
+    if (a) S.me.age = a.value;
+  }
+
+  // Sohbette "yazıyor" durumu sayfa yenilenince takılı kalmasın
+  Object.values(S.matches).forEach(m => { m.typing = false; });
+  S.sheet = null;
+  S.toast = null;
+  render();
+})();
+
+</script>
+</body>
+</html>
