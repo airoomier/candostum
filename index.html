@@ -126,7 +126,7 @@ input[type=range]{width:100%;accent-color:var(--ac)}
 .psteps{display:flex;gap:6px;margin:0 0 14px}.pst{flex:1;display:flex;align-items:center;gap:6px;padding:8px;border-radius:12px;background:var(--sf);border:1px solid var(--bd);font-size:12px;color:var(--mu)}
 .pst b{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--bd);font-size:11px;flex:none}
 .pst.on{color:var(--tx)}.pst.on b{background:var(--ac);color:var(--onac)}
-.dq{font-size:17px;font-weight:600;margin:6px 0 12px}.opt{display:block;width:100%;text-align:left;margin:6px 0;padding:12px;border-radius:12px;background:var(--sf);border:1px solid var(--bd);color:var(--tx);font:15px system-ui}
+.dq{font-size:17px;font-weight:600;margin:6px 0 12px}.dqo{display:block;width:100%;text-align:left;margin:6px 0;padding:12px;border-radius:12px;background:var(--sf);border:1px solid var(--bd);color:var(--tx);font:15px system-ui}
 .clar{margin-top:12px;font-size:12px;color:var(--mu)}.bar{height:6px;border-radius:4px;background:var(--bd);margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac,#7c6cff)}
 .trh{display:flex;gap:10px;align-items:center}.trh h3{margin:0}.tri{font-size:30px}.tdots{display:flex;gap:6px;margin:10px 0}.tdots i{flex:1;height:6px;border-radius:4px;background:var(--bd)}.tdots i.on{background:var(--ac,#7c6cff)}
 .task{font-size:16px;font-weight:600;margin:6px 0 10px}.note{font-style:italic;color:var(--mu)}.card.ok{border-color:var(--ac,#7c6cff)}
@@ -1712,10 +1712,10 @@ function trackOf(id) { return TRACKS[(typeof LANG !== "undefined" && LANG === "r
     return `<header class="top"><div><div class="muted small">${t("day", S.day)}</div><h2>${t("path_title")}</h2></div><img class="meav" src="${avatar(S.me.look, 1, 96)}"></header>
       <div class="psteps">${steps}</div>
       <div class="card"><h3>${t("dq_t")}</h3><p class="dq">${esc(q[0])}</p>
-        ${ans == null ? q[1].map((o, i) => `<button class="opt" data-act="dq" data-v="${i}">${esc(o[0])}</button>`).join("")
+        ${ans == null ? q[1].map((o, i) => `<button class="dqo" data-act="dq" data-v="${i}">${esc(o[0])}</button>`).join("")
           : `<div class="state">✓ ${esc(q[1][ans][0])}</div><p class="muted small">${t("dq_done")}</p>`}
         <div class="clar"><span>${t("clarity", clarity())}</span><div class="bar"><i style="width:${clarity()}%"></i></div></div></div>
-      <div class="card track"><div class="trh"><span class="tri">${tr.icon}</span><div><div class="muted small">${t("your_track")}</div><h3>${tr.name}</h3></div></div>
+      <div class="card gtrack"><div class="trh"><span class="tri">${tr.icon}</span><div><div class="muted small">${t("your_track")}</div><h3>${tr.name}</h3></div></div>
         <p class="muted small">${tr.why}</p><div class="tdots">${dots}</div>
         ${finished && doneToday ? `<div class="state">${t("track_done", trackOf(TRACK_ORDER[(TRACK_ORDER.indexOf(g.track) + 1) % 4]).name)}</div>` : `
         <div class="muted small">${t("task_t", Math.min(stepIdx, 6) + 1)}</div><p class="task">${esc(tr.tasks[Math.min(stepIdx, 6)])}</p>
