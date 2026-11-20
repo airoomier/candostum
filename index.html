@@ -902,6 +902,18 @@ function makeUsers() {
       verified: r() < 0.7,
     });
   }
+  // Takma adlar: ayrı bir tohumla, böylece diğer özellikler değişmez.
+  const nr = rng(7071);
+  const WORDS = ["Martı", "Dalga", "Yıldız", "Zeytin", "Rüzgar", "Gezgin", "Kahve", "Sahil", "Poyraz", "Lodos", "Mercan", "Çınar", "Kekik", "Lavanta", "Bulut", "Kumsal"];
+  const used = new Set();
+  for (const u of users) {
+    let nick;
+    do {
+      const w = WORDS[Math.floor(nr() * WORDS.length)], k = Math.floor(nr() * 3), n = 10 + Math.floor(nr() * 89);
+      nick = k === 0 ? w + n : k === 1 ? u.name.toLocaleLowerCase("tr") + "." + w.toLocaleLowerCase("tr") : w.toLocaleLowerCase("tr") + "_" + u.name;
+    } while (used.has(nick));
+    used.add(nick); u.name = nick;
+  }
   return users;
 }
 
@@ -1023,11 +1035,11 @@ const STR = {
     w_3: "Her gün <b>3 öneri</b>, neden önerildiğiyle birlikte", w_4: "Sohbetten önce kısa bir <b>buz kırıcı oyun</b>", w_5: "Konumun hiçbir zaman tam gösterilmez",
     adult: "18 yaşından büyüğüm", start: "Başla", proto_note: "Bu bir prototiptir: kişiler hayalidir, hiçbir veri sunucuya gönderilmez.",
     need_adult: "Devam etmek için 18 yaşından büyük olduğunu onayla.",
-    know_you: "Seni tanıyalım", name: "Adın", age: "Yaşın", gender: "Cinsiyetin", woman: "Kadın", man: "Erkek",
+    know_you: "Seni tanıyalım", name: "Takma adın", name_ph: "örn. martı_07", name_note: "Gerçek adını yazman gerekmez. Başkaları yalnızca takma adını görür.", bad_nick: "Takma adda yalnızca harf, rakam, boşluk, nokta, alt çizgi ve tire olabilir.", edit_profile: "✏️ Düzenle", save: "Kaydet", cancel: "Vazgeç", saved: "Profilin güncellendi.", age: "Yaşın", gender: "Cinsiyetin", woman: "Kadın", man: "Erkek",
     location: "Konumun", locate: "📍 Telefonumun konumunu kullan", loc_on: "📍 Konum açık · {0}", loc_off: "Konum kapalı: mesafe gösterilmez.", loc_wait: "Konum alınıyor…",
     loc_denied: "Konum alınamadı (izin verilmedi ya da kapalı). Konumsuz devam ediliyor.", loc_hidden: "konum kapalı", loc_retry: "Tekrar dene", loc_note: "Konumun yalnızca yaklaşık mesafe için kullanılır (“~3 km · Konyaaltı”). Tam yerin kimseye gösterilmez.",
     interests: "İlgi alanların", min3: "(en az 3)", to_quiz: "Karakter analizine geç",
-    located: "Konumun yaklaşık olarak bulundu: {0}", need_name: "Adını yaz.", need_18: "Can Dostum 18 yaş ve üstü içindir.",
+    located: "Konumun yaklaşık olarak bulundu: {0}", need_name: "Takma adın en az 3 karakter olmalı.", need_18: "Can Dostum 18 yaş ve üstü içindir.",
     need_gender: "Cinsiyetini seç (güvenlik filtreleri için).", need_3: "En az 3 ilgi alanı seç.",
     back: "← Geri", no_right: "Doğru ya da yanlış cevap yok. İlk aklına geleni seç.",
     you_are: "Sen bir", strengths: "Güçlü yanların", careful: "Biraz dikkat", best_with: "En iyi anlaştıkların", most_important: "Arkadaşlıkta en önemlisi",
@@ -1080,11 +1092,11 @@ const STR = {
     w_3: "Каждый день <b>3 предложения</b> с объяснением, почему именно они", w_4: "Перед чатом — короткая <b>игра-ледокол</b>", w_5: "Твоё точное местоположение никогда не показывается",
     adult: "Мне больше 18 лет", start: "Начать", proto_note: "Это прототип: люди вымышлены, никакие данные не отправляются на сервер.",
     need_adult: "Чтобы продолжить, подтверди, что тебе больше 18 лет.",
-    know_you: "Давай познакомимся", name: "Имя", age: "Возраст", gender: "Пол", woman: "Женщина", man: "Мужчина",
+    know_you: "Давай познакомимся", name: "Никнейм", name_ph: "напр. chayka_07", name_note: "Настоящее имя писать не нужно. Другие видят только никнейм.", bad_nick: "В никнейме можно использовать только буквы, цифры, пробел, точку, подчёркивание и дефис.", edit_profile: "✏️ Изменить", save: "Сохранить", cancel: "Отмена", saved: "Профиль обновлён.", age: "Возраст", gender: "Пол", woman: "Женщина", man: "Мужчина",
     location: "Где ты", locate: "📍 Использовать геолокацию телефона", loc_on: "📍 Геолокация включена · {0}", loc_off: "Геолокация выключена: расстояние не показывается.", loc_wait: "Определяем местоположение…",
     loc_denied: "Не удалось получить местоположение (нет разрешения или геолокация выключена). Продолжаем без него.", loc_hidden: "геолокация выключена", loc_retry: "Ещё раз", loc_note: "Местоположение используется только для примерного расстояния («~3 км · Коньяалты»). Точный адрес никто не увидит.",
     interests: "Интересы", min3: "(минимум 3)", to_quiz: "К анализу характера",
-    located: "Примерное местоположение: {0}", need_name: "Напиши своё имя.", need_18: "Can Dostum — только для тех, кому 18+.",
+    located: "Примерное местоположение: {0}", need_name: "Никнейм — минимум 3 символа.", need_18: "Can Dostum — только для тех, кому 18+.",
     need_gender: "Выбери пол (нужно для фильтров безопасности).", need_3: "Выбери минимум 3 интереса.",
     back: "← Назад", no_right: "Правильных и неправильных ответов нет. Выбирай первое, что приходит в голову.",
     you_are: "Ты —", strengths: "Твои сильные стороны", careful: "Обрати внимание", best_with: "Лучше всего ладишь с", most_important: "Главное в дружбе",
@@ -1273,7 +1285,7 @@ function fakeReplyRu(u, text, n) {
     try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.me) return s; } catch (e) { }
     return fresh();
   }
-  function save() { try { const c = Object.assign({}, S, { toast: null }); localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) { } }
+  function save() { try { const c = Object.assign({}, S, { toast: null, editMe: null }); localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) { } }
 
   // ---------------------------------------------------------------- avatar
   const avatarCache = new Map();
@@ -1297,6 +1309,13 @@ function fakeReplyRu(u, text, n) {
   // ---------------------------------------------------------------- yardımcılar
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   let toastTimer = null;
+  function nickErr(v) {
+    v = (v || "").trim();
+    if (v.length < 3) return t("need_name");
+    if (!/^[\p{L}\p{N} ._-]+$/u.test(v)) return t("bad_nick");
+    return null;
+  }
+
   function toast(msg) {
     S.toast = msg; render();
     clearTimeout(toastTimer);
@@ -1408,7 +1427,8 @@ function fakeReplyRu(u, text, n) {
     return `<div class="screen">
       <div class="steps"><i class="on"></i><i></i><i></i><i></i></div>
       <h2>${t("know_you")}</h2>
-      <label class="lbl">${t("name")}</label><input class="in" id="f-name" value="${esc(m.name)}" placeholder="${t("name")}" maxlength="20">
+      <label class="lbl">${t("name")}</label><input class="in" id="f-name" value="${esc(m.name)}" placeholder="${t("name_ph")}" maxlength="20" autocomplete="off">
+      <p class="fine">${t("name_note")}</p>
       <div class="row2">
         <div><label class="lbl">${t("age")}</label><input class="in" id="f-age" type="number" min="18" max="99" value="${esc(m.age)}" placeholder="18+"></div>
         <div><label class="lbl">${t("gender")}</label><div class="seg">${["f", "m"].map(g => `<button data-act="gender" data-v="${g}" class="${m.gender === g ? "on" : ""}">${g === "f" ? t("woman") : t("man")}</button>`).join("")}</div></div>
@@ -1558,7 +1578,12 @@ function fakeReplyRu(u, text, n) {
   function Profile() {
     const m = S.me, a = arch(m.archetype);
     return `<header class="top"><h2>${t("profile")}</h2></header>
-      <div class="archcard small"><img class="avmid" src="${avatar(m.look, 1, 200)}"><h2>${esc(m.name)}, ${esc(m.age)}</h2><div class="arch">${a.icon} ${a.name}</div><p class="muted">${a.tag}</p></div>
+      <div class="archcard small"><img class="avmid" src="${avatar(m.look, 1, 200)}">${S.editMe ? `
+        <label class="lbl">${t("name")}</label><input class="in" id="p-nick" value="${esc(S.editMe.nick)}" placeholder="${t("name_ph")}" maxlength="20" autocomplete="off">
+        <label class="lbl">${t("age")}</label><input class="in" id="p-age" type="number" min="18" max="99" value="${esc(S.editMe.age)}">
+        <p class="fine">${t("name_note")}</p>
+        <div class="row2"><button class="btn ghost small" data-act="edit-cancel">${t("cancel")}</button><button class="btn primary small" data-act="edit-save">${t("save")}</button></div>` : `
+        <h2>${esc(m.name)}, ${esc(m.age)}</h2><button class="link" data-act="edit-me">${t("edit_profile")}</button>`}<div class="arch">${a.icon} ${a.name}</div><p class="muted">${a.tag}</p></div>
       <div class="card"><h3>${t("location")}</h3>${locBlock()}</div>
       <div class="card">${photoSection()}</div>
       <div class="card"><h3>${t("language")}</h3>${langBar()}</div>
@@ -1685,9 +1710,19 @@ function fakeReplyRu(u, text, n) {
       case "locate": readOnboard(); return locate();
       case "lang": LANG = S.lang = v; document.documentElement.lang = v; readOnboard(); save(); return render();
       case "interest": readOnboard(); m.interests = m.interests.includes(v) ? m.interests.filter(x => x !== v) : m.interests.concat([v]).slice(-8); return render();
+      case "edit-me": S.editMe = { nick: m.name, age: m.age }; return render();
+      case "edit-cancel": S.editMe = false; return render();
+      case "edit-save": {
+        const nick = document.getElementById("p-nick").value, age = +document.getElementById("p-age").value;
+        S.editMe = { nick, age: document.getElementById("p-age").value };
+        const e = nickErr(nick); if (e) return toast(e);
+        if (!(age >= 18 && age <= 99)) return toast(t("need_18"));
+        m.name = nick.trim(); m.age = String(age); S.editMe = false; save(); render(); return toast(t("saved"));
+      }
       case "onboard-next":
         readOnboard();
-        if (!m.name.trim()) return toast(t("need_name"));
+        { const e = nickErr(m.name); if (e) return toast(e); }
+        m.name = m.name.trim();
         if (!(+m.age >= 18)) return toast(t("need_18"));
         if (!m.gender) return toast(t("need_gender"));
         if (m.interests.length < 3) return toast(t("need_3"));
